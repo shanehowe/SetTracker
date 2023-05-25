@@ -9,6 +9,7 @@ import {
     Divider,
     Button,
     Icon,
+    useToast,
 } from "@chakra-ui/react"
 
 import AddFolderModal from "@/components/AddFolderModal"
@@ -26,11 +27,9 @@ const workoutFolders: string[] = [
 export default function Page() {
     const [folders, setFolders] = useState(workoutFolders)
     const [modalVisible, setModalVisible] = useState(false)
-    const [notificationVisible, setNotificationVisible] = useState(false)
-    const [notificationStatus, setNotificationStatus] = useState<"success" | "info" | "warning" | "error" | "loading" | undefined>(undefined)
-    const [notificationDescription, setNotificationDescription] = useState("")
-    const [notificationTitle, setNotificationTitle] = useState("");
     const [newFolderName, setNewFolderName] = useState("")
+
+    const toast = useToast()
 
     const addNewFolder = (folderName: string): void => {
         const trimmedFolder = folderName.trim()
@@ -40,13 +39,22 @@ export default function Page() {
 
         const folderExists = folders.filter((f) => f === trimmedFolder).length > 0;
         if (folderExists) {
-            folderExistsNotification(trimmedFolder)
-            hideModal()
+            toast({
+                description: `${trimmedFolder} already exits!`,
+                status: "info",
+                position: "top",
+                isClosable: true
+            })
             return
         }
         setFolders(folders.concat(trimmedFolder));
         hideModal();
-        folderCreatedNotification(trimmedFolder)
+        toast({
+            description: `Folder ${trimmedFolder} has been added!`,
+            status: "success",
+            position: "top",
+            isClosable: true
+        })
     }
 
     const openModal = (): void => {
@@ -61,37 +69,9 @@ export default function Page() {
         setNewFolderName(e.target.value);
     }
 
-    const dismissNotification = (): void => {
-        setNotificationDescription("")
-        setNotificationStatus(undefined)
-        setNotificationVisible(false)
-        setNotificationTitle("")
-    }
-
-    const folderCreatedNotification = (folderName: string): void => {
-        setNotificationTitle("Folder created!")
-        setNotificationDescription(`Folder ${folderName} has been created successfully.`)
-        setNotificationStatus("success")
-        setNotificationVisible(true)
-    }
-
-    const folderExistsNotification = (folderName: string): void => {
-        setNotificationTitle("Folder already exists!")
-        setNotificationDescription(`Folder ${folderName} has already exists in your collection`)
-        setNotificationStatus("info")
-        setNotificationVisible(true)
-    }
-
     return (
         <section className={styles.section}>
             <h3 className={styles.heading} >Your workout folders.</h3>
-            <Notification
-                isVisible={notificationVisible}
-                status={notificationStatus}
-                description={notificationDescription}
-                title={notificationTitle}
-                onClose={dismissNotification}
-            />
             <Button
                 onClick={openModal}
                 variant="solid"
