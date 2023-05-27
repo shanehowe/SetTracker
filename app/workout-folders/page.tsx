@@ -13,31 +13,42 @@ import {
 } from "@chakra-ui/react"
 
 import AddFolderModal from "@/components/AddFolderModal"
-import Notification from "@/components/Notification"
 
 import styles from "./styles.module.css"
+import { useRouter } from "next/navigation"
+import { Link } from "@chakra-ui/next-js"
 
-const workoutFolders: string[] = [
-    "Push Day",
-    "Pull Day",
-    "Legs",
-    "Active Rest Day"
+const workoutFolders: exerciseFolder[] = [
+    {
+        title: "Push Day",
+        exercises: []
+    },
+    {
+        title: "Pull Day",
+        exercises: []
+    },
 ]
 
 export default function Page() {
     const [folders, setFolders] = useState(workoutFolders)
     const [modalVisible, setModalVisible] = useState(false)
     const [newFolderName, setNewFolderName] = useState("")
-
+    const router = useRouter()
     const toast = useToast()
 
-    const addNewFolder = (folderName: string): void => {
+    const addNewFolder = (folderName: string, exercises: string[]): void => {
         const trimmedFolder = folderName.trim()
-        if (!folderName.length || !folderName) {
+        if (!trimmedFolder.length || !folderName) {
+            toast({
+                description: `Folder name cannot be blank`,
+                status: "warning",
+                position: "top",
+                isClosable: true
+            })
             return
         }
 
-        const folderExists = folders.filter((f) => f === trimmedFolder).length > 0;
+        const folderExists = folders.filter((f) => f.title === trimmedFolder).length > 0;
         if (folderExists) {
             toast({
                 description: `${trimmedFolder} already exits!`,
@@ -47,8 +58,12 @@ export default function Page() {
             })
             return
         }
-        setFolders(folders.concat(trimmedFolder));
+        setFolders(folders.concat({
+            title: trimmedFolder,
+            exercises: exercises
+        }))
         hideModal();
+        setNewFolderName("")
         toast({
             description: `Folder ${trimmedFolder} has been added!`,
             status: "success",
@@ -113,7 +128,7 @@ export default function Page() {
                     return (
                         <>
                             <ListItem 
-                                key={i}
+                                key={f.title}
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
@@ -122,7 +137,14 @@ export default function Page() {
                                 fontSize={18}
                             >
                                 <ListIcon as={FiFolder}/>
-                                {f}
+                                <Link
+                                    href={{
+                                        pathname: `/workout-folders/${f.title}`,
+                                        query: f
+                                    }}
+                                >
+                                    {f.title}
+                                </Link>
                                 <ListIcon as={FiChevronRight}/>
                             </ListItem>
                             <Divider />
