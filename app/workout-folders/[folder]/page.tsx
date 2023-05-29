@@ -1,7 +1,15 @@
-"use client"
+interface PageProps {
+    params: {
+        folder: string
+    }
+}
 
-export default function Folder() {
+export default function Page({ params }: PageProps) {
+    /*
+    *   decodeURI turns Push%20Day to Push Day
+    */
+    const folder = decodeURIComponent(params.folder)
     return (
-        <p>From somewhere</p>
+        <p>From {folder}</p>
     )
 }

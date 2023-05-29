@@ -11,12 +11,11 @@ import {
     Icon,
     useToast,
 } from "@chakra-ui/react"
+import { Link } from "@chakra-ui/next-js"
 
 import AddFolderModal from "@/components/AddFolderModal"
 
 import styles from "./styles.module.css"
-import { useRouter } from "next/navigation"
-import { Link } from "@chakra-ui/next-js"
 
 const workoutFolders: exerciseFolder[] = [
     {
@@ -33,7 +32,6 @@ export default function Page() {
     const [folders, setFolders] = useState(workoutFolders)
     const [modalVisible, setModalVisible] = useState(false)
     const [newFolderName, setNewFolderName] = useState("")
-    const router = useRouter()
     const toast = useToast()
 
     const addNewFolder = (folderName: string, exercises: string[]): void => {
@@ -119,7 +117,13 @@ export default function Page() {
                     fontSize={18}
                 >
                     <ListIcon as={FiFolder}/>
-                    All Exercises
+                        <Link
+                            href={{
+                                pathname: `/workout-folders/All Exercises`,
+                            }}
+                        >
+                            All Exercises
+                        </Link>
                     <ListIcon as={FiChevronRight}/>
                 </ListItem>
                 <Divider />
@@ -140,7 +144,6 @@ export default function Page() {
                                 <Link
                                     href={{
                                         pathname: `/workout-folders/${f.title}`,
-                                        query: f
                                     }}
                                 >
                                     {f.title}
