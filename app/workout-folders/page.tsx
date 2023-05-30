@@ -38,7 +38,7 @@ export default function Page() {
         const trimmedFolder = folderName.trim()
         if (!trimmedFolder.length || !folderName) {
             toast({
-                description: `Folder name cannot be blank`,
+                description: "Folder name cannot be blank",
                 status: "warning",
                 position: "top",
                 isClosable: true
@@ -117,13 +117,13 @@ export default function Page() {
                     fontSize={18}
                 >
                     <ListIcon as={FiFolder}/>
-                        <Link
-                            href={{
-                                pathname: `/workout-folders/All Exercises`,
-                            }}
-                        >
+                    <Link
+                        href={{
+                            pathname: "/workout-folders/All Exercises",
+                        }}
+                    >
                             All Exercises
-                        </Link>
+                    </Link>
                     <ListIcon as={FiChevronRight}/>
                 </ListItem>
                 <Divider />
