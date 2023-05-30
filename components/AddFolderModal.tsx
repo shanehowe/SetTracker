@@ -78,7 +78,7 @@ export default function AddFolderModal({
                 <ModalOverlay>
                     <ModalContent>
                         <ModalHeader>
-                        <Input
+                            <Input
                                 placeholder="Folder name..."
                                 variant="flushed"
                                 onChange={handleInputChange}
