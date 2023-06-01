@@ -19,7 +19,6 @@ import Notification from "../Notification"
 import styles from "./styles.module.css"
 
 export default function SignUpForm({}) {
-    const [showPassword, setShowPassword] = useState<boolean>(false)
     const [notificationStatus, setNotifcationStatus] = useState<NotificationStatus>(undefined)
     const [notificationVisible, setNotifcationVisible] = useState<boolean>(false)
     const [notificationDesc, setNotificationDesc] = useState<string>("")
@@ -28,10 +27,8 @@ export default function SignUpForm({}) {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
-    const handleClick = (): void => {
-        setShowPassword(!showPassword)
-    }
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(e.currentTarget.value)
@@ -51,17 +48,74 @@ export default function SignUpForm({}) {
 
     const onNotificationClose = (): void => setNotifcationVisible(false)
 
+    const handleSignUp = async (email: string, username: string, password: string) => {
+        setIsSubmitting(true)
+
+        if (password !== confirmPassword) {
+            setNotifcationStatus("error")
+            setNotificationTitle("Password miss-match")
+            setNotificationDesc("Your passwords fields do not match. Correct this to complete sign up")
+            setNotifcationVisible(true)
+            setIsSubmitting(false)
+            return
+        }
+        const data = {
+            email: email.trim(),
+            username: username.trim(),
+            password: password
+        }
+
+        if (!data.email) {
+            setNotifcationStatus("warning")
+            setNotificationTitle("Missing Value")
+            setNotificationDesc("Please fill out the email section to complete the sign up")
+            setNotifcationVisible(true)
+            setIsSubmitting(false)
+            return
+        } else if (!data.username) {
+            setNotifcationStatus("warning")
+            setNotificationTitle("Missing Value")
+            setNotificationDesc("Please fill out the username section to complete the sign up")
+            setNotifcationVisible(true)
+            setIsSubmitting(false)
+            return
+        } else if (!data.password) {
+            setNotifcationStatus("warning")
+            setNotificationTitle("Missing Value")
+            setNotificationDesc("Please fill out the password section to complete the sign up")
+            setNotifcationVisible(true)
+            setIsSubmitting(false)
+        }
+
+        try {
+            const response = await fetch("/api/users/signup", {
+                method: "POST",
+                body: JSON.stringify(data)
+            })
+            const res = await response.json()
+            setNotifcationStatus("success")
+            setNotificationTitle("Account created!")
+            setNotificationDesc(`You account has been created. Welcome to SetTracker!`)
+            setNotifcationVisible(true)
+            setIsSubmitting(false)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <section className={styles.formContainer}>
             <Card>
                 <CardHeader textAlign="center" fontWeight="bold">Sign Up</CardHeader>
-                <Notification 
-                    status={notificationStatus}
-                    isVisible={notificationVisible}
-                    title={notificationTitle}
-                    description={notificationDesc}
-                    onClose={() => {}}
-                />
+                <Flex w="100%" justifyContent={"center"}>
+                    <Notification
+                        status={notificationStatus}
+                        isVisible={notificationVisible}
+                        title={notificationTitle}
+                        description={notificationDesc}
+                        onClose={onNotificationClose}
+                    />
+                </Flex>
                 <CardBody>
                     <FormControl isRequired>
                         <FormLabel>Email</FormLabel>
@@ -88,20 +142,26 @@ export default function SignUpForm({}) {
                             type="password"
                             onChange={handlePasswordChange}
                         />
-                        <InputRightElement w="4.7rem">
-                            <Button h="1.75rem" onClick={handleClick}>
-                                {showPassword ? "hide" : "show"}
-                            </Button>
-                        </InputRightElement>
                     </InputGroup>
 
                     <FormControl mt={5}>
                         <FormLabel>Confirm password</FormLabel>
-                        <Input placeholder="Confirm password" type="password" />
+                        <Input 
+                            placeholder="Confirm password"
+                            type="password" 
+                            onChange={handleConfirmPasswordChange}
+                        />
                     </FormControl>
 
                     <Flex justifyContent="center" alignItems="center" mt={5}>
-                        <Button>Sign Up</Button>
+                        <Button
+                            isDisabled={isSubmitting ? true : false}
+                            onClick={() => {
+                                handleSignUp(email, username, password)
+                            }}
+                        >
+                            Sign Up
+                        </Button>
                     </Flex>
                 </CardBody>
             </Card>
