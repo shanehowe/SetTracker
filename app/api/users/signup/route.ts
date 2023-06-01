@@ -42,8 +42,20 @@ export async function POST(request: Request) {
         data: { username, email, passwordHash }
     })
 
+    const userWithoutPassword = exclude(user, ["passwordHash"])
+
     return NextResponse.json(
-        { user },
+        { data: userWithoutPassword },
         { status: 200 }
     )
 }
+
+function exclude<User, Key extends keyof User>(
+    user: User,
+    keys: Key[]
+  ): Omit<User, Key> {
+    for (let key of keys) {
+      delete user[key]
+    }
+    return user
+  }
