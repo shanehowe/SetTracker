@@ -11,11 +11,9 @@ import {
     FormLabel,
     Input,
     InputGroup,
-    InputRightElement
 } from "@chakra-ui/react"
 import { useState } from "react"
 import Notification from "../Notification"
-
 import styles from "./styles.module.css"
 
 export default function SignUpForm({}) {
@@ -28,7 +26,6 @@ export default function SignUpForm({}) {
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(e.currentTarget.value)
@@ -60,8 +57,8 @@ export default function SignUpForm({}) {
             return
         }
         const data = {
-            email: email.trim(),
-            username: username.trim(),
+            email: email.trim().toLocaleLowerCase(),
+            username: username.trim().toLocaleLowerCase(),
             password: password
         }
 
@@ -85,6 +82,7 @@ export default function SignUpForm({}) {
             setNotificationDesc("Please fill out the password section to complete the sign up")
             setNotifcationVisible(true)
             setIsSubmitting(false)
+            return
         }
 
         try {
@@ -93,6 +91,16 @@ export default function SignUpForm({}) {
                 body: JSON.stringify(data)
             })
             const res = await response.json()
+
+            if (response.status !== 200) {
+                setNotifcationStatus("error")
+                setNotificationTitle(res.message)
+                setNotificationDesc("")
+                setNotifcationVisible(true)
+                setIsSubmitting(false)
+                return
+            }
+            
             setNotifcationStatus("success")
             setNotificationTitle("Account created!")
             setNotificationDesc(`You account has been created. Welcome to SetTracker!`)
@@ -100,6 +108,11 @@ export default function SignUpForm({}) {
             setIsSubmitting(false)
         } catch (error) {
             console.error(error)
+            setNotifcationStatus("error")
+            setNotificationTitle("Something unexpected happened")
+            setNotificationDesc("An error occured, we are not sure what. Try again later")
+            setNotifcationVisible(true)
+            setIsSubmitting(false)
         }
     }
 
@@ -135,14 +148,11 @@ export default function SignUpForm({}) {
                     </FormControl>
                     
                     <FormLabel mt={5}>Password</FormLabel>
-                    <InputGroup>
                         <Input
-                            pr="4.5rem"
                             placeholder="Password"
                             type="password"
                             onChange={handlePasswordChange}
                         />
-                    </InputGroup>
 
                     <FormControl mt={5}>
                         <FormLabel>Confirm password</FormLabel>
