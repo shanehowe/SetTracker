@@ -58,3 +58,4 @@ ALTER TABLE "Rep" ADD CONSTRAINT "Rep_userId_fkey" FOREIGN KEY ("userId") REFERE
 
 -- AddForeignKey
 ALTER TABLE "FolderExercise" ADD CONSTRAINT "FolderExercise_folderId_fkey" FOREIGN KEY ("folderId") REFERENCES "WorkoutFolder"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
