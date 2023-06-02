@@ -16,22 +16,17 @@ import { Link } from "@chakra-ui/next-js"
 import AddFolderModal from "@/components/AddFolderModal"
 
 import styles from "./styles.module.css"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import LoadingSpinner from "@/components/spinner/LoadingSpinner"
 
-const workoutFolders: exerciseFolder[] = [
-    {
-        title: "Push Day",
-        exercises: []
-    },
-    {
-        title: "Pull Day",
-        exercises: []
-    },
-]
 
 export default function Page() {
-    const [folders, setFolders] = useState(workoutFolders)
+    const [folders, setFolders] = useState<ExerciseFolder[]>([])
     const [modalVisible, setModalVisible] = useState(false)
     const [newFolderName, setNewFolderName] = useState("")
+    const { data: session, status } = useSession()
+    const router = useRouter()
     const toast = useToast()
 
     const addNewFolder = (folderName: string, exercises: string[]): void => {
@@ -82,7 +77,12 @@ export default function Page() {
         setNewFolderName(e.target.value);
     }
 
-    return (
+    if (status === "loading") {
+        return <LoadingSpinner />
+    } else if (status === "unauthenticated") {
+        router.push("/api/auth/signin")
+    } else
+        return (
         <section className={styles.section}>
             <h3 className={styles.heading} >Your workout folders.</h3>
             <Button
@@ -128,7 +128,7 @@ export default function Page() {
                 </ListItem>
                 <Divider />
 
-                {folders.map((f, i) => {
+                {folders.map((f) => {
                     return (
                         <>
                             <ListItem 
