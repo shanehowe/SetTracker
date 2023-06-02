@@ -1,3 +1,4 @@
+import { getAllExercises } from "@/services/exercises";
 import { 
     Button,
     Checkbox,
@@ -10,6 +11,7 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay, 
+    Spinner, 
     Stack
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -23,28 +25,10 @@ interface AddFolderModalProps {
     handleCreateFolder: (folderName: string, exercises: string[]) => void
 }
 
-const weightliftingExercises = [
-    "Barbell Bench Press",
-    "Squat",
-    "Deadlift",
-    "Dumbbell Shoulder Press",
-    "Barbell Rows",
-    "Pull-ups",
-    "Barbell Curl",
-    "Tricep Dips",
-    "Lunges",
-    "Leg Press",
-    "Calf Raises",
-    "Incline Dumbbell Press",
-    "Romanian Deadlift",
-    "Lat Pulldown",
-    "Seated Cable Row",
-    "Hammer Curls",
-    "Skull Crushers",
-    "Front Squat",
-    "Overhead Press",
-    "Bent-Over Rows"
-  ];
+type Exercise = {
+    id: number,
+    name: string
+}
 
 export default function AddFolderModal({ 
     isOpen,
@@ -53,19 +37,27 @@ export default function AddFolderModal({
     handleInputChange,
     handleCreateFolder
 }: AddFolderModalProps) {
-    const [exercises, setExercises] = useState<string[]>([]);
+    const [exercisesForFolder, setexercisesForFolder] = useState<string[]>([]);
+    const [exercises, setExercises] = useState<Exercise[]>([])
 
     useEffect(() => {
-        setExercises([])
+        setexercisesForFolder([])
     }, [isOpen])
 
+    useEffect(() => {
+        getAllExercises()
+            .then(res => res.json())
+            .then(r => setExercises(r.data))
+            .catch(e => console.error(e))
+    })
+
     const handleExerciseClick = (exercise: string): void => {
-        if (exercises.includes(exercise)) {
-            const filtered = exercises.filter((e) => e !== exercise);
-            setExercises(filtered);
+        if (exercisesForFolder.includes(exercise)) {
+            const filtered = exercisesForFolder.filter((e) => e !== exercise);
+            setexercisesForFolder(filtered);
             return
         }
-        setExercises(exercises.concat(exercise))
+        setexercisesForFolder(exercisesForFolder.concat(exercise))
     }
 
     return (
@@ -89,17 +81,17 @@ export default function AddFolderModal({
                             
                             <CheckboxGroup>
                                 <Stack spacing={[1, 5]} direction={"column"}>
-                                    {weightliftingExercises.map((exercise) => {
+                                    { exercises ? exercises.map((exercise) => {
                                         return (
                                             <Checkbox
-                                                value={exercise}
-                                                key={exercise}
-                                                onChange={() => handleExerciseClick(exercise)}
+                                                value={exercise.name}
+                                                key={exercise.id}
+                                                onChange={() => handleExerciseClick(exercise.name)}
                                             >
-                                                {exercise}
+                                                {exercise.name}
                                             </Checkbox>
                                         )
-                                    })}
+                                    }) : <Spinner/>}
                                 </Stack>
                             </CheckboxGroup>
                         </ModalBody>
@@ -109,7 +101,7 @@ export default function AddFolderModal({
                             </Button>
                             <Button
                                 ml={3}
-                                onClick={() => handleCreateFolder(folderName, exercises)}
+                                onClick={() => handleCreateFolder(folderName, exercisesForFolder)}
                             >
                                 Create Folder
                             </Button>

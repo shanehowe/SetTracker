@@ -12,6 +12,7 @@ import {
     Input,
     InputGroup,
 } from "@chakra-ui/react"
+import { useRouter } from 'next/navigation';
 import { useState } from "react"
 import Notification from "../Notification"
 import styles from "./styles.module.css"
@@ -26,6 +27,8 @@ export default function SignUpForm({}) {
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+
+    const router = useRouter()
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(e.currentTarget.value)
@@ -106,6 +109,8 @@ export default function SignUpForm({}) {
             setNotificationDesc(`You account has been created. Welcome to SetTracker!`)
             setNotifcationVisible(true)
             setIsSubmitting(false)
+
+            router.push("/")
         } catch (error) {
             console.error(error)
             setNotifcationStatus("error")
