@@ -1,4 +1,4 @@
-type exerciseFolder = {
+type ExerciseFolder = {
     title: string;
     exercises: string[];
 }
