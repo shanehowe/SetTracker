@@ -1,6 +1,6 @@
 type ExerciseFolder = {
-    title: string;
-    exercises: string[];
+    folderName: string;
+    id: number;
 }
 
 type WorkoutFoldersGetParams = {
