@@ -49,7 +49,7 @@ export default function AddFolderModal({
             .then(res => res.json())
             .then(r => setExercises(r.data))
             .catch(e => console.error(e))
-    })
+    }, [])
 
     const handleExerciseClick = (exercise: string): void => {
         if (exercisesForFolder.includes(exercise)) {
@@ -68,7 +68,7 @@ export default function AddFolderModal({
                 scrollBehavior={"inside"}
             >
                 <ModalOverlay>
-                    <ModalContent>
+                    <ModalContent maxHeight={"60%"}>
                         <ModalHeader>
                             <Input
                                 placeholder="Folder name..."
