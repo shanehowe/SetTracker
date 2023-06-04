@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FiFolder, FiChevronRight, FiPlus } from "react-icons/fi"
 import {
     List,
@@ -18,8 +18,12 @@ import AddFolderModal from "@/components/AddFolderModal"
 import styles from "./styles.module.css"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import LoadingSpinner from "@/components/spinner/LoadingSpinner"
 
+import LoadingSpinner from "@/components/spinner/LoadingSpinner"
+import WorkoutFolders from "@/components/WorkoutFolders/WorkoutFolders"
+
+import { workoutFolderHelper } from "@/lib/workoutFolders"
+import { workoutFolderService } from "@/services/workoutFolders"
 
 export default function Page() {
     const [folders, setFolders] = useState<ExerciseFolder[]>([])
@@ -29,9 +33,22 @@ export default function Page() {
     const router = useRouter()
     const toast = useToast()
 
-    const addNewFolder = (folderName: string, exercises: string[]): void => {
-        const trimmedFolder = folderName.trim()
-        if (!trimmedFolder.length || !folderName) {
+    useEffect(() => {
+        workoutFolderService
+            .getAll()
+            .then(res => res.json())
+            .then(res => setFolders(res.data))
+            .catch(error => {
+                toast({
+                    status: "error",
+                    description: "Error fetching folders. Refresh and try again",
+                    title: "Something went wrong."
+                })
+            })
+    },[])
+
+    const addNewFolder = async (folderName: string, exercises: string[]) => {
+        if (!folderName.length) {
             toast({
                 description: "Folder name cannot be blank",
                 status: "warning",
@@ -41,8 +58,9 @@ export default function Page() {
             return
         }
 
-        const folderExists = folders.filter((f) => f.title === trimmedFolder).length > 0;
-        if (folderExists) {
+        const trimmedFolder = workoutFolderHelper.trimAndTitleFolderName(folderName)
+
+        if (workoutFolderHelper.folderAlreadyExists(trimmedFolder, folders)) {
             toast({
                 description: `${trimmedFolder} already exits!`,
                 status: "info",
@@ -51,18 +69,38 @@ export default function Page() {
             })
             return
         }
-        setFolders(folders.concat({
-            title: trimmedFolder,
-            exercises: exercises
-        }))
-        hideModal();
-        setNewFolderName("")
-        toast({
-            description: `Folder ${trimmedFolder} has been added!`,
-            status: "success",
-            position: "top",
-            isClosable: true
-        })
+
+        try {
+            const apiResponse = await workoutFolderService.create(trimmedFolder, exercises)
+            const response = await apiResponse.json()
+            if (apiResponse.status !== 200) {
+                console.log(response)
+                return
+            }
+            const { data } = response
+            setFolders(folders.concat({
+                folderName: data.folderName,
+                id: data.id
+            }))
+            hideModal();
+            setNewFolderName("")
+            toast({
+                description: `Folder ${trimmedFolder} has been added!`,
+                status: "success",
+                position: "top",
+                isClosable: true
+            })
+        } catch(e) {
+            console.error(e)
+            hideModal();
+            setNewFolderName("")
+            toast({
+                description: "An error occured trying to create that folder",
+                status: "error",
+                position: "top",
+                isClosable: true
+            })
+        }
     }
 
     const openModal = (): void => {
@@ -128,32 +166,7 @@ export default function Page() {
                 </ListItem>
                 <Divider />
 
-                {folders.map((f) => {
-                    return (
-                        <>
-                            <ListItem 
-                                key={f.title}
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                w={250}
-                                cursor="pointer"
-                                fontSize={18}
-                            >
-                                <ListIcon as={FiFolder}/>
-                                <Link
-                                    href={{
-                                        pathname: `/workout-folders/${f.title}`,
-                                    }}
-                                >
-                                    {f.title}
-                                </Link>
-                                <ListIcon as={FiChevronRight}/>
-                            </ListItem>
-                            <Divider />
-                        </>
-                    )
-                })}
+                <WorkoutFolders exerciseFolders={folders}/>
             </List>
         </section>
     )
