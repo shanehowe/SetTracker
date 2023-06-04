@@ -61,12 +61,12 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, username } = token
-        if (!email || !username) {
-            return NextResponse.json(
-                {"data": "Missing credentails"},
-                {status: 400}
-            )
-        }
+    if (!email || !username) {
+        return NextResponse.json(
+            {"data": "Missing credentails"},
+            {status: 400}
+        )
+    }
 
     const body: PostBody = await request.json()
     const { folderName, linkedExercises } = body

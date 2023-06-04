@@ -40,7 +40,7 @@ export const authOptions: AuthOptions = NextAuth({
                     password: string
                 }
                 if (!email || !password) {
-                    throw new Error('Wrong credentials. Try again.')
+                    throw new Error("Wrong credentials. Try again.")
                 }
                 const maybeUser = await prisma.user.findFirst({
                     where: {
@@ -51,7 +51,7 @@ export const authOptions: AuthOptions = NextAuth({
                 if (maybeUser) {
                     const passwordIsCorrect = await bcrypt.compare(password, maybeUser.passwordHash)
                     if (!passwordIsCorrect) {
-                        throw new Error('Wrong credentials. Try again.')
+                        throw new Error("Wrong credentials. Try again.")
                     } else {
                         const user = {
                             email: maybeUser.email, 

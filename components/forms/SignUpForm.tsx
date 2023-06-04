@@ -12,7 +12,7 @@ import {
     Input,
     InputGroup,
 } from "@chakra-ui/react"
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { useState } from "react"
 import Notification from "../Notification"
 import styles from "./styles.module.css"
@@ -106,7 +106,7 @@ export default function SignUpForm({}) {
             
             setNotifcationStatus("success")
             setNotificationTitle("Account created!")
-            setNotificationDesc(`You account has been created. Welcome to SetTracker!`)
+            setNotificationDesc("You account has been created. Welcome to SetTracker!")
             setNotifcationVisible(true)
             setIsSubmitting(false)
 
@@ -153,11 +153,11 @@ export default function SignUpForm({}) {
                     </FormControl>
                     
                     <FormLabel mt={5}>Password</FormLabel>
-                        <Input
-                            placeholder="Password"
-                            type="password"
-                            onChange={handlePasswordChange}
-                        />
+                    <Input
+                        placeholder="Password"
+                        type="password"
+                        onChange={handlePasswordChange}
+                    />
 
                     <FormControl mt={5}>
                         <FormLabel>Confirm password</FormLabel>

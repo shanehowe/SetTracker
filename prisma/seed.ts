@@ -59,7 +59,7 @@ const weightliftingExercises = [
     "Romanian Deadlift",
     "Arnold Dumbbell Press",
     "Seated Dumbbell Shoulder Press",
-  ];
+];
 
 const prisma = new PrismaClient()
 async function main() {

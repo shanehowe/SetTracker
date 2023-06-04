@@ -11,13 +11,13 @@ export default function Home() {
             <Link href="/workout-folders">To Workout Folders</Link>
             <div>
                 {session ?
-                <Button onClick={() => signOut()}>
+                    <Button onClick={() => signOut()}>
                     Sign out
-                </Button>
-                :
-                <Button onClick={() => signIn()}>
+                    </Button>
+                    :
+                    <Button onClick={() => signIn()}>
                     Sign In
-                </Button>}
+                    </Button>}
             </div>
         </>
     )

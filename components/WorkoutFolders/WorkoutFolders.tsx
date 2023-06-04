@@ -6,9 +6,9 @@ interface WorkoutFoldersProps {
 export default function WorkoutFolders({ exerciseFolders }: WorkoutFoldersProps) {
     return (
         <>
-        {exerciseFolders.map((folder) => {
-            return <WorkoutFolder key={folder.id} folder={folder} />
-        })}
+            {exerciseFolders.map((folder) => {
+                return <WorkoutFolder key={folder.id} folder={folder} />
+            })}
         </>
     )
 }

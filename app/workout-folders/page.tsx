@@ -121,53 +121,53 @@ export default function Page() {
         router.push("/api/auth/signin")
     } else
         return (
-        <section className={styles.section}>
-            <h3 className={styles.heading} >Your workout folders.</h3>
-            <Button
-                onClick={openModal}
-                variant="solid"
-                margin={10}
-                leftIcon={<Icon as={FiPlus} />}
-            >
-                New Folder
-            </Button>
-            <AddFolderModal
-                isOpen={modalVisible}
-                folderName={newFolderName}
-                onClose={hideModal}
-                handleInputChange={handleInputChange}
-                handleCreateFolder={addNewFolder}
-            />
-            <List 
-                spacing={4} 
-                w="50%"
-                display="flex"
-                justifyContent="center"
-                flexDirection="column"
-                alignItems="center"
-            >
-                <ListItem
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    w={250}
-                    cursor="pointer"
-                    fontSize={18}
+            <section className={styles.section}>
+                <h3 className={styles.heading} >Your workout folders.</h3>
+                <Button
+                    onClick={openModal}
+                    variant="solid"
+                    margin={10}
+                    leftIcon={<Icon as={FiPlus} />}
                 >
-                    <ListIcon as={FiFolder}/>
-                    <Link
-                        href={{
-                            pathname: "/workout-folders/All Exercises",
-                        }}
+                New Folder
+                </Button>
+                <AddFolderModal
+                    isOpen={modalVisible}
+                    folderName={newFolderName}
+                    onClose={hideModal}
+                    handleInputChange={handleInputChange}
+                    handleCreateFolder={addNewFolder}
+                />
+                <List 
+                    spacing={4} 
+                    w="50%"
+                    display="flex"
+                    justifyContent="center"
+                    flexDirection="column"
+                    alignItems="center"
+                >
+                    <ListItem
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        w={250}
+                        cursor="pointer"
+                        fontSize={18}
                     >
+                        <ListIcon as={FiFolder}/>
+                        <Link
+                            href={{
+                                pathname: "/workout-folders/All Exercises",
+                            }}
+                        >
                             All Exercises
-                    </Link>
-                    <ListIcon as={FiChevronRight}/>
-                </ListItem>
-                <Divider />
+                        </Link>
+                        <ListIcon as={FiChevronRight}/>
+                    </ListItem>
+                    <Divider />
 
-                <WorkoutFolders exerciseFolders={folders}/>
-            </List>
-        </section>
-    )
+                    <WorkoutFolders exerciseFolders={folders}/>
+                </List>
+            </section>
+        )
 }
