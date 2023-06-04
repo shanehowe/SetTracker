@@ -3,6 +3,45 @@ import { getToken } from "next-auth/jwt";
 import prisma from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
+    const token = await getToken({req: request})
+    if (!token) {
+        return NextResponse.json(
+            {
+                "data": "Unauthorized"
+            },
+            {status: 400}
+        )
+    }
+
+    try {
+        const { email, username } = token
+        if (!email || !username) {
+            return NextResponse.json(
+                {"data": "Missing credentails"},
+                {status: 400}
+            )
+        }
+
+        const user = await prisma.user.findFirstOrThrow({
+            where: {
+                email,
+                username
+            }
+        })
+        
+        const workoutFolders = await prisma.workoutFolder.findMany({
+            where: {
+                userId: user.id
+            }
+        })
+
+        return NextResponse.json({
+            data: workoutFolders
+        }, {status: 200})
+
+    } catch(e) {
+        return NextResponse.json({}, {status: 500})
+    }
 }
 
 type PostBody = {
