@@ -12,6 +12,12 @@ const create = async (folderName: string, linkedExercises: string[]) => {
     return res
 }
 
+const getAll = async () => {
+    const res = await fetch(url)
+    return res
+}
+
 export const workoutFolderService = {
-    create
+    create,
+    getAll
 }
