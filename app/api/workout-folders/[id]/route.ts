@@ -22,6 +22,12 @@ export async function DELETE(request: NextRequest, { params }: {params: {id: str
     }
 
     const userId = token.id
+    if (!Number.isInteger(params.id)) {
+        return NextResponse.json({
+            data: "Folder param must be an integer"
+        }, {status: 400})
+    }
+
     const folderId = parseInt(params.id)
 
     const workoutFolder = await prisma.workoutFolder.findFirst({
