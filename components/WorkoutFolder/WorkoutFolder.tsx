@@ -13,12 +13,11 @@ export default function WorkoutFolder({ folder }: WorkoutFolderProps) {
                 justifyContent="space-between"
                 alignItems="center"
                 w={250}
-                cursor="pointer"
                 fontSize={18}
             >
-                <ListIcon as={FiFolder}/>
+                <ListIcon as={FiFolder} cursor="pointer"/>
                 <Link
-                    href={`/workout-folders/${folder.folderName}`}
+                    href={`/workout-folders/${folder.id}`}
                 >
                     {folder.folderName}
                 </Link>
