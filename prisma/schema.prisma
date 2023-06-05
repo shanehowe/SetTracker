@@ -45,7 +45,7 @@ model Rep {
 model FolderExercise {
   exercise      String
   folderId      Int
-  workoutFolder WorkoutFolder @relation(fields: [folderId], references: [id])
+  workoutFolder WorkoutFolder @relation(fields: [folderId], references: [id], onDelete: Cascade)
 
   @@id([exercise, folderId])
 }
