@@ -28,8 +28,8 @@ export default function Page({ params }: PageProps) {
     }
     return (
         <>
-        <p>From {folder}</p>
-        {folder === "All Exercises" ? "" : <Button onClick={() => handleDelete(folder)}>Delete Folder</Button>}
+            <p>From {folder}</p>
+            {folder === "All Exercises" ? "" : <Button onClick={() => handleDelete(folder)}>Delete Folder</Button>}
         </>
     )
 }
