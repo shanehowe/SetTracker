@@ -11,6 +11,41 @@ export async function GET(request: NextRequest, { params }: {params: {id: string
     }
 
     // TODO: Get the exercises linked the folder and return them
+
+    const folderId = parseInt(params.id)
+    
+    if (isNaN(folderId)) {
+        return NextResponse.json({
+            data: "Folder id param must be a valid integer"
+        })
+    }
+
+    const workoutFolder = await prisma.workoutFolder.findFirst({
+        where: {
+            id: folderId,
+            userId: token.id
+        }
+    })
+
+    if (!workoutFolder) {
+        return NextResponse.json({
+            data: "Requested folder does not exist"
+        }, {status: 400})
+    }
+
+    const folderExercises = await prisma.folderExercise.findMany({
+        where: {
+            folderId,
+        }
+    })
+
+    return NextResponse.json({
+        data: {
+            folderExercises,
+            folderName: workoutFolder.folderName,
+            folderId: workoutFolder.id
+        }
+    }, {status: 200});
 }
 
 export async function DELETE(request: NextRequest, { params }: {params: {id: string}}) {
@@ -29,6 +64,12 @@ export async function DELETE(request: NextRequest, { params }: {params: {id: str
     }
 
     const folderId = parseInt(params.id)
+
+    if (isNaN(folderId)) {
+        return NextResponse.json({
+            data: "Folder id param must be a valid integer"
+        })
+    }
 
     const workoutFolder = await prisma.workoutFolder.findFirst({
         where: {
