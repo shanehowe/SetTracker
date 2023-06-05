@@ -17,7 +17,20 @@ const getAll = async () => {
     return res
 }
 
+const deleteFolder = async (id: number) => {
+    const res = await fetch(`${url}/${id}`,{
+        method: "DELETE"
+    })
+    return res
+}
+
+const getOne = async (id: number) => {
+    const res = await fetch(`${url}/${id}`)
+    return res
+}
+
 export const workoutFolderService = {
     create,
-    getAll
+    getAll,
+    deleteFolder
 }
