@@ -32,5 +32,6 @@ const getOne = async (id: number) => {
 export const workoutFolderService = {
     create,
     getAll,
-    deleteFolder
+    deleteFolder,
+    getOne
 }
