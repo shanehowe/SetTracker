@@ -9,4 +9,9 @@ type WorkoutFoldersGetParams = {
     }
 }
 
+type Folder = {
+    folderName: string
+    folderId: number
+}
+
 type NotificationStatus =  "info" | "warning" | "success" | "error" | "loading" | undefined
