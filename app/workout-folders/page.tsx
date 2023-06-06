@@ -138,9 +138,9 @@ export default function Page() {
                     handleInputChange={handleInputChange}
                     handleCreateFolder={addNewFolder}
                 />
-                <List 
+                <List
                     spacing={4} 
-                    w="50%"
+                    w="80%"
                     display="flex"
                     justifyContent="center"
                     flexDirection="column"
