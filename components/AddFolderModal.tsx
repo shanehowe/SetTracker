@@ -39,6 +39,7 @@ export default function AddFolderModal({
 }: AddFolderModalProps) {
     const [exercisesForFolder, setexercisesForFolder] = useState<string[]>([]);
     const [exercises, setExercises] = useState<Exercise[]>([])
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
         setexercisesForFolder([])
@@ -100,8 +101,13 @@ export default function AddFolderModal({
                                 Cancel
                             </Button>
                             <Button
+                                isLoading={isSubmitting}
+                                loadingText="Creating"
                                 ml={3}
-                                onClick={() => handleCreateFolder(folderName, exercisesForFolder)}
+                                onClick={() => {
+                                    setIsSubmitting(true)
+                                    handleCreateFolder(folderName, exercisesForFolder)
+                                }}
                             >
                                 Create Folder
                             </Button>

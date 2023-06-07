@@ -6,9 +6,11 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
-    Text
+    Text,
+    useDisclosure
 } from "@chakra-ui/react"
 import { BiChevronDown, BiEdit, BiFolderOpen, BiPlus, BiTrash } from "react-icons/bi";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
 interface FolderHeadingProps {
     folder: {
@@ -19,6 +21,7 @@ interface FolderHeadingProps {
 }
 
 export default function FolderHeading({folder, handleDelete}: FolderHeadingProps) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <Flex dir="row" alignItems={"center"}>
                     <Menu>
@@ -34,8 +37,8 @@ export default function FolderHeading({folder, handleDelete}: FolderHeadingProps
                             _focus={{ boxShadow: 'outline' }}
                         >
                             <Flex alignItems={"center"} justifyContent={"space-between"} w={"100%"}>
-                                <Icon as={BiFolderOpen}/>
-                                <Text fontSize={18}>{folder.folderName}</Text>
+                                <Icon as={BiFolderOpen} height={18} width={18}/>
+                                <Text fontSize={21}>{folder.folderName}</Text>
                                 <Icon as={BiChevronDown}/>
                             </Flex>
                             
@@ -48,13 +51,18 @@ export default function FolderHeading({folder, handleDelete}: FolderHeadingProps
                             <MenuItem 
                                 color={"red.500"}
                                 icon={<Icon color={"red.500"}as={BiTrash}/>}
-                                onClick={() => handleDelete(folder.folderId)}
+                                onClick={onOpen}
                             >
                                 Delete folder
                             </MenuItem>
                         </MenuList>
                     </Menu>
-                    
+                    <DeleteModal 
+                        onClose={onClose}
+                        isOpen={isOpen}
+                        handleDelete={handleDelete}
+                        folderId={folder.folderId}
+                    />
                 </Flex>
     )
 }
