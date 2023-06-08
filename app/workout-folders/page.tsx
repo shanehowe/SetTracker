@@ -29,9 +29,15 @@ export default function Page() {
     const [folders, setFolders] = useState<ExerciseFolder[]>([])
     const [modalVisible, setModalVisible] = useState(false)
     const [newFolderName, setNewFolderName] = useState("")
-    const { data: session, status } = useSession()
     const router = useRouter()
     const toast = useToast()
+
+    const {data: session, status} = useSession({
+        required: true,
+        onUnauthenticated() {
+            router.push("/")
+        }
+    })
 
     useEffect(() => {
         workoutFolderService
@@ -117,9 +123,7 @@ export default function Page() {
 
     if (status === "loading") {
         return <LoadingSpinner />
-    } else if (status === "unauthenticated") {
-        router.push("/api/auth/signin")
-    } else
+     } else
         return (
             <section className={styles.section}>
                 <h3 className={styles.heading} >Your workout folders.</h3>
