@@ -9,18 +9,26 @@ import {
     ModalHeader,
     ModalOverlay,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiTrash, BiUndo } from "react-icons/bi";
 
 interface DeleteModalProps {
     folderId: number
     isOpen: boolean
+    additionalInfo: string
     onClose: () => void
-    handleDelete: (id: number) => void
+    handleDelete: () => void
 }
 
-export default function DeleteModal({isOpen, onClose, handleDelete, folderId}: DeleteModalProps) {
+export default function DeleteModal({isOpen, onClose, handleDelete, additionalInfo}: DeleteModalProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    // Prevents button from being in constant loading state
+    // after a previous delete operation.
+    useEffect(() => {
+        setIsSubmitting(false)
+    }, [isOpen])
+
     return (
         <Modal 
             isOpen={isOpen}
@@ -35,7 +43,8 @@ export default function DeleteModal({isOpen, onClose, handleDelete, folderId}: D
                         Are you sure you?
                     </ModalHeader>
                     <ModalBody>
-                        You cannot undo this action. You will be redirected back to your workout folders.
+                        This action cannot be undone.<br/>
+                        {additionalInfo}
                     </ModalBody>
                     <ModalFooter>
                         <Button
@@ -51,7 +60,7 @@ export default function DeleteModal({isOpen, onClose, handleDelete, folderId}: D
                             loadingText="Deleting"
                             onClick={() => {
                                 setIsSubmitting(true)
-                                handleDelete(folderId)
+                                handleDelete()
                             }}
                             color={"white"}
                             bgColor={"red.600"}
