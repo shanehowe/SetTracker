@@ -29,9 +29,17 @@ const getOne = async (id: number) => {
     return res
 }
 
+const deleteExerciseFromFolder = async (id: number, exercise: string) => {
+    const res = await fetch(`${url}/${id}/${exercise}`, {
+        method: "DELETE"
+    })
+    return res
+}
+
 export const workoutFolderService = {
     create,
     getAll,
     deleteFolder,
-    getOne
+    getOne,
+    deleteExerciseFromFolder
 }
