@@ -17,7 +17,7 @@ interface FolderHeadingProps {
         folderId: number
         folderName: string
     },
-    handleDelete: (id: number) => void
+    handleDelete: () => void
 }
 
 export default function FolderHeading({folder, handleDelete}: FolderHeadingProps) {
@@ -62,6 +62,7 @@ export default function FolderHeading({folder, handleDelete}: FolderHeadingProps
                         isOpen={isOpen}
                         handleDelete={handleDelete}
                         folderId={folder.folderId}
+                        additionalInfo="You will be redirected back to your workout folders"
                     />
                 </Flex>
     )
