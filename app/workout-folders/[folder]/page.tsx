@@ -1,9 +1,11 @@
 "use client"
+import DeleteModal from "@/components/DeleteModal/DeleteModal"
+import FolderExercises from "@/components/FolderExercises/FolderExercises"
 import FolderHeading from "@/components/FolderHeading/FolderHeading"
 import LoadingSpinner from "@/components/spinner/LoadingSpinner"
 import { getAllExercises } from "@/services/exercises"
 import { workoutFolderService } from "@/services/workoutFolders"
-import { Divider, Flex, Heading, List, ListIcon, ListItem, Text, useToast } from "@chakra-ui/react"
+import { Divider, Flex, Heading, List, ListIcon, ListItem, Text, useDisclosure, useToast } from "@chakra-ui/react"
 import { FolderExercise } from "@prisma/client"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
@@ -20,6 +22,8 @@ interface PageProps {
 export default function Page({ params }: PageProps) {
     const [folderExercises, setFolderExercises] = useState<FolderExercise[] | null>(null)
     const [folder, setFolder] = useState<Folder>({folderId: -1, folderName: ""})
+    const [exerciseForDelete, setExerciseForDelete] = useState<string>("")
+    const { onOpen, isOpen, onClose } = useDisclosure()
     const router = useRouter()
     const toast = useToast()
 
@@ -65,9 +69,10 @@ export default function Page({ params }: PageProps) {
         }
     },[folderParam])
 
-    const handleDelete = async (id: number) => {
+
+    const handleFolderDelete = async () => {
         try {
-            const res = await workoutFolderService.deleteFolder(id)
+            const res = await workoutFolderService.deleteFolder(folder.folderId)
             if (res.status === 200) {
                 router.push("/workout-folders")
                 toast({
@@ -82,47 +87,73 @@ export default function Page({ params }: PageProps) {
         }
     }
 
-    return folderExercises === null || status === "loading" ? (
+    const handleExerciseDelete = async () => {
+        try {
+            const res = await workoutFolderService.deleteExerciseFromFolder(folder.folderId, exerciseForDelete)
+            if (res.status !== 200) {
+                toast({
+                    status: "error",
+                    title: "Something went wrong",
+                    description: "Exercise was not removed from folder"
+                })
+                return
+            }
+
+            const newExercisesState = folderExercises?.filter(folderExercise => {
+                return folderExercise.exercise !== exerciseForDelete
+            })
+
+            if (newExercisesState) {
+                setFolderExercises(newExercisesState)
+                toast({
+                    status: "success",
+                    title: "Exercise deleted",
+                    description: `${exerciseForDelete} has been removed from the current folder`,
+                    isClosable: true,
+                    position: "top"
+                })
+            }
+            setExerciseForDelete("")
+            onClose()
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+    const handleDeleteIconClick = (exercise: string) => {
+        setExerciseForDelete(exercise)
+        onOpen()
+    }
+
+    return folderExercises === null ? (
         <LoadingSpinner />
     ) : (
         <section>
             <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
                     {folder.folderName === "All Exercises" ?
+                    /*
+                        when all exercises is the folder name
+                        we need to render completely different UI.
+                        For now its ok until we complete UI for when it
+                        is not all exercises
+                    */
                     <Heading>{folder.folderName}</Heading>
                     :
                     <FolderHeading
-                        handleDelete={handleDelete}
+                        handleDelete={handleFolderDelete}
                         folder={folder}
                     />}
-
-                    <List
-                        spacing={4} 
-                        w="80%"
-                        display="flex"
-                        justifyContent="center"
-                        flexDirection="column"
-                        alignItems="center"
-                        mt={10}
-                    >
-                    {folderExercises.map((folderExercise) => {
-                        return (
-                                <>
-                                <ListItem
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    w={250}
-                                    fontSize={18}
-                                >
-                                    <ListIcon as={BiXCircle} cursor={"pointer"} />
-                                    <Text>{folderExercise.exercise}</Text>
-                                    <ListIcon as={BiChevronRight} />
-                                </ListItem>
-                                <Divider />
-                                </>
-                        )
-                    })}
-                    </List>
+                    <DeleteModal
+                        onClose={onClose}
+                        isOpen={isOpen}
+                        handleDelete={handleExerciseDelete}
+                        folderId={folder.folderId}
+                        additionalInfo={""}
+                    />
+                    <FolderExercises
+                        folderExercises={folderExercises}
+                        handleDeleteIconClick={handleDeleteIconClick}
+                    />
             </Flex>
         </section>
     )
