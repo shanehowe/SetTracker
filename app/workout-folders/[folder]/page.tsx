@@ -26,6 +26,7 @@ export default function Page({ params }: PageProps) {
     const [editFolderNameOpen, setEditFolderNameOpen] = useState(false)
     const [exerciseForDelete, setExerciseForDelete] = useState<string>("")
     const [newFolderName, setNewFolderName] = useState("")
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const { onOpen, isOpen, onClose } = useDisclosure()
     const router = useRouter()
@@ -95,7 +96,7 @@ export default function Page({ params }: PageProps) {
                 toast({
                     status: "success",
                     position: "top",
-                    title: `${folder.folderName} was deleted successfully!`,
+                    description: `${folder.folderName} was deleted successfully!`,
                     isClosable: true
                 })
             }
@@ -124,7 +125,6 @@ export default function Page({ params }: PageProps) {
                 setFolderExercises(newExercisesState)
                 toast({
                     status: "success",
-                    title: "Exercise deleted",
                     description: `${exerciseForDelete} has been removed from the current folder`,
                     isClosable: true,
                     position: "top"
@@ -143,6 +143,7 @@ export default function Page({ params }: PageProps) {
     }
 
     const handleFolderRename = async () => {
+        setIsSubmitting(true)
         const folderNameForRequest = workoutFolderHelper.trimAndTitleFolderName(newFolderName)
 
         if (!folderNameForRequest.length) {
@@ -152,22 +153,24 @@ export default function Page({ params }: PageProps) {
                 position: "top",
                 isClosable: true
             })
+            setIsSubmitting(false)
             return
         }
 
         const res_ = await workoutFolderService.rename(folder.folderId, folderNameForRequest)
+        const res = await res_.json()
 
         if (res_.status !== 200) {
             toast({
                 status: "error",
-                title: "Folder was not updated. Try again later.",
+                title: res.data,
                 position: "top",
                 isClosable: true
             })
+            setIsSubmitting(false)
             return
         }
 
-        const res = await res_.json()
         const newFolderState = {
             folderId: folder.folderId,
             folderName: res.data.newFolderName
@@ -182,6 +185,7 @@ export default function Page({ params }: PageProps) {
         })
         onEditFolderNameClose()
         setNewFolderName("")
+        setIsSubmitting(false)
     }
 
     const handleFolderRenameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -219,6 +223,7 @@ export default function Page({ params }: PageProps) {
                         onClose={onEditFolderNameClose}
                         handleInputChange={handleFolderRenameInputChange}
                         handleSubmit={handleFolderRename}
+                        isSubmitting={isSubmitting}
                     />
                     <FolderExercises
                         folderExercises={folderExercises}
