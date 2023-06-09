@@ -36,6 +36,12 @@ export default function Page() {
         required: true,
         onUnauthenticated() {
             router.push("/")
+            toast({
+                status: "warning",
+                title: "Account required",
+                description: "You have an ccount and be signed in to access that page",
+                position: "top"
+            })
         }
     })
 
