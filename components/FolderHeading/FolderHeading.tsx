@@ -18,9 +18,10 @@ interface FolderHeadingProps {
         folderName: string
     },
     handleDelete: () => void
+    onEditFolderNameOpen: () => void
 }
 
-export default function FolderHeading({folder, handleDelete}: FolderHeadingProps) {
+export default function FolderHeading({folder, handleDelete, onEditFolderNameOpen}: FolderHeadingProps) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <Flex dir="row" alignItems={"center"}>
@@ -45,7 +46,7 @@ export default function FolderHeading({folder, handleDelete}: FolderHeadingProps
                         </MenuButton>
 
                         <MenuList>
-                            <MenuItem icon={<Icon as={BiEdit} />}>Edit folder name</MenuItem>
+                            <MenuItem onClick={onEditFolderNameOpen} icon={<Icon as={BiEdit} />}>Edit folder name</MenuItem>
                             <MenuItem icon={<Icon as={BiPlus} />}>Add exercises</MenuItem>
                             <Divider />
                             <MenuItem 
