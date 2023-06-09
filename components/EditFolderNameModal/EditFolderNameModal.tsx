@@ -10,27 +10,23 @@ import {
     Icon,
     Input
 } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
 import { BiCheck, BiX } from "react-icons/bi"
 
 interface EditFolderNameModalProps {
+    isSubmitting: boolean
     isOpen: boolean
     onClose: () => void
     handleSubmit: () => void
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export function EditFolderNameModal({isOpen, onClose, handleInputChange, handleSubmit}: EditFolderNameModalProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false)
-
-    useEffect(() => {
-        setIsSubmitting(false)
-    }, [isOpen])
-
-    const handleSubmitAndSetFormState = () => {
-        handleSubmit()
-        setIsSubmitting(false)
-    }
+export function EditFolderNameModal({
+    isOpen,
+    onClose,
+    handleInputChange,
+    handleSubmit,
+    isSubmitting
+}: EditFolderNameModalProps) {
 
     return (
         <Modal
@@ -63,10 +59,7 @@ export function EditFolderNameModal({isOpen, onClose, handleInputChange, handleS
                             loadingText="Renaming"
                             leftIcon={<Icon as={BiCheck} />}
                             ml={3}
-                            onClick={() => {
-                                setIsSubmitting(true)
-                                handleSubmitAndSetFormState()
-                            }}
+                            onClick={handleSubmit}
                         >
                             Confirm
                         </Button>
