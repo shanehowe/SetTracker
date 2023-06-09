@@ -98,3 +98,74 @@ export async function DELETE(request: NextRequest, { params }: {params: {id: str
         return NextResponse.json({}, {status: 500})
     }
 }
+
+type PutBody = {
+    newFolderName: string
+}
+
+export async function PUT(request: NextRequest, { params }: {params: {id: string}}) {
+    const token = await getToken({ req: request })
+
+    if (!token) {
+        return NextResponse.json({
+            data: "Unauthorized"
+        }, { status: 401 })
+    }
+
+    const userId = token.id
+    const folderId = parseInt(params.id)
+
+    if (isNaN(folderId)) {
+        return NextResponse.json({
+            data: "Invalid folder id"
+        }, {status: 400})
+    }
+
+    try {
+        const body: PutBody = await request.json()
+        const { newFolderName } = body
+
+        if (!newFolderName) {
+            return NextResponse.json({
+                data: "New folder name missing from request."
+            }, {status: 400})
+        }
+
+        const folderForUpdate = await prisma.workoutFolder.findFirst({
+            where: {
+                id: folderId,
+                userId: userId
+            }
+        })
+
+        if (!folderForUpdate) {
+            return NextResponse.json({
+                data: "Only the owner of this folder may update it"
+            }, {status: 400})
+        }
+
+        const updatedFolder = await prisma.workoutFolder.update({
+            where: {
+                id: folderId
+            },
+            data: {
+                folderName: newFolderName
+            }
+        })
+
+        if (!updatedFolder) {
+            return NextResponse.json({
+                data: "Folder has not been updated"
+            }, {status: 400})
+        }
+
+        return NextResponse.json({
+            data: {
+                newFolderName: updatedFolder.folderName
+            }
+        }, {status: 200})
+
+    } catch(e) {
+        return NextResponse.json({}, {status: 500})
+    }
+}
