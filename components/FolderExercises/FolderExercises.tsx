@@ -18,7 +18,7 @@ export default function FolderExercises({folderExercises, handleDeleteIconClick}
             alignItems="center"
             mt={10}
         >
-            {folderExercises.map((folderExercise) => {
+            {folderExercises && folderExercises.map((folderExercise) => {
                 return (
                     <FolderExerciseItem
                         key={folderExercise.exercise}

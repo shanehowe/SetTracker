@@ -1,8 +1,6 @@
 import { getAllExercises } from "@/services/exercises";
 import { 
     Button,
-    Checkbox,
-    CheckboxGroup,
     Input,
     Modal,
     ModalBody,
@@ -11,15 +9,16 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay, 
-    Spinner, 
-    Stack
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { ExerciseCheckboxList } from "./ExerciseCheckBoxList/ExerciseCheckBoxList";
 
 
 interface AddFolderModalProps {
+    exercises: Exercise[]
     isOpen: boolean
     folderName: string
+    isSubmitting: boolean
     onClose: () => void
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     handleCreateFolder: (folderName: string, exercises: string[]) => void
@@ -30,27 +29,28 @@ type Exercise = {
     name: string
 }
 
-export default function AddFolderModal({ 
+export default function AddFolderModal({
+    exercises,
     isOpen,
     folderName,
     onClose,
     handleInputChange,
-    handleCreateFolder
+    handleCreateFolder,
+    isSubmitting
 }: AddFolderModalProps) {
     const [exercisesForFolder, setexercisesForFolder] = useState<string[]>([]);
-    const [exercises, setExercises] = useState<Exercise[]>([])
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    // const [exercises, setExercises] = useState<Exercise[]>([])
 
     useEffect(() => {
         setexercisesForFolder([])
     }, [isOpen])
 
-    useEffect(() => {
-        getAllExercises()
-            .then(res => res.json())
-            .then(r => setExercises(r.data))
-            .catch(e => console.error(e))
-    }, [])
+    // useEffect(() => {
+    //     getAllExercises()
+    //         .then(res => res.json())
+    //         .then(r => setExercises(r.data))
+    //         .catch(e => console.error(e))
+    // }, [])
 
     const handleExerciseClick = (exercise: string): void => {
         if (exercisesForFolder.includes(exercise)) {
@@ -59,6 +59,11 @@ export default function AddFolderModal({
             return
         }
         setexercisesForFolder(exercisesForFolder.concat(exercise))
+    }
+
+
+    const handleSubmit = async () => {
+        handleCreateFolder(folderName, exercisesForFolder)
     }
 
     return (
@@ -79,22 +84,10 @@ export default function AddFolderModal({
                         </ModalHeader>
                         <ModalCloseButton/>
                         <ModalBody>
-                            
-                            <CheckboxGroup>
-                                <Stack spacing={[1, 5]} direction={"column"}>
-                                    { exercises ? exercises.map((exercise) => {
-                                        return (
-                                            <Checkbox
-                                                value={exercise.name}
-                                                key={exercise.id}
-                                                onChange={() => handleExerciseClick(exercise.name)}
-                                            >
-                                                {exercise.name}
-                                            </Checkbox>
-                                        )
-                                    }) : <Spinner/>}
-                                </Stack>
-                            </CheckboxGroup>
+                            <ExerciseCheckboxList 
+                                exercises={exercises}
+                                handleExerciseClick={handleExerciseClick}
+                            />
                         </ModalBody>
                         <ModalFooter>
                             <Button onClick={onClose}>
@@ -105,8 +98,7 @@ export default function AddFolderModal({
                                 loadingText="Creating"
                                 ml={3}
                                 onClick={() => {
-                                    setIsSubmitting(true)
-                                    handleCreateFolder(folderName, exercisesForFolder)
+                                    handleSubmit()
                                 }}
                             >
                                 Create Folder
