@@ -125,6 +125,19 @@ export async function PUT(request: NextRequest, { params }: {params: {id: string
         const body: PutBody = await request.json()
         const { newFolderName } = body
 
+        const possibleDuplicate = await prisma.workoutFolder.findFirst({
+            where: {
+                userId: userId,
+                folderName: newFolderName
+            }
+        })
+
+        if (possibleDuplicate) {
+            return NextResponse.json({
+                data: `${newFolderName} already exists`
+            }, {status: 400})
+        }
+
         if (!newFolderName) {
             return NextResponse.json({
                 data: "New folder name missing from request."
