@@ -36,10 +36,20 @@ const deleteExerciseFromFolder = async (id: number, exercise: string) => {
     return res
 }
 
+const rename = async (id: number, newFolderName: string) => {
+    const payload = JSON.stringify({ newFolderName })
+    const res = await fetch(`${url}/${id}`, {
+        method: "PUT",
+        body: payload
+    })
+    return res
+}
+
 export const workoutFolderService = {
     create,
     getAll,
     deleteFolder,
     getOne,
-    deleteExerciseFromFolder
+    deleteExerciseFromFolder,
+    rename
 }
