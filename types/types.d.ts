@@ -9,6 +9,11 @@ type WorkoutFoldersGetParams = {
     }
 }
 
+type Exercise = {
+    id: number,
+    name: string
+}
+
 type Folder = {
     folderName: string
     folderId: number
