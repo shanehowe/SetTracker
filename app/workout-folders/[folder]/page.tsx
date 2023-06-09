@@ -1,16 +1,17 @@
 "use client"
 import DeleteModal from "@/components/DeleteModal/DeleteModal"
+import { EditFolderNameModal } from "@/components/EditFolderNameModal/EditFolderNameModal"
 import FolderExercises from "@/components/FolderExercises/FolderExercises"
 import FolderHeading from "@/components/FolderHeading/FolderHeading"
 import LoadingSpinner from "@/components/spinner/LoadingSpinner"
+import { workoutFolderHelper } from "@/lib/workoutFolders"
 import { getAllExercises } from "@/services/exercises"
 import { workoutFolderService } from "@/services/workoutFolders"
-import { Divider, Flex, Heading, List, ListIcon, ListItem, Text, useDisclosure, useToast } from "@chakra-ui/react"
+import { Flex, Heading, useDisclosure, useToast } from "@chakra-ui/react"
 import { FolderExercise } from "@prisma/client"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { BiChevronRight, BiXCircle } from "react-icons/bi"
 
 
 interface PageProps {
@@ -22,7 +23,10 @@ interface PageProps {
 export default function Page({ params }: PageProps) {
     const [folderExercises, setFolderExercises] = useState<FolderExercise[] | null>(null)
     const [folder, setFolder] = useState<Folder>({folderId: -1, folderName: ""})
+    const [editFolderNameOpen, setEditFolderNameOpen] = useState(false)
     const [exerciseForDelete, setExerciseForDelete] = useState<string>("")
+    const [newFolderName, setNewFolderName] = useState("")
+
     const { onOpen, isOpen, onClose } = useDisclosure()
     const router = useRouter()
     const toast = useToast()
@@ -31,6 +35,12 @@ export default function Page({ params }: PageProps) {
         required: true,
         onUnauthenticated() {
             router.push("/")
+            toast({
+                status: "warning",
+                title: "Account required",
+                description: "You have an ccount and be signed in to access that page",
+                position: "top"
+            })
         }
     })
 
@@ -69,6 +79,13 @@ export default function Page({ params }: PageProps) {
         }
     },[folderParam])
 
+    const onEditFolderNameClose = () => {
+        setEditFolderNameOpen(false)
+    }
+
+    const onEditFolderNameOpen = () => {
+        setEditFolderNameOpen(true)
+    }
 
     const handleFolderDelete = async () => {
         try {
@@ -125,6 +142,52 @@ export default function Page({ params }: PageProps) {
         onOpen()
     }
 
+    const handleFolderRename = async () => {
+        const folderNameForRequest = workoutFolderHelper.trimAndTitleFolderName(newFolderName)
+
+        if (!folderNameForRequest.length) {
+            toast({
+                status: "warning",
+                title: "New folder name cannot be blank",
+                position: "top",
+                isClosable: true
+            })
+            return
+        }
+
+        const res_ = await workoutFolderService.rename(folder.folderId, folderNameForRequest)
+
+        if (res_.status !== 200) {
+            toast({
+                status: "error",
+                title: "Folder was not updated. Try again later.",
+                position: "top",
+                isClosable: true
+            })
+            return
+        }
+
+        const res = await res_.json()
+        const newFolderState = {
+            folderId: folder.folderId,
+            folderName: res.data.newFolderName
+        }
+
+        setFolder(newFolderState)
+        toast({
+            status: "success",
+            title: "Folder name has been updated",
+            position: "top",
+            isClosable: true
+        })
+        onEditFolderNameClose()
+        setNewFolderName("")
+    }
+
+    const handleFolderRenameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewFolderName(e.target.value)
+    }
+
     return folderExercises === null ? (
         <LoadingSpinner />
     ) : (
@@ -142,6 +205,7 @@ export default function Page({ params }: PageProps) {
                     <FolderHeading
                         handleDelete={handleFolderDelete}
                         folder={folder}
+                        onEditFolderNameOpen={onEditFolderNameOpen}
                     />}
                     <DeleteModal
                         onClose={onClose}
@@ -149,6 +213,12 @@ export default function Page({ params }: PageProps) {
                         handleDelete={handleExerciseDelete}
                         folderId={folder.folderId}
                         additionalInfo={""}
+                    />
+                    <EditFolderNameModal
+                        isOpen={editFolderNameOpen}
+                        onClose={onEditFolderNameClose}
+                        handleInputChange={handleFolderRenameInputChange}
+                        handleSubmit={handleFolderRename}
                     />
                     <FolderExercises
                         folderExercises={folderExercises}
