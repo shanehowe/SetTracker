@@ -60,6 +60,9 @@ export function EditFolderNameModal({
                             leftIcon={<Icon as={BiCheck} />}
                             ml={3}
                             onClick={handleSubmit}
+                            bgColor={"green.600"}
+                            color={"white"}
+                            _hover={{bgColor: "green.800", color: "white"}}
                         >
                             Confirm
                         </Button>

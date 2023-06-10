@@ -8,7 +8,6 @@ import { workoutFolderHelper } from "@/lib/workoutFolders"
 import { workoutFolderService } from "@/services/workoutFolders"
 import { Flex, Heading, useDisclosure, useToast } from "@chakra-ui/react"
 import { FolderExercise } from "@prisma/client"
-import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -30,19 +29,6 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
     const { onOpen, isOpen, onClose } = useDisclosure()
     const router = useRouter()
     const toast = useToast()
-
-    const {data: session, status} = useSession({
-        required: true,
-        onUnauthenticated() {
-            router.push("/")
-            toast({
-                status: "warning",
-                title: "Account required",
-                description: "You have an ccount and be signed in to access that page",
-                position: "top"
-            })
-        }
-    })
 
     useEffect(() => {
             workoutFolderService

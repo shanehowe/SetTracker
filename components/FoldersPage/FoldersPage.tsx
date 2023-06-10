@@ -16,8 +16,6 @@ import { Link } from "@chakra-ui/next-js"
 import AddFolderModal from "@/components/AddFolderModal"
 
 import styles from "./styles.module.css"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
 
 import WorkoutFolders from "@/components/WorkoutFolders/WorkoutFolders"
 
@@ -29,21 +27,7 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
     const [modalVisible, setModalVisible] = useState(false)
     const [newFolderName, setNewFolderName] = useState("")
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const router = useRouter()
     const toast = useToast()
-
-    const {data: session, status} = useSession({
-        required: true,
-        onUnauthenticated() {
-            router.push("/")
-            toast({
-                status: "warning",
-                title: "Account required",
-                description: "You have an ccount and be signed in to access that page",
-                position: "top"
-            })
-        }
-    })
 
     useEffect(() => {
         setNewFolderName("")
