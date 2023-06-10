@@ -11,8 +11,10 @@ import {
 } from "@chakra-ui/react"
 import { BiChevronDown, BiEdit, BiFolderOpen, BiPlus, BiTrash } from "react-icons/bi";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import { AddExercisesModal } from "../AddExercisesModal/AddExercisesModal";
 
 interface FolderHeadingProps {
+    exercises: Exercise[]
     folder: {
         folderId: number
         folderName: string
@@ -21,13 +23,21 @@ interface FolderHeadingProps {
     onEditFolderNameOpen: () => void
 }
 
-export default function FolderHeading({folder, handleDelete, onEditFolderNameOpen}: FolderHeadingProps) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+export default function FolderHeading({
+    exercises,
+    folder,
+    handleDelete,
+    onEditFolderNameOpen
+}: FolderHeadingProps) {
+
+    const deleteFolderDisclosure = useDisclosure()
+    const addExercisesDisclosure = useDisclosure()
+
     return (
         <Flex dir="row" alignItems={"center"}>
                     <Menu>
                         <MenuButton
-                            w={200}
+                            w={250}
                             px={6}
                             py={2}
                             transition='all 0.2s'
@@ -46,24 +56,39 @@ export default function FolderHeading({folder, handleDelete, onEditFolderNameOpe
                         </MenuButton>
 
                         <MenuList>
-                            <MenuItem onClick={onEditFolderNameOpen} icon={<Icon as={BiEdit} />}>Edit folder name</MenuItem>
-                            <MenuItem icon={<Icon as={BiPlus} />}>Add exercises</MenuItem>
+                            <MenuItem
+                                onClick={onEditFolderNameOpen}
+                                icon={<Icon as={BiEdit} />}
+                            >
+                                Edit folder name
+                            </MenuItem>
+                            <MenuItem
+                                onClick={addExercisesDisclosure.onOpen}
+                                icon={<Icon as={BiPlus} />}
+                            >
+                                Add exercises
+                            </MenuItem>
                             <Divider />
                             <MenuItem 
                                 color={"red.500"}
                                 icon={<Icon color={"red.500"}as={BiTrash}/>}
-                                onClick={onOpen}
+                                onClick={deleteFolderDisclosure.onOpen}
                             >
                                 Delete folder
                             </MenuItem>
                         </MenuList>
                     </Menu>
                     <DeleteModal 
-                        onClose={onClose}
-                        isOpen={isOpen}
+                        onClose={deleteFolderDisclosure.onClose}
+                        isOpen={deleteFolderDisclosure.isOpen}
                         handleDelete={handleDelete}
                         folderId={folder.folderId}
                         additionalInfo="You will be redirected back to your workout folders"
+                    />
+                    <AddExercisesModal
+                        onClose={addExercisesDisclosure.onClose}
+                        isOpen={addExercisesDisclosure.isOpen}
+                        exercises={exercises}
                     />
                 </Flex>
     )
