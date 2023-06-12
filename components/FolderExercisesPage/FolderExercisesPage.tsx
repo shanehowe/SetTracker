@@ -125,7 +125,7 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
             return
         }
 
-        const res_ = await workoutFolderService.rename(folder.folderId, folderNameForRequest)
+        const res_ = await workoutFolderService.put(folder.folderId, folderNameForRequest)
         const res = await res_.json()
 
         if (res_.status !== 200) {
@@ -175,6 +175,7 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
                     <Heading>{folder.folderName}</Heading>
                     :
                     <FolderHeading
+                        currentFolderExercises={folderExercises}
                         exercises={exercises}
                         handleDelete={handleFolderDelete}
                         folder={folder}
