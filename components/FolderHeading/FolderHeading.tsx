@@ -12,8 +12,10 @@ import {
 import { BiChevronDown, BiEdit, BiFolderOpen, BiPlus, BiTrash } from "react-icons/bi";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import { AddExercisesModal } from "../AddExercisesModal/AddExercisesModal";
+import { FolderExercise } from "@prisma/client";
 
 interface FolderHeadingProps {
+    currentFolderExercises: FolderExercise[]
     exercises: Exercise[]
     folder: {
         folderId: number
@@ -27,7 +29,8 @@ export default function FolderHeading({
     exercises,
     folder,
     handleDelete,
-    onEditFolderNameOpen
+    onEditFolderNameOpen,
+    currentFolderExercises
 }: FolderHeadingProps) {
 
     const deleteFolderDisclosure = useDisclosure()
@@ -86,6 +89,7 @@ export default function FolderHeading({
                         additionalInfo="You will be redirected back to your workout folders"
                     />
                     <AddExercisesModal
+                        currentFolderExercises={currentFolderExercises}
                         onClose={addExercisesDisclosure.onClose}
                         isOpen={addExercisesDisclosure.isOpen}
                         exercises={exercises}
