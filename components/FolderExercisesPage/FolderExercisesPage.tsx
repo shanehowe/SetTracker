@@ -22,6 +22,7 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
     const [folder, setFolder] = useState<Folder>({folderId: -1, folderName: ""})
     // State for modal to edit folder name
     const [editFolderNameOpen, setEditFolderNameOpen] = useState(false)
+    const [addNewExercisesOpen, setAddNewExercisesOpen] = useState(false)
     const [exerciseForDelete, setExerciseForDelete] = useState<string>("")
     const [newFolderName, setNewFolderName] = useState("")
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -35,7 +36,6 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
                 .getOne(folderId)
                 .then(res => res.json())
                 .then(res => {
-                    console.log(res)
                     if (res.data === "Requested folder does not exist") {
                         router.push("/workout-folders")
                     }
@@ -160,6 +160,58 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
         setNewFolderName(e.target.value)
     }
 
+    const handleAddMoreExercisesToFolder = async (newExercises: string[]) => {
+        if (!newExercises.length) {
+            toast({
+                status: "warning",
+                description: "No exercises selected",
+                position: "top",
+                isClosable: true
+            })
+            setIsSubmitting(false)
+            return
+        }
+        setIsSubmitting(true)
+        try {
+            const res = await workoutFolderService.put(folder.folderId, undefined, newExercises)
+            const { data } = await res.json()
+            if (res.status === 200) {
+                // @ts-ignore
+                setFolderExercises(folderExercises.concat(data))
+                toast({
+                    status: "success",
+                    description: "Folder updated successfully",
+                    position: "top",
+                    isClosable: true
+                })
+            } else {
+                toast({
+                    status: "error",
+                    description: data,
+                    position: "top",
+                    isClosable: true
+                })
+            }
+        } catch (e) {
+            toast({
+                status: "error",
+                title: "Something unexpected happened",
+                description: "Refresh the page and try again",
+                position: "top",
+            })
+        }
+        setIsSubmitting(false)
+        setAddNewExercisesOpen(false)
+    }
+
+    const onAddNewExercisesOpen = () => {
+        setAddNewExercisesOpen(true)
+    }
+
+    const onAddNewExercisesClose = () => {
+        setAddNewExercisesOpen(false)
+    }
+
     return folderExercises === null ? (
         <LoadingSpinner />
     ) : (
@@ -175,11 +227,16 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
                     <Heading>{folder.folderName}</Heading>
                     :
                     <FolderHeading
+                        onAddNewExercisesClose={onAddNewExercisesClose}
+                        onAddNewExercisesOpen={onAddNewExercisesOpen}
+                        handleAddNewExercises={handleAddMoreExercisesToFolder}
+                        addNewExercisesOpen={addNewExercisesOpen}
                         currentFolderExercises={folderExercises}
                         exercises={exercises}
                         handleDelete={handleFolderDelete}
                         folder={folder}
                         onEditFolderNameOpen={onEditFolderNameOpen}
+                        isSubmitting={isSubmitting}
                     />}
                     {/* This modal is for deleting exercises
                         modal for deleting folder is inside FolderHeading */}
