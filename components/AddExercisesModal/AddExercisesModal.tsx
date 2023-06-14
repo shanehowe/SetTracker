@@ -20,9 +20,18 @@ interface AddExercisesModalProps {
     exercises: Exercise[]
     isOpen: boolean
     onClose: () => void
+    handleAddNewExercises: (newExercises: string[]) => void
+    isSubmitting: boolean
 }
 
-export function AddExercisesModal({ isOpen, onClose, exercises, currentFolderExercises }: AddExercisesModalProps) {
+export function AddExercisesModal({
+    isOpen,
+    onClose,
+    exercises,
+    currentFolderExercises,
+    handleAddNewExercises,
+    isSubmitting
+}: AddExercisesModalProps) {
     const [searchFilter, setSearchFilter] = useState("")
     // originalExercises is needed to handle searching for exercises
     // if its not there then the search results will include exercises
@@ -64,6 +73,10 @@ export function AddExercisesModal({ isOpen, onClose, exercises, currentFolderExe
         }
     }
 
+    const handleConfirmClick = () => {
+        handleAddNewExercises(exercisesToAdd)
+    }
+
     return (
         <Modal
             isOpen={isOpen}
@@ -93,7 +106,14 @@ export function AddExercisesModal({ isOpen, onClose, exercises, currentFolderExe
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onClose}>Cancel</Button>
-                        <Button ml={3}>Confirm</Button>
+                        <Button
+                            ml={3}
+                            onClick={handleConfirmClick}
+                            isLoading={isSubmitting}
+                            loadingText="Working on it"
+                        >
+                            Confirm
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </ModalOverlay>
