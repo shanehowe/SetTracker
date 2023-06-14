@@ -36,10 +36,8 @@ const deleteExerciseFromFolder = async (id: number, exercise: string) => {
     return res
 }
 
-// Need to change this to accept array of exercises
-// to send the API to add them to folder being updated.
-const put = async (id: number, newFolderName: string) => {
-    const payload = JSON.stringify({ newFolderName })
+const put = async (id: number, newFolderName?: string, newExercises?: string[]) => {
+    const payload = JSON.stringify({ newFolderName, newExercises })
     const res = await fetch(`${url}/${id}`, {
         method: "PUT",
         body: payload
