@@ -13,7 +13,7 @@ export default function FolderExerciseItem({ exercise, handleDeleteIconClick }: 
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                w={250}
+                w={280}
                 fontSize={18}
             >
                 <ListIcon
