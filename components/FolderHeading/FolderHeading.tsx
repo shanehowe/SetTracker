@@ -23,6 +23,11 @@ interface FolderHeadingProps {
     },
     handleDelete: () => void
     onEditFolderNameOpen: () => void
+    handleAddNewExercises: (newExercises: string[]) => void
+    addNewExercisesOpen: boolean
+    onAddNewExercisesClose: () => void
+    onAddNewExercisesOpen: () => void
+    isSubmitting: boolean
 }
 
 export default function FolderHeading({
@@ -30,11 +35,15 @@ export default function FolderHeading({
     folder,
     handleDelete,
     onEditFolderNameOpen,
-    currentFolderExercises
+    currentFolderExercises,
+    handleAddNewExercises,
+    addNewExercisesOpen,
+    onAddNewExercisesClose,
+    onAddNewExercisesOpen,
+    isSubmitting
 }: FolderHeadingProps) {
 
     const deleteFolderDisclosure = useDisclosure()
-    const addExercisesDisclosure = useDisclosure()
 
     return (
         <Flex dir="row" alignItems={"center"}>
@@ -66,7 +75,7 @@ export default function FolderHeading({
                                 Edit folder name
                             </MenuItem>
                             <MenuItem
-                                onClick={addExercisesDisclosure.onOpen}
+                                onClick={onAddNewExercisesOpen}
                                 icon={<Icon as={BiPlus} />}
                             >
                                 Add exercises
@@ -89,10 +98,12 @@ export default function FolderHeading({
                         additionalInfo="You will be redirected back to your workout folders"
                     />
                     <AddExercisesModal
+                        handleAddNewExercises={handleAddNewExercises}
                         currentFolderExercises={currentFolderExercises}
-                        onClose={addExercisesDisclosure.onClose}
-                        isOpen={addExercisesDisclosure.isOpen}
+                        onClose={onAddNewExercisesClose}
+                        isOpen={addNewExercisesOpen}
                         exercises={exercises}
+                        isSubmitting={isSubmitting}
                     />
                 </Flex>
     )
