@@ -100,10 +100,11 @@ export async function DELETE(request: NextRequest, { params }: {params: {id: str
 }
 
 type PutBody = {
-    newFolderName: string
+    newFolderName?: string
+    newExercises?: string[]
 }
 
-export async function PUT(request: NextRequest, { params }: {params: {id: string}}) {
+export async function PUT(request: NextRequest, { params }: { params: { id: string }}) {
     const token = await getToken({ req: request })
 
     if (!token) {
@@ -123,26 +124,7 @@ export async function PUT(request: NextRequest, { params }: {params: {id: string
 
     try {
         const body: PutBody = await request.json()
-        const { newFolderName } = body
-
-        const possibleDuplicate = await prisma.workoutFolder.findFirst({
-            where: {
-                userId: userId,
-                folderName: newFolderName
-            }
-        })
-
-        if (possibleDuplicate) {
-            return NextResponse.json({
-                data: `${newFolderName} already exists`
-            }, {status: 400})
-        }
-
-        if (!newFolderName) {
-            return NextResponse.json({
-                data: "New folder name missing from request."
-            }, {status: 400})
-        }
+        const { newFolderName, newExercises } = body
 
         const folderForUpdate = await prisma.workoutFolder.findFirst({
             where: {
@@ -156,28 +138,64 @@ export async function PUT(request: NextRequest, { params }: {params: {id: string
                 data: "Only the owner of this folder may update it"
             }, {status: 400})
         }
+        
+        if (newFolderName) {
+            const possibleDuplicate = await prisma.workoutFolder.findFirst({
+                where: {
+                    userId: userId,
+                    folderName: newFolderName
+                }
+            })
 
-        const updatedFolder = await prisma.workoutFolder.update({
-            where: {
-                id: folderId
-            },
-            data: {
-                folderName: newFolderName
+            if (possibleDuplicate) {
+                return NextResponse.json({
+                    data: `${newFolderName} already exists`
+                }, {status: 400})
             }
-        })
 
-        if (!updatedFolder) {
+            const updatedFolder = await prisma.workoutFolder.update({
+                where: {
+                    id: folderId
+                },
+                data: {
+                    folderName: newFolderName
+                }
+            })
+
+            if (!updatedFolder) {
+                return NextResponse.json({
+                    data: "Folder has not been updated"
+                }, {status: 400})
+            }
+    
             return NextResponse.json({
-                data: "Folder has not been updated"
-            }, {status: 400})
+                data: {
+                    newFolderName: updatedFolder.folderName
+                }
+            }, {status: 200})
+
+        } else if (newExercises) {
+            const exercisesToAdd = newExercises.map((exercise) => {
+                return {
+                    folderId,
+                    exercise
+                }
+            })
+
+            const addedExercises = await prisma.$transaction(
+                exercisesToAdd.map((exercise) => prisma.folderExercise.create({
+                    data: exercise
+                }))
+            )
+
+            return NextResponse.json({
+                data: addedExercises
+            }, { status: 200 })
+        } else {
+            return NextResponse.json({
+                data: "Missing info, expected either a new folder name or new exercies"
+            }, { status: 400 })
         }
-
-        return NextResponse.json({
-            data: {
-                newFolderName: updatedFolder.folderName
-            }
-        }, {status: 200})
-
     } catch(e) {
         return NextResponse.json({}, {status: 500})
     }
