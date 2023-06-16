@@ -1,3 +1,4 @@
+import ALlExercises from "@/components/AllExercises/AllExercises"
 import FolderExercisesPage from "@/components/FolderExercisesPage/FolderExercisesPage"
 
 interface PageProps {
@@ -19,6 +20,6 @@ export default async function Page({ params }: PageProps) {
                     exercises={exercises.data} 
                 />
     } else {
-        return <h1>Not implemented yet</h1>
+        return <ALlExercises exercises={exercises.data} />
     }
 }
