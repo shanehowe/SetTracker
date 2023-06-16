@@ -1,6 +1,6 @@
 "use client"
 
-import { Flex, Heading, Input, List, ListIcon, ListItem, Text } from "@chakra-ui/react";
+import { Flex, Heading, Input, List, ListIcon, ListItem } from "@chakra-ui/react";
 import { Exercise } from "@prisma/client";
 import { useState } from "react";
 import { CgChevronRight, CgGym } from "react-icons/cg";
@@ -15,6 +15,12 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value)
     }
+
+    const filteredData = search
+    ? exercises.filter((exercise) =>
+        exercise.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : exercises;
 
     return (
         <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
@@ -34,7 +40,7 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                 alignItems="center"
                 mt={10}
             >
-                {exercises.map((exercise) => {
+                {filteredData.map((exercise) => {
                     return (
                         <ListItem
                             key={exercise.id}
