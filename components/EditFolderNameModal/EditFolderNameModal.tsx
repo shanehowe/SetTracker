@@ -47,7 +47,7 @@ export function EditFolderNameModal({
                         />
                     </ModalBody>
                     <ModalFooter>
-                    <Button
+                        <Button
                             disabled={isSubmitting}
                             leftIcon={<Icon as={BiX} />}
                             onClick={onClose}

@@ -16,9 +16,9 @@ export default async function Page({ params }: PageProps) {
 
     if (maybeFolderId) {
         return <FolderExercisesPage
-                    folderId={parseInt(folderParam)}
-                    exercises={exercises.data} 
-                />
+            folderId={parseInt(folderParam)}
+            exercises={exercises.data} 
+        />
     } else {
         return <ALlExercises exercises={exercises.data} />
     }

@@ -32,21 +32,21 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
     const toast = useToast()
 
     useEffect(() => {
-            workoutFolderService
-                .getOne(folderId)
-                .then(res => res.json())
-                .then(res => {
-                    if (res.data === "Requested folder does not exist") {
-                        router.push("/workout-folders")
-                    }
-                    setFolder({
-                        folderName: res.data.folderName,
-                        folderId: res.data.folderId
-                    })
-                    setFolderExercises(res.data.folderExercises)
+        workoutFolderService
+            .getOne(folderId)
+            .then(res => res.json())
+            .then(res => {
+                if (res.data === "Requested folder does not exist") {
+                    router.push("/workout-folders")
+                }
+                setFolder({
+                    folderName: res.data.folderName,
+                    folderId: res.data.folderId
                 })
-                .catch(err => console.error(err))
-    },[folderId])
+                setFolderExercises(res.data.folderExercises)
+            })
+            .catch(err => console.error(err))
+    },[folderId, router])
 
     const onEditFolderNameClose = () => {
         setEditFolderNameOpen(false)
@@ -217,38 +217,38 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
     ) : (
         <section>
             <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
-                    <FolderHeading
-                        onAddNewExercisesClose={onAddNewExercisesClose}
-                        onAddNewExercisesOpen={onAddNewExercisesOpen}
-                        handleAddNewExercises={handleAddMoreExercisesToFolder}
-                        addNewExercisesOpen={addNewExercisesOpen}
-                        currentFolderExercises={folderExercises}
-                        exercises={exercises}
-                        handleDelete={handleFolderDelete}
-                        folder={folder}
-                        onEditFolderNameOpen={onEditFolderNameOpen}
-                        isSubmitting={isSubmitting}
-                    />
-                    {/* This modal is for deleting exercises
+                <FolderHeading
+                    onAddNewExercisesClose={onAddNewExercisesClose}
+                    onAddNewExercisesOpen={onAddNewExercisesOpen}
+                    handleAddNewExercises={handleAddMoreExercisesToFolder}
+                    addNewExercisesOpen={addNewExercisesOpen}
+                    currentFolderExercises={folderExercises}
+                    exercises={exercises}
+                    handleDelete={handleFolderDelete}
+                    folder={folder}
+                    onEditFolderNameOpen={onEditFolderNameOpen}
+                    isSubmitting={isSubmitting}
+                />
+                {/* This modal is for deleting exercises
                         modal for deleting folder is inside FolderHeading */}
-                    <DeleteModal
-                        onClose={onClose}
-                        isOpen={isOpen}
-                        handleDelete={handleExerciseDelete}
-                        folderId={folder.folderId}
-                        additionalInfo={""}
-                    />
-                    <EditFolderNameModal
-                        isOpen={editFolderNameOpen}
-                        onClose={onEditFolderNameClose}
-                        handleInputChange={handleFolderRenameInputChange}
-                        handleSubmit={handleFolderRename}
-                        isSubmitting={isSubmitting}
-                    />
-                    <FolderExercises
-                        folderExercises={folderExercises}
-                        handleDeleteIconClick={handleDeleteIconClick}
-                    />
+                <DeleteModal
+                    onClose={onClose}
+                    isOpen={isOpen}
+                    handleDelete={handleExerciseDelete}
+                    folderId={folder.folderId}
+                    additionalInfo={""}
+                />
+                <EditFolderNameModal
+                    isOpen={editFolderNameOpen}
+                    onClose={onEditFolderNameClose}
+                    handleInputChange={handleFolderRenameInputChange}
+                    handleSubmit={handleFolderRename}
+                    isSubmitting={isSubmitting}
+                />
+                <FolderExercises
+                    folderExercises={folderExercises}
+                    handleDeleteIconClick={handleDeleteIconClick}
+                />
             </Flex>
         </section>
     )

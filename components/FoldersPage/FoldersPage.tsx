@@ -123,55 +123,55 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
     }
 
     return (
-            <section className={styles.section}>
-                <h3 className={styles.heading} >Your workout folders.</h3>
-                <Button
-                    onClick={openModal}
-                    variant="solid"
-                    margin={10}
-                    leftIcon={<Icon as={FiPlus} />}
-                >
+        <section className={styles.section}>
+            <h3 className={styles.heading} >Your workout folders.</h3>
+            <Button
+                onClick={openModal}
+                variant="solid"
+                margin={10}
+                leftIcon={<Icon as={FiPlus} />}
+            >
                 New Folder
-                </Button>
-                <AddFolderModal
-                    isOpen={modalVisible}
-                    folderName={newFolderName}
-                    onClose={hideModal}
-                    handleInputChange={handleInputChange}
-                    handleCreateFolder={addNewFolder}
-                    isSubmitting={isSubmitting}
-                    exercises={exercises}
+            </Button>
+            <AddFolderModal
+                isOpen={modalVisible}
+                folderName={newFolderName}
+                onClose={hideModal}
+                handleInputChange={handleInputChange}
+                handleCreateFolder={addNewFolder}
+                isSubmitting={isSubmitting}
+                exercises={exercises}
                     
-                />
-                <List
-                    spacing={4} 
-                    w="80%"
+            />
+            <List
+                spacing={4} 
+                w="80%"
+                display="flex"
+                justifyContent="center"
+                flexDirection="column"
+                alignItems="center"
+            >
+                <ListItem
                     display="flex"
-                    justifyContent="center"
-                    flexDirection="column"
+                    justifyContent="space-between"
                     alignItems="center"
+                    w={250}
+                    cursor="pointer"
+                    fontSize={18}
                 >
-                    <ListItem
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        w={250}
-                        cursor="pointer"
-                        fontSize={18}
+                    <ListIcon as={FiFolder}/>
+                    <Link
+                        href={{
+                            pathname: "/workout-folders/All Exercises",
+                        }}
                     >
-                        <ListIcon as={FiFolder}/>
-                        <Link
-                            href={{
-                                pathname: "/workout-folders/All Exercises",
-                            }}
-                        >
                             All Exercises
-                        </Link>
-                        <ListIcon as={FiChevronRight}/>
-                    </ListItem>
-                    <Divider />
-                    <WorkoutFolders exerciseFolders={folders}/>
-                </List>
-            </section>
-        )
+                    </Link>
+                    <ListIcon as={FiChevronRight}/>
+                </ListItem>
+                <Divider />
+                <WorkoutFolders exerciseFolders={folders}/>
+            </List>
+        </section>
+    )
 }

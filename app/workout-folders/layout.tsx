@@ -13,10 +13,10 @@ export default async function AuthLayout({
     }
     return (
         <>
-                {/* @ts-ignore */}
-                <Providers>
-                    {children}
-                </Providers>
+            {/* @ts-ignore */}
+            <Providers>
+                {children}
+            </Providers>
         </>
     );
 }

@@ -1,9 +1,9 @@
 import FoldersPage from "@/components/FoldersPage/FoldersPage"
-import { Metadata } from 'next'
+import { Metadata } from "next"
  
 export const metadata: Metadata = {
-  title: "SetTracker | Folders",
-  description: "Access your workout folders",
+    title: "SetTracker | Folders",
+    description: "Access your workout folders",
 }
 
 export default async function Page() {
