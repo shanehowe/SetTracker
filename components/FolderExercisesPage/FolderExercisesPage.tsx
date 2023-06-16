@@ -217,15 +217,6 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
     ) : (
         <section>
             <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
-                    {folder.folderName === "All Exercises" ?
-                    /*
-                        when all exercises is the folder name
-                        we need to render completely different UI.
-                        For now its ok until we complete UI for when it
-                        is not all exercises
-                    */
-                    <Heading>{folder.folderName}</Heading>
-                    :
                     <FolderHeading
                         onAddNewExercisesClose={onAddNewExercisesClose}
                         onAddNewExercisesOpen={onAddNewExercisesOpen}
@@ -237,7 +228,7 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
                         folder={folder}
                         onEditFolderNameOpen={onEditFolderNameOpen}
                         isSubmitting={isSubmitting}
-                    />}
+                    />
                     {/* This modal is for deleting exercises
                         modal for deleting folder is inside FolderHeading */}
                     <DeleteModal
