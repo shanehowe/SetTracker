@@ -1,6 +1,6 @@
 "use client"
 
-import { Flex, Heading, Input, List, ListIcon, ListItem } from "@chakra-ui/react";
+import { Flex, Heading, Input, Link, List, ListIcon, ListItem } from "@chakra-ui/react";
 import { Exercise } from "@prisma/client";
 import { useState } from "react";
 import { CgChevronRight, CgGym } from "react-icons/cg";
@@ -51,8 +51,13 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                             fontSize={18}
                         >
                             <ListIcon as={CgGym} />
+                            <Link href={`http://localhost:3000/sets/${exercise.name}`}>
                             {exercise.name}
+                            </Link>
+
+                            <Link href={`http://localhost:3000/sets/${exercise.name}`}>
                             <ListIcon as={CgChevronRight} />
+                            </Link>
                         </ListItem>
                     )
                 })}
