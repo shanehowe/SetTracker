@@ -12,7 +12,7 @@ export const authOptions: AuthOptions = NextAuth({
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id
+                token.id = parseInt(user.id)
                 // @ts-ignore
                 token.username = user.username
             }
