@@ -1,6 +1,9 @@
-import FoldersPage from "@/components/FoldersPage/FoldersPage"
+// import FoldersPage from "@/components/FoldersPage/FoldersPage"
 import { Metadata } from "next"
- 
+import dynamic from "next/dynamic"
+
+const FoldersPage = dynamic(() => import("../../components/FoldersPage/FoldersPage"))
+
 export const metadata: Metadata = {
     title: "SetTracker | Folders",
     description: "Access your workout folders",

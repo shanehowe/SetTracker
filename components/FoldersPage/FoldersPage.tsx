@@ -12,15 +12,16 @@ import {
     useToast,
 } from "@chakra-ui/react"
 import { Link } from "@chakra-ui/next-js"
+import dynamic from "next/dynamic"
+// import AddFolderModal from "@/components/AddFolderModal"
 
-import AddFolderModal from "@/components/AddFolderModal"
-
-import styles from "./styles.module.css"
-
-import WorkoutFolders from "@/components/WorkoutFolders/WorkoutFolders"
+// import WorkoutFolders from "@/components/WorkoutFolders/WorkoutFolders"
+const WorkoutFolders = dynamic(() => import("../WorkoutFolders/WorkoutFolders"))
+const AddFolderModal = dynamic(() => import("../AddFolderModal"))
 
 import { workoutFolderHelper } from "@/lib/workoutFolders"
 import { workoutFolderService } from "@/services/workoutFolders"
+import styles from "./styles.module.css"
 
 export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
     const [folders, setFolders] = useState<ExerciseFolder[]>([])

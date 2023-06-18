@@ -1,5 +1,9 @@
-import ALlExercises from "@/components/AllExercises/AllExercises"
-import FolderExercisesPage from "@/components/FolderExercisesPage/FolderExercisesPage"
+// import ALlExercises from "@/components/AllExercises/AllExercises"
+// import FolderExercisesPage from "@/components/FolderExercisesPage/FolderExercisesPage"
+import dynamic from "next/dynamic"
+
+const ALlExercises = dynamic(() => import("@/components/AllExercises/AllExercises"))
+const FolderExercisesPage = dynamic(() => import("@/components/FolderExercisesPage/FolderExercisesPage"))
 
 interface PageProps {
     params: {

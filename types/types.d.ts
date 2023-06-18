@@ -19,4 +19,11 @@ type Folder = {
     folderId: number
 }
 
+type WeightSet = {
+    weight: number
+    exercise: string
+    reps: number
+    createdAt?: Date
+}
+
 type NotificationStatus =  "info" | "warning" | "success" | "error" | "loading" | undefined

@@ -1,4 +1,4 @@
-import { Divider, ListIcon, ListItem, Text } from "@chakra-ui/react"
+import { Divider, Link, ListIcon, ListItem, Text } from "@chakra-ui/react"
 import { BiXCircle, BiChevronRight } from "react-icons/bi"
 
 interface FolderExerciseItemProps {
@@ -23,8 +23,13 @@ export default function FolderExerciseItem({ exercise, handleDeleteIconClick }: 
                         handleDeleteIconClick(exercise)
                     }}
                 />
+                <Link href={`http://localhost:3000/sets/${exercise}`}>
                 <Text>{exercise}</Text>
+                </Link>
+
+                <Link href={`http://localhost:3000/sets/${exercise}`}>
                 <ListIcon as={BiChevronRight} />
+                </Link>
             </ListItem>
             <Divider />
         </>
