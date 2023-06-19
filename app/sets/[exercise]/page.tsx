@@ -1,9 +1,13 @@
 "use client"
 import {
     Button,
+    Container,
+    Divider,
     Flex,
     Heading,
     Icon,
+    List,
+    ListItem,
     NumberDecrementStepper,
     NumberIncrementStepper,
     NumberInput,
@@ -22,6 +26,7 @@ import { FiPlus } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { setsService } from "@/services/sets";
 import { Set } from "@prisma/client";
+import { ExerciseSet } from "@/components/ExerciseSet/ExerciseSet";
 
 interface PageProps {
     params: {
@@ -31,7 +36,7 @@ interface PageProps {
 
 interface GroupedSets {
     [date: string]: Set[];
-  }
+}
 
 export default function Page({ params }: PageProps) {
     const exercise = decodeURIComponent(params.exercise)
@@ -51,7 +56,7 @@ export default function Page({ params }: PageProps) {
             .catch((e) => console.log(e))
     }, [exercise])
 
-    console.log(allSets)
+    console.log(allSets, typeof allSets)
 
     const handleNewSet = async (weightSet: WeightSet) => {
         if (weightSet.reps <= 0 || weightSet.weight <= 0) {
@@ -65,53 +70,28 @@ export default function Page({ params }: PageProps) {
                 {exercise}
             </Heading>
 
-            <Flex alignItems={"center"}>
-                <Text fontWeight={"bold"}>KG:</Text>
-                <NumberInput
-                    size={"sm"}
-                    maxW={100}
-                    step={0.25}
-                    min={1}
-                    onChange={(val) => {
-                        setSet({
-                            ...set,
-                            weight: parseFloat(val)
-                        })
-                    }}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-
-                <Text fontWeight={"bold"} ml={2}>Reps: </Text>
-                <NumberInput
-                    size={"sm"}
-                    maxW={20}
-                    onChange={(val) => {
-                        setSet({
-                            ...set,
-                            reps: parseInt(val)
-                        })
-                    }}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-            </Flex>
             <Button
                 mt={3}
-                size={"sm"}
+                size={"md"}
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={() => handleNewSet(set)}
             >
                 New Set
             </Button>
+
+            <List w={300} spacing={3}>
+            {Object.keys(allSets).map((key) => {
+                console.log(key)
+                return (
+                    <>
+                        <ListItem>
+                            <ExerciseSet />
+                        </ListItem>
+                        <Divider />
+                    </>
+                )
+            })}
+            </List>
         </Flex>
     )
 }
