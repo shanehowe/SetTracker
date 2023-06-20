@@ -1,26 +1,12 @@
 "use client"
 import {
     Button,
-    Container,
     Divider,
     Flex,
     Heading,
     Icon,
     List,
     ListItem,
-    NumberDecrementStepper,
-    NumberIncrementStepper,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Text,
-    Th,
-    Thead,
-    Tr
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 import { useEffect, useState } from "react";
@@ -35,8 +21,9 @@ interface PageProps {
 }
 
 interface GroupedSets {
-    [date: string]: Set[];
-}
+    date: string;
+    sets: Set[] | unknown;
+  }
 
 export default function Page({ params }: PageProps) {
     const exercise = decodeURIComponent(params.exercise)
@@ -52,11 +39,15 @@ export default function Page({ params }: PageProps) {
         setsService
             .getAll(exercise)
             .then(res => res.json())
-            .then(res => setAllSets(res.data))
+            .then(res => {
+                const state: GroupedSets[] = []
+                for (const [key, value] of Object.entries(res.data)) {
+                    state.push({ date: key, sets: value })
+                }
+                setAllSets(state)
+            })
             .catch((e) => console.log(e))
     }, [exercise])
-
-    console.log(allSets, typeof allSets)
 
     const handleNewSet = async (weightSet: WeightSet) => {
         if (weightSet.reps <= 0 || weightSet.weight <= 0) {
@@ -72,6 +63,7 @@ export default function Page({ params }: PageProps) {
 
             <Button
                 mt={3}
+                mb={10}
                 size={"md"}
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={() => handleNewSet(set)}
@@ -80,8 +72,7 @@ export default function Page({ params }: PageProps) {
             </Button>
 
             <List w={300} spacing={3}>
-            {Object.keys(allSets).map((key) => {
-                console.log(key)
+            {allSets.map((set) => {
                 return (
                     <>
                         <ListItem>
