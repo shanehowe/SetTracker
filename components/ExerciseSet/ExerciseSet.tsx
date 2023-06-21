@@ -1,5 +1,6 @@
 import {
     Container,
+    Divider,
     Flex,
     Icon,
     IconButton,
@@ -15,10 +16,16 @@ import {
     NumberInputStepper,
     Text
 } from "@chakra-ui/react";
+import { Set } from "@prisma/client";
 import { useState } from "react";
 import { FiCheck, FiEdit, FiEdit3, FiTrash, FiX } from "react-icons/fi";
 
-export function ExerciseSet({}) {
+interface ExerciseSetProps {
+    set: Set
+    handleDeleteIconClick: (userId: number, createdAt: string | Date) => void
+}
+
+export function ExerciseSet({ set, handleDeleteIconClick }: ExerciseSetProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [KgValue, setKgValue] = useState("10")
     const [repsValue, setRepsValue] = useState("10")
@@ -30,8 +37,8 @@ export function ExerciseSet({}) {
     const parseReps = (val: string) => val.replace(" R", "")
 
     return (
-        <Container width={isEditing ? 900 : ""}>
-            <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <>
+            <Flex w={isEditing ? 350 : 300} alignItems={"center"} justifyContent={"space-between"}>
                 {!isEditing && 
                 <Menu>
                     <MenuButton
@@ -50,6 +57,7 @@ export function ExerciseSet({}) {
                         <MenuItem
                             icon={<Icon as={FiTrash} />}
                             color={"red.500"}
+                            onClick={() => handleDeleteIconClick(set.userId, set.createdAt)}
                         >
                             Delete
                         </MenuItem>
@@ -60,11 +68,10 @@ export function ExerciseSet({}) {
                 <>
                 <NumberInput
                     size='sm'
-                    maxW={105}
-                    ml={3}
+                    maxW={110}
                     mr={3}
-                    defaultValue={15}
-                    min={10}
+                    defaultValue={set.weight}
+                    min={0}
                     step={0.25}
                     onChange={(kg) => setKgValue(parseKg(kg))}
                     value={formatKg(KgValue)}
@@ -79,8 +86,8 @@ export function ExerciseSet({}) {
                 <NumberInput
                     size='sm'
                     maxW={85}
-                    defaultValue={15}
-                    min={10}
+                    defaultValue={set.reps}
+                    min={1}
                     onChange={(reps) => setRepsValue(parseReps(reps))}
                     value={formatReps(repsValue)}
                 >
@@ -91,18 +98,18 @@ export function ExerciseSet({}) {
                     </NumberInputStepper>
                 </NumberInput>
 
-                <Container>
                 <IconButton as={FiCheck} aria-label={""} size={"sm"} mr={3}/>
                 <IconButton as={FiX} aria-label={""} size={"sm"} onClick={() => setIsEditing(false)}/>
-                </Container>
                 
                 </>
                 : 
                 <>
-                <Text fontSize={19}>{10}{" "}Kg</Text>
-                <Text fontSize={19}>{10}{" "}Reps</Text>
+                <Text fontSize={19}>{set.weight}{" "}Kg</Text>
+                <Text fontSize={19}>{set.reps}{" "}Reps</Text>
                 </>}
+                
             </Flex>
-        </Container>
+            <Divider />
+        </>
     )
 }
