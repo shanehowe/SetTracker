@@ -1,18 +1,16 @@
 "use client"
 import {
     Button,
-    Divider,
     Flex,
     Heading,
     Icon,
-    List,
-    ListItem,
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { setsService } from "@/services/sets";
 import { Set } from "@prisma/client";
-import { ExerciseSet } from "@/components/ExerciseSet/ExerciseSet";
+import { SetGroup } from "@/components/SetGroup/SetGroup";
+import DeleteModal from "@/components/DeleteModal/DeleteModal";
 
 interface PageProps {
     params: {
@@ -22,8 +20,8 @@ interface PageProps {
 
 interface GroupedSets {
     date: string;
-    sets: Set[] | unknown;
-  }
+    sets: Set[];
+}
 
 export default function Page({ params }: PageProps) {
     const exercise = decodeURIComponent(params.exercise)
@@ -34,6 +32,7 @@ export default function Page({ params }: PageProps) {
         createdAt: undefined
     })
     const [allSets, setAllSets] = useState<GroupedSets[]>([])
+    const [exerciseSetForDelete, setExerciseSetForDelete] = useState({})
 
     useEffect(() => {
         setsService
@@ -42,6 +41,7 @@ export default function Page({ params }: PageProps) {
             .then(res => {
                 const state: GroupedSets[] = []
                 for (const [key, value] of Object.entries(res.data)) {
+                    // @ts-ignore
                     state.push({ date: key, sets: value })
                 }
                 setAllSets(state)
@@ -55,6 +55,10 @@ export default function Page({ params }: PageProps) {
         }
     }
 
+    const handleDeleteIconClick = (userId: number, createdAt: string | Date) => {
+        setExerciseSetForDelete({ userId, createdAt })
+    }
+
     return (
         <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
             <Heading mb={3} as={"h1"} size={"lg"}>
@@ -63,7 +67,7 @@ export default function Page({ params }: PageProps) {
 
             <Button
                 mt={3}
-                mb={10}
+                mb={8}
                 size={"md"}
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={() => handleNewSet(set)}
@@ -71,18 +75,13 @@ export default function Page({ params }: PageProps) {
                 New Set
             </Button>
 
-            <List w={300} spacing={3}>
-            {allSets.map((set) => {
-                return (
-                    <>
-                        <ListItem>
-                            <ExerciseSet />
-                        </ListItem>
-                        <Divider />
-                    </>
-                )
+            {allSets.map(setObj => {
+                return <SetGroup
+                            date={setObj.date}
+                            sets={setObj.sets}
+                            handleDeleteIconClick={handleDeleteIconClick}
+                        />
             })}
-            </List>
         </Flex>
     )
 }
