@@ -9,6 +9,10 @@ interface SetGroupProps {
 }
 
 export function SetGroup({ date, sets, handleDeleteIconClick }: SetGroupProps) {
+    if (!sets.length) {
+        return null
+    }
+    
     return (
         <>
             <Flex justifyContent={"flex-start"} w={"30%"} mt={5} mb={2}>
@@ -25,6 +29,7 @@ export function SetGroup({ date, sets, handleDeleteIconClick }: SetGroupProps) {
             >
                 {sets.map((set) => {
                     return <ExerciseSet
+                                key={set.createdAt.toString()}
                                 set={set}
                                 handleDeleteIconClick={handleDeleteIconClick}
                             />
