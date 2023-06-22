@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import { BiTrash, BiUndo } from "react-icons/bi";
 
 interface DeleteModalProps {
-    folderId: number
     isOpen: boolean
     additionalInfo: string
     onClose: () => void
