@@ -19,7 +19,16 @@ const post = async (set: WeightSet) => {
     return res
 }
 
+const remove = async (exercise: string, userId: number, createdAt: Date | string) => {
+
+    const res = await fetch(`${url}/${exercise}?userId=${userId}&createdAt=${createdAt}`, {
+        method: "DELETE",
+    })
+    return res
+}
+
 export const setsService = {
     getAll,
-    post
+    post,
+    remove
 }
