@@ -23,13 +23,15 @@ import { FiEdit } from "@react-icons/all-files/Fi/FiEdit";
 import { FiEdit3 } from "@react-icons/all-files/Fi/FiEdit3";
 import { FiTrash } from "@react-icons/all-files/Fi/FiTrash";
 import { FiX } from "@react-icons/all-files/Fi/FiX";
+import { WeightSet } from "@/types/types";
 
 interface ExerciseSetProps {
     set: Set
     handleDeleteIconClick: (userId: number, createdAt: string | Date) => void
+    handleUpdate: (set: WeightSet, callback: CallableFunction) => void
 }
 
-export function ExerciseSet({ set, handleDeleteIconClick }: ExerciseSetProps) {
+export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: ExerciseSetProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [KgValue, setKgValue] = useState(set.weight)
     const [repsValue, setRepsValue] = useState(set.reps)
@@ -39,6 +41,8 @@ export function ExerciseSet({ set, handleDeleteIconClick }: ExerciseSetProps) {
 
     const formatReps = (val: number) => val.toString() + " R"
     const parseReps = (val: string) => parseInt(val.replace(" R", ""))
+
+    const handleCallback = () => setIsEditing(false)
 
     return (
         <>
@@ -102,7 +106,20 @@ export function ExerciseSet({ set, handleDeleteIconClick }: ExerciseSetProps) {
                     </NumberInputStepper>
                 </NumberInput>
 
-                <IconButton as={FiCheck} aria-label={""} size={"sm"} mr={3}/>
+                <IconButton
+                    as={FiCheck}
+                    aria-label={""}
+                    size={"sm"}
+                    mr={3}
+                    onClick={() => {
+                        handleUpdate({
+                            exercise: set.exercise,
+                            createdAt: set.createdAt,
+                            weight: KgValue,
+                            reps: repsValue,
+                        }, handleCallback)
+                    }}
+                />
                 <IconButton as={FiX} aria-label={""} size={"sm"} onClick={() => setIsEditing(false)}/>
                 
                 </>

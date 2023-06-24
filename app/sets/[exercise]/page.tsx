@@ -15,6 +15,7 @@ import { SetGroup } from "@/components/SetGroup/SetGroup";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { AddSetModal } from "@/components/AddSetModal/AddSetModal";
 import { sortGroupedSetsByDate } from "@/lib/sets";
+import { GroupedSet, WeightSet } from "@/types/types";
 
 interface PageProps {
     params: {
@@ -79,7 +80,6 @@ export default function Page({ params }: PageProps) {
                 const newState = [{date: res.date, sets: [res.data]}, ...allSets]
                 sortGroupedSetsByDate(newState)
                 setAllSets(newState)
-                console.log("Yes")
             }
             
             toast({
@@ -164,6 +164,38 @@ export default function Page({ params }: PageProps) {
         }
     }
 
+    const handleUpdate = async (set: WeightSet, callback: CallableFunction) => {
+        if (allSets === null) return;
+
+        try {
+            const apiRes = await setsService.put(set)
+            const res = await apiRes.json()
+            if (apiRes.status !== 200) {
+                console.log(res)
+            } else {
+                const setData = allSets.filter((set) => set.date === res.date)[0]
+                const setForUpdateIndex = setData.sets.findIndex((set) => {
+                    return set.createdAt === res.data.createdAt
+                })
+
+                setData.sets[setForUpdateIndex] = res.data
+                const newAllSets = allSets.filter((set) => set.date !== res.date)
+                newAllSets.push(setData)
+                sortGroupedSetsByDate(newAllSets)
+                setAllSets([...newAllSets])
+                toast({
+                    status: "success",
+                    description: "Set updated successfully",
+                    position: "top",
+                    isClosable: true
+                })
+                callback(false)
+            }
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
     const renderSetsOrNoSets = () => {
         if (allSets === null) {
             return <Text>Fetching set history...</Text>
@@ -174,6 +206,7 @@ export default function Page({ params }: PageProps) {
                             date={setObj.date}
                             sets={setObj.sets}
                             handleDeleteIconClick={handleDeleteIconClick}
+                            handleUpdate={handleUpdate}
                         />
             })
         } else {

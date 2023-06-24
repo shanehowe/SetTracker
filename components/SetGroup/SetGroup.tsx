@@ -1,14 +1,16 @@
 import { Flex, List, Text } from "@chakra-ui/react"
 import { Set } from "@prisma/client"
 import { ExerciseSet } from "../ExerciseSet/ExerciseSet"
+import { WeightSet } from "@/types/types"
 
 interface SetGroupProps {
     date: string
     sets: Set[]
     handleDeleteIconClick: (userId: number, createdAt: string | Date) => void
+    handleUpdate: (set: WeightSet, callback: CallableFunction) => void
 }
 
-export function SetGroup({ date, sets, handleDeleteIconClick }: SetGroupProps) {
+export function SetGroup({ date, sets, handleDeleteIconClick, handleUpdate }: SetGroupProps) {
     if (!sets.length) {
         return null
     }
@@ -32,6 +34,7 @@ export function SetGroup({ date, sets, handleDeleteIconClick }: SetGroupProps) {
                                 key={set.createdAt.toString()}
                                 set={set}
                                 handleDeleteIconClick={handleDeleteIconClick}
+                                handleUpdate={handleUpdate}
                             />
                 })}
             </List>

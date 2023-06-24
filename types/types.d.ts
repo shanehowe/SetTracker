@@ -1,3 +1,5 @@
+import { Set } from "@prisma/client";
+
 type ExerciseFolder = {
     folderName: string;
     id: number;
@@ -27,8 +29,8 @@ type WeightSet = {
 }
 
 type GroupedSet = {
-    date: string;
-    sets: Set[];
+    date: string,
+    sets: Set[]
 }
 
 type NotificationStatus =  "info" | "warning" | "success" | "error" | "loading" | undefined

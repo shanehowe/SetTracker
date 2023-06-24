@@ -14,6 +14,8 @@ import {
 import { useEffect, useState } from "react";
 import { ExerciseCheckboxList } from "../ExerciseCheckBoxList/ExerciseCheckBoxList";
 import { FolderExercise } from "@prisma/client";
+import { FiCheck } from "@react-icons/all-files/Fi/FiCheck";
+import { FiX } from "@react-icons/all-files/Fi/FiX";
 
 interface AddExercisesModalProps {
     currentFolderExercises: FolderExercise[]
@@ -105,12 +107,17 @@ export function AddExercisesModal({
                         </Box>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button
+                            onClick={onClose} 
+                            leftIcon={<Icon as={FiX} />}
+                            >
+                                Cancel</Button>
                         <Button
                             ml={3}
                             onClick={handleConfirmClick}
                             isLoading={isSubmitting}
                             loadingText="Working on it"
+                            leftIcon={<Icon as={FiCheck} />}
                         >
                             Confirm
                         </Button>

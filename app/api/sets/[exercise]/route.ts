@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { sortGroupedSetsByDate } from "@/lib/sets";
+import { GroupedSet, WeightSet } from "@/types/types";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -152,5 +153,61 @@ export async function DELETE(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+    const token = await getToken({req: request})
+    if (!token) {
+        return NextResponse.json({
+            "data": "Unauthorized"
+        }, {status: 401})
+    }
 
+    const body: WeightSet = await request.json()
+
+    if (!(body.createdAt && body.exercise && body.reps && body.weight)) {
+        return NextResponse.json({
+            data: "Missing fields. createdAt or exercise or reps or weight"
+        }, { status: 400 })
+    }
+
+    try {
+        const setForUpdate = await prisma.set.findFirst({
+            where: {
+                createdAt: body.createdAt,
+                userId: token.id
+            }
+        })
+
+        if (!setForUpdate) {
+            return NextResponse.json({
+                data: "Requested set for update does not exist"
+            }, { status: 400 })
+        }
+
+        const updatedSet = await prisma.set.update({
+            where: {
+                userId_createdAt: {
+                    userId: token.id,
+                    createdAt: body.createdAt
+                }
+            },
+            data: {
+                ...body
+            }
+        })
+
+        if (!updatedSet) {
+            return NextResponse.json({
+                data: "Set was not updated. Refresh the page and try again"
+            }, { status: 400 })
+        }
+        const date = updatedSet.createdAt.toISOString().split("T")[0]
+
+        return NextResponse.json({
+            data: updatedSet,
+            date: date
+        }, { status: 200 })
+
+    } catch(e) {
+        console.error(e)
+        return NextResponse.json({}, { status: 500 })
+    }
 }

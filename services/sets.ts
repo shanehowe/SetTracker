@@ -1,3 +1,5 @@
+import { WeightSet } from "@/types/types"
+
 /*
 * This module will be responsible
 * for retrieving and updating sets
@@ -20,9 +22,17 @@ const post = async (set: WeightSet) => {
 }
 
 const remove = async (exercise: string, userId: number, createdAt: Date | string) => {
-
     const res = await fetch(`${url}/${exercise}?userId=${userId}&createdAt=${createdAt}`, {
         method: "DELETE",
+    })
+    return res
+}
+
+const put = async (set: WeightSet) => {
+    const payload = JSON.stringify(set)
+    const res = await fetch(`${url}/${set.exercise}`, {
+        method: "PUT",
+        body: payload
     })
     return res
 }
@@ -30,5 +40,6 @@ const remove = async (exercise: string, userId: number, createdAt: Date | string
 export const setsService = {
     getAll,
     post,
-    remove
+    remove,
+    put
 }
