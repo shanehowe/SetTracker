@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
+import { sortGroupedSetsByDate } from "@/lib/sets";
 import { getToken } from "next-auth/jwt";
-import { useSearchParams } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 type UrlParams = {
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest, { params }: UrlParams) {
             take: 150
         })
 
-        const groupedSets = sets.reduce((result: any, set) => {
+        const groupedSetsObj = sets.reduce((result: any, set) => {
             const date = set.createdAt.toISOString().split("T")[0]
             if (result[date]) {
                 result[date].push(set)
@@ -50,6 +50,14 @@ export async function GET(request: NextRequest, { params }: UrlParams) {
             }
             return result
         }, {})
+
+        const groupedSets: GroupedSet[] = []
+        for (const [key, value] of Object.entries(groupedSetsObj)) {
+            // @ts-ignore
+            groupedSets.push({ date: key, sets: value })
+        }
+
+        sortGroupedSetsByDate(groupedSets)
 
         return NextResponse.json({
             data: groupedSets
@@ -84,12 +92,14 @@ export async function POST(request: NextRequest) {
                 userId,
                 exercise: body.exercise,
                 reps: body.reps,
-                weight: body.weight
+                weight: body.weight,
+                createdAt: body.createdAt
             }
         })
 
         return NextResponse.json({
-            data: createdSet
+            data: createdSet,
+            date: createdSet.createdAt.toISOString().split("T")[0]
         }, { status: 200 })
 
     } catch (e) {
