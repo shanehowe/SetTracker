@@ -1,5 +1,6 @@
 import { Divider, Link, ListIcon, ListItem } from "@chakra-ui/react"
-import { FiChevronRight, FiFolder } from "react-icons/fi"
+import { FiChevronRight } from "@react-icons/all-files/fi/FiChevronRight";
+import { FiFolder } from "@react-icons/all-files/fi/FiFolder";
 
 interface WorkoutFolderProps {
     folder: ExerciseFolder

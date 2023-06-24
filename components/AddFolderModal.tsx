@@ -1,4 +1,3 @@
-import { getAllExercises } from "@/services/exercises";
 import { 
     Button,
     Input,
@@ -39,18 +38,10 @@ export default function AddFolderModal({
     isSubmitting
 }: AddFolderModalProps) {
     const [exercisesForFolder, setexercisesForFolder] = useState<string[]>([]);
-    // const [exercises, setExercises] = useState<Exercise[]>([])
 
     useEffect(() => {
         setexercisesForFolder([])
     }, [isOpen])
-
-    // useEffect(() => {
-    //     getAllExercises()
-    //         .then(res => res.json())
-    //         .then(r => setExercises(r.data))
-    //         .catch(e => console.error(e))
-    // }, [])
 
     const handleExerciseClick = (exercise: string): void => {
         if (exercisesForFolder.includes(exercise)) {

@@ -1,7 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { FiFolder, FiChevronRight, FiPlus } from "react-icons/fi"
+import { FiFolder } from "@react-icons/all-files/fi/FiFolder";
+import { FiChevronRight } from "@react-icons/all-files/fi/FiChevronRight";
+import { FiPlus } from "@react-icons/all-files/fi/FiPlus";
 import {
     List,
     ListItem,
@@ -13,9 +15,7 @@ import {
 } from "@chakra-ui/react"
 import { Link } from "@chakra-ui/next-js"
 import dynamic from "next/dynamic"
-// import AddFolderModal from "@/components/AddFolderModal"
 
-// import WorkoutFolders from "@/components/WorkoutFolders/WorkoutFolders"
 const WorkoutFolders = dynamic(() => import("../WorkoutFolders/WorkoutFolders"))
 const AddFolderModal = dynamic(() => import("../AddFolderModal"))
 

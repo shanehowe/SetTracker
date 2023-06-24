@@ -3,7 +3,8 @@
 import { Flex, Heading, Input, Link, List, ListIcon, ListItem } from "@chakra-ui/react";
 import { Exercise } from "@prisma/client";
 import { useState } from "react";
-import { CgChevronRight, CgGym } from "react-icons/cg";
+import { CgGym } from "@react-icons/all-files/cg/CgGym";
+import { CgChevronRight } from "@react-icons/all-files/cg/CgChevronRight";
 
 interface ALlExercisesProps {
     exercises: Exercise[]

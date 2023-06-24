@@ -10,7 +10,8 @@ import {
     ModalOverlay,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { BiTrash, BiUndo } from "react-icons/bi";
+import { BiUndo } from "@react-icons/all-files/bi/BiUndo";
+import { BiTrash } from "@react-icons/all-files/bi/BiTrash";
 
 interface DeleteModalProps {
     isOpen: boolean

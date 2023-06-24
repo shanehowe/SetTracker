@@ -4,25 +4,22 @@ import {
     Flex,
     Heading,
     Icon,
+    Text,
     useDisclosure,
     useToast,
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { setsService } from "@/services/sets";
-import { Set } from "@prisma/client";
 import { SetGroup } from "@/components/SetGroup/SetGroup";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
+import { AddSetModal } from "@/components/AddSetModal/AddSetModal";
+import { sortGroupedSetsByDate } from "@/lib/sets";
 
 interface PageProps {
     params: {
         exercise: string
     }
-}
-
-interface GroupedSets {
-    date: string;
-    sets: Set[];
 }
 
 type SetForDelete = {
@@ -32,45 +29,86 @@ type SetForDelete = {
 
 export default function Page({ params }: PageProps) {
     const exercise = decodeURIComponent(params.exercise)
-    const [set, setSet] = useState<WeightSet>({
-        exercise: exercise,
-        reps: 0,
-        weight: 0,
-        createdAt: undefined
-    })
-    const [allSets, setAllSets] = useState<GroupedSets[]>([])
+    const [allSets, setAllSets] = useState<GroupedSet[] | null>(null)
     const [exerciseSetForDelete, setExerciseSetForDelete] = useState<SetForDelete>({})
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [submitting, setSubmitting] = useState(false)
+    const deleteControls = useDisclosure()
+    const addSetControls = useDisclosure()
     const toast = useToast()
 
     useEffect(() => {
         setsService
             .getAll(exercise)
             .then(res => res.json())
-            .then(res => {
-                const state: GroupedSets[] = []
-                for (const [key, value] of Object.entries(res.data)) {
-                    // @ts-ignore
-                    state.push({ date: key, sets: value })
-                }
-                setAllSets(state)
-            })
+            .then(res => setAllSets(res.data))
             .catch((e) => console.log(e))
     }, [exercise])
 
     const handleNewSet = async (weightSet: WeightSet) => {
-        if (weightSet.reps <= 0 || weightSet.weight <= 0) {
+        if (weightSet.reps <= 0 || weightSet.weight <= 0 || allSets === null) {
             return
+        }
+
+        setSubmitting(true)
+        try {
+            const apiRes = await setsService.post(weightSet)
+            const res = await apiRes.json()
+            if (apiRes.status !== 200) {
+                toast({
+                    status: "error",
+                    description: res.data,
+                    isClosable: true,
+                    position: "top"
+                })
+                setSubmitting(false)
+                addSetControls.onClose()
+                return
+            }
+
+            let found = false
+            for (let i = 0; i < allSets.length; i++) {
+                if (allSets[i].date === res.date) {
+                    allSets[i].sets.unshift(res.data)
+                    setAllSets([...allSets])
+                    found = true
+                    break
+                }
+            }
+
+            if (!found) {
+                const newState = [{date: res.date, sets: [res.data]}, ...allSets]
+                sortGroupedSetsByDate(newState)
+                setAllSets(newState)
+                console.log("Yes")
+            }
+            
+            toast({
+                status: "success",
+                description: "New set added to history",
+                position: "top",
+                isClosable: true
+            })
+            addSetControls.onClose()
+            setSubmitting(false)
+        } catch (error) {
+            toast({
+                status: "error",
+                position: "top",
+                description: "Something unexpected happened. Refresh and try again"
+            })
+            addSetControls.onClose()
+            setSubmitting(false)
+            console.error(error)
         }
     }
 
     const handleDeleteIconClick = (userId: number, createdAt: string | Date) => {
         setExerciseSetForDelete({ userId, createdAt })
-        onOpen()
+        deleteControls.onOpen()
     }
 
     const handleDelete = async () => {
-        if (!exerciseSetForDelete.createdAt || !exerciseSetForDelete.userId) {
+        if (!exerciseSetForDelete.createdAt || !exerciseSetForDelete.userId || allSets === null) {
             return
         }
 
@@ -96,14 +134,22 @@ export default function Page({ params }: PageProps) {
                     cur.sets = cur.sets.filter((set) => {
                         return set.createdAt !== createdAt
                     })
-                    setAllSets([...allSets])
+
+                    if (cur.sets.length === 0) {
+                        const newAllSets = allSets.filter((setGroup) => {
+                            return setGroup.date !== cur.date
+                        })
+                        setAllSets(newAllSets)
+                    } else {
+                        setAllSets([...allSets])
+                    }
                     toast({
                         status: "success",
                         description: "Removed set from exercise history",
                         isClosable: true,
                         position: "top"
                     })
-                    onClose()
+                    deleteControls.onClose()
                     return
                 }
             }
@@ -118,6 +164,23 @@ export default function Page({ params }: PageProps) {
         }
     }
 
+    const renderSetsOrNoSets = () => {
+        if (allSets === null) {
+            return <Text>Fetching set history...</Text>
+        } else if (allSets.length) {
+            return allSets.map(setObj => {
+                return <SetGroup
+                            key={setObj.date.toString()}
+                            date={setObj.date}
+                            sets={setObj.sets}
+                            handleDeleteIconClick={handleDeleteIconClick}
+                        />
+            })
+        } else {
+            return <Text>No set hisory...</Text>
+        }
+    }
+
     return (
         <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
             <Heading mb={3} as={"h1"} size={"lg"}>
@@ -126,9 +189,17 @@ export default function Page({ params }: PageProps) {
 
             <DeleteModal
                 handleDelete={handleDelete}
-                isOpen={isOpen}
-                onClose={onClose}
+                isOpen={deleteControls.isOpen}
+                onClose={deleteControls.onClose}
                 additionalInfo=""
+            />
+
+            <AddSetModal
+                isOpen={addSetControls.isOpen}
+                onClose={addSetControls.onClose}
+                exercise={exercise}
+                handleNewSet={handleNewSet}
+                submitting={submitting}
             />
 
             <Button
@@ -136,19 +207,11 @@ export default function Page({ params }: PageProps) {
                 mb={8}
                 size={"md"}
                 leftIcon={<Icon as={FiPlus} />}
-                onClick={() => handleNewSet(set)}
+                onClick={addSetControls.onOpen}
             >
                 New Set
             </Button>
-
-            {allSets.map(setObj => {
-                return <SetGroup
-                            key={setObj.date.toString()}
-                            date={setObj.date}
-                            sets={setObj.sets}
-                            handleDeleteIconClick={handleDeleteIconClick}
-                        />
-            })}
+            {renderSetsOrNoSets()}
         </Flex>
     )
 }

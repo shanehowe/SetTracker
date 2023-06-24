@@ -235,7 +235,6 @@ export default function FolderExercisesPage({ exercises, folderId }: PageProps) 
                     onClose={onClose}
                     isOpen={isOpen}
                     handleDelete={handleExerciseDelete}
-                    folderId={folder.folderId}
                     additionalInfo={""}
                 />
                 <EditFolderNameModal

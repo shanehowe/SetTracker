@@ -9,7 +9,11 @@ import {
     Text,
     useDisclosure
 } from "@chakra-ui/react"
-import { BiChevronDown, BiEdit, BiFolderOpen, BiPlus, BiTrash } from "react-icons/bi";
+import { BiChevronDown } from "@react-icons/all-files/bi/BiChevronDown";
+import { BiEdit } from "@react-icons/all-files/bi/BiEdit";
+import { BiFolderOpen } from "@react-icons/all-files/bi/BiFolderOpen";
+import { BiPlus } from "@react-icons/all-files/bi/BiPlus";
+import { BiTrash } from "@react-icons/all-files/bi/BiTrash";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import { AddExercisesModal } from "../AddExercisesModal/AddExercisesModal";
 import { FolderExercise } from "@prisma/client";
@@ -94,7 +98,6 @@ export default function FolderHeading({
                 onClose={deleteFolderDisclosure.onClose}
                 isOpen={deleteFolderDisclosure.isOpen}
                 handleDelete={handleDelete}
-                folderId={folder.folderId}
                 additionalInfo="You will be redirected back to your workout folders"
             />
             <AddExercisesModal

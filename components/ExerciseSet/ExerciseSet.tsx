@@ -18,7 +18,11 @@ import {
 } from "@chakra-ui/react";
 import { Set } from "@prisma/client";
 import { useState } from "react";
-import { FiCheck, FiEdit, FiEdit3, FiTrash, FiX } from "react-icons/fi";
+import { FiCheck } from "@react-icons/all-files/Fi/FiCheck";
+import { FiEdit } from "@react-icons/all-files/Fi/FiEdit";
+import { FiEdit3 } from "@react-icons/all-files/Fi/FiEdit3";
+import { FiTrash } from "@react-icons/all-files/Fi/FiTrash";
+import { FiX } from "@react-icons/all-files/Fi/FiX";
 
 interface ExerciseSetProps {
     set: Set
@@ -27,14 +31,14 @@ interface ExerciseSetProps {
 
 export function ExerciseSet({ set, handleDeleteIconClick }: ExerciseSetProps) {
     const [isEditing, setIsEditing] = useState(false)
-    const [KgValue, setKgValue] = useState("10")
-    const [repsValue, setRepsValue] = useState("10")
+    const [KgValue, setKgValue] = useState(set.weight)
+    const [repsValue, setRepsValue] = useState(set.reps)
 
-    const formatKg = (val: string) => val + " Kg"
-    const parseKg = (val: string) => val.replace(" Kg", "")
+    const formatKg = (val: number) => val.toString() + " Kg"
+    const parseKg = (val: string) => Number(val.replace(" Kg", ""))
 
-    const formatReps = (val: string) => val + " R"
-    const parseReps = (val: string) => val.replace(" R", "")
+    const formatReps = (val: number) => val.toString() + " R"
+    const parseReps = (val: string) => parseInt(val.replace(" R", ""))
 
     return (
         <>

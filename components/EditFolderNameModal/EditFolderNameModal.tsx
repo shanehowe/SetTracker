@@ -10,7 +10,8 @@ import {
     Icon,
     Input
 } from "@chakra-ui/react"
-import { BiCheck, BiX } from "react-icons/bi"
+import { BiCheck } from "@react-icons/all-files/bi/BiCheck"
+import { BiX } from "@react-icons/all-files/bi/BiX"
 
 interface EditFolderNameModalProps {
     isSubmitting: boolean

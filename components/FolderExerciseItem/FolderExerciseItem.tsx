@@ -1,5 +1,6 @@
 import { Divider, Link, ListIcon, ListItem, Text } from "@chakra-ui/react"
-import { BiXCircle, BiChevronRight } from "react-icons/bi"
+import { BiXCircle } from "@react-icons/all-files/Bi/BiXCircle"
+import { BiChevronRight } from "@react-icons/all-files/Bi/BiChevronRight"
 
 interface FolderExerciseItemProps {
     exercise: string

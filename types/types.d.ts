@@ -26,4 +26,9 @@ type WeightSet = {
     createdAt?: Date
 }
 
+type GroupedSet = {
+    date: string;
+    sets: Set[];
+}
+
 type NotificationStatus =  "info" | "warning" | "success" | "error" | "loading" | undefined
