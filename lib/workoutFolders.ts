@@ -1,3 +1,5 @@
+import { ExerciseFolder } from "@/types/types"
+
 const folderAlreadyExists = (folderName: string, currentFolders: ExerciseFolder[]): boolean => {
     return currentFolders.filter(folder => folder.folderName === folderName).length > 0
 }

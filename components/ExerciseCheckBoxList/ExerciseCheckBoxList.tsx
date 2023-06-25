@@ -1,3 +1,4 @@
+import { Exercise } from "@/types/types"
 import { CheckboxGroup, Stack, Checkbox } from "@chakra-ui/react"
 
 interface ExerciseCheckboxListProps {

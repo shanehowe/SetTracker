@@ -17,6 +17,7 @@ import { BiTrash } from "@react-icons/all-files/bi/BiTrash";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import { AddExercisesModal } from "../AddExercisesModal/AddExercisesModal";
 import { FolderExercise } from "@prisma/client";
+import { Exercise } from "@/types/types";
 
 interface FolderHeadingProps {
     currentFolderExercises: FolderExercise[]

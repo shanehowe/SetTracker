@@ -1,3 +1,4 @@
+import { ExerciseFolder } from "@/types/types"
 import WorkoutFolder from "../WorkoutFolder/WorkoutFolder"
 
 interface WorkoutFoldersProps {

@@ -1,3 +1,5 @@
+import { GroupedSet } from "@/types/types";
+
 export const sortGroupedSetsByDate = (sets: GroupedSet[]) => {
     sets.sort((a: GroupedSet, b: GroupedSet) => {
         const dateA = new Date(a.date);
