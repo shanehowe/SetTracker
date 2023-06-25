@@ -133,6 +133,7 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
                 variant="solid"
                 margin={10}
                 leftIcon={<Icon as={FiPlus} />}
+                colorScheme="teal"
             >
                 New Folder
             </Button>

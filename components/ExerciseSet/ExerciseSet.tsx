@@ -52,6 +52,7 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: Exerci
                         size={"sm"}
                         as={IconButton}
                         icon={<Icon as={FiEdit} />}
+                        colorScheme="teal"
                     />
                     <MenuList>
                         <MenuItem 
@@ -119,8 +120,19 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: Exerci
                                     reps: repsValue,
                                 }, handleCallback)
                             }}
+                            colorScheme="teal"
+                            variant={"outline"}
+                            cursor={"pointer"}
                         />
-                        <IconButton as={FiX} aria-label={""} size={"sm"} onClick={() => setIsEditing(false)}/>
+                        <IconButton
+                            as={FiX}
+                            aria-label={""}
+                            size={"sm"}
+                            onClick={() => setIsEditing(false)}
+                            colorScheme="teal"
+                            variant={"outline"}
+                            cursor={"pointer"}
+                        />
                 
                     </>
                     : 

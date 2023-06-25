@@ -1,6 +1,6 @@
 "use client"
 
-import { Flex, Heading, Input, Link, List, ListIcon, ListItem } from "@chakra-ui/react";
+import { Divider, Flex, Heading, Input, Link, List, ListIcon, ListItem } from "@chakra-ui/react";
 import { Exercise } from "@prisma/client";
 import { useState } from "react";
 import { CgGym } from "@react-icons/all-files/cg/CgGym";
@@ -25,11 +25,19 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
 
     return (
         <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
-            <Heading mb={3} as={"h1"} size={"lg"}>All Exercises</Heading>
+            <Heading
+                mb={3}
+                as={"h1"}
+                size={"xl"}
+            >
+                All Exercises
+            </Heading>
             <Input
                 w={300}
                 placeholder="Search exercises here"
                 onChange={handleSearchChange}
+                focusBorderColor="teal.500"
+                textAlign={"center"}
             />
 
             <List
@@ -43,15 +51,16 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
             >
                 {filteredData.map((exercise) => {
                     return (
+                        <>
                         <ListItem
                             key={exercise.id}
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
                             w={350}
-                            fontSize={18}
+                            fontSize={17}
                         >
-                            <ListIcon as={CgGym} />
+                            <ListIcon as={CgGym} color={"teal.600"} />
                             <Link href={`http://localhost:3000/sets/${exercise.name}`}>
                                 {exercise.name}
                             </Link>
@@ -60,6 +69,8 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                                 <ListIcon as={CgChevronRight} />
                             </Link>
                         </ListItem>
+                        <Divider w={"110%"} />
+                        </>
                     )
                 })}
             </List>

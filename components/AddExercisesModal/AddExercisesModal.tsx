@@ -99,6 +99,7 @@ export function AddExercisesModal({
                             placeholder="Search exercises here"
                             mb={5}
                             onChange={onFilterChange}
+                            focusBorderColor="black"
                         />
                         <Box maxH={350} overflow={"scroll"}>
                             <ExerciseCheckboxList
@@ -111,14 +112,18 @@ export function AddExercisesModal({
                         <Button
                             onClick={onClose} 
                             leftIcon={<Icon as={FiX} />}
+                            variant={"ghost"}
+                            colorScheme="teal"
                         >
-                                Cancel</Button>
+                                Cancel
+                        </Button>
                         <Button
                             ml={3}
                             onClick={handleConfirmClick}
                             isLoading={isSubmitting}
                             loadingText="Working on it"
                             leftIcon={<Icon as={FiCheck} />}
+                            colorScheme="teal"
                         >
                             Confirm
                         </Button>

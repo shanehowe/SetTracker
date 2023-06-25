@@ -45,6 +45,7 @@ export function EditFolderNameModal({
                         <Input
                             placeholder="New folder name"
                             onChange={handleInputChange}
+                            focusBorderColor="teal.400"
                         />
                     </ModalBody>
                     <ModalFooter>
@@ -52,6 +53,8 @@ export function EditFolderNameModal({
                             disabled={isSubmitting}
                             leftIcon={<Icon as={BiX} />}
                             onClick={onClose}
+                            variant={"ghost"}
+                            colorScheme="teal"
                         >
                             Cancel
                         </Button>
@@ -61,6 +64,7 @@ export function EditFolderNameModal({
                             leftIcon={<Icon as={BiCheck} />}
                             ml={3}
                             onClick={handleSubmit}
+                            colorScheme="teal"
                         >
                             Confirm
                         </Button>

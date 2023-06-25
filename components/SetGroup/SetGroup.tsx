@@ -17,8 +17,13 @@ export function SetGroup({ date, sets, handleDeleteIconClick, handleUpdate }: Se
     
     return (
         <>
-            <Flex justifyContent={"flex-start"} w={"30%"} mt={5} mb={2}>
-                <Text size={"sm"}>{date}</Text>
+            <Flex justifyContent={"flex-start"} w={"40%"} mt={5} mb={2}>
+                <Text
+                    size={"sm"}
+                    fontWeight={"bold"}
+                >
+                    {date}
+                </Text>
             </Flex>
 
             <List

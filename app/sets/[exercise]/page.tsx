@@ -216,7 +216,7 @@ export default function Page({ params }: PageProps) {
 
     return (
         <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
-            <Heading mb={3} as={"h1"} size={"lg"}>
+            <Heading mb={3} as={"h1"} size={"xl"}>
                 {exercise}
             </Heading>
 
@@ -241,6 +241,7 @@ export default function Page({ params }: PageProps) {
                 size={"md"}
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={addSetControls.onOpen}
+                colorScheme="teal"
             >
                 New Set
             </Button>

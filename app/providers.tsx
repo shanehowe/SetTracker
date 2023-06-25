@@ -1,18 +1,17 @@
 // app/providers.tsx
 "use client"
+import { ChakraProvider } from "@chakra-ui/react";
+import { SessionProvider } from "next-auth/react";
+import { DrawerProvider } from "../Contexts/DrawerContext"; // Import the DrawerProvider
 
-import { CacheProvider } from "@chakra-ui/next-js"
-import { ChakraProvider } from "@chakra-ui/react"
-import { SessionProvider } from "next-auth/react"
-
-export function Providers({ children, session }: { children: React.ReactNode, session: any }) {
-    return (
-        <CacheProvider>
-            <ChakraProvider>
-                <SessionProvider session={session}>
-                    {children}
-                </SessionProvider>
-            </ChakraProvider>
-        </CacheProvider>
-    )
+export function Providers({ children, session }: { children: React.ReactNode; session: any }) {
+  return (
+      <ChakraProvider>
+        <SessionProvider session={session}>
+          <DrawerProvider> {/* Wrap the children with the DrawerProvider */}
+            {children}
+          </DrawerProvider>
+        </SessionProvider>
+      </ChakraProvider>
+  );
 }

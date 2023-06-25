@@ -16,6 +16,8 @@ export function ExerciseCheckboxList({ exercises, handleExerciseClick }: Exercis
                             value={exercise.name}
                             key={exercise.id}
                             onChange={() => handleExerciseClick(exercise.name)}
+                            colorScheme="teal"
+                            py={1}
                         >
                             {exercise.name}
                         </Checkbox>

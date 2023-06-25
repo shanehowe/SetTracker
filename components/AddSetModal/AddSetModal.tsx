@@ -104,7 +104,11 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
                             <FormLabel>Weight</FormLabel>
                             <InputGroup w={"80%"} display={"flex"} justifyContent={"space-around"}>
                                 <InputLeftElement>
-                                    <Button onClick={handleWeightInc}>+</Button>
+                                    <Button
+                                        onClick={handleWeightInc}
+                                        variant={"outline"}
+                                        colorScheme="teal"
+                                    >+</Button>
                                 </InputLeftElement>
                                 <Input
                                     type="text" pattern="[0-9]*"
@@ -113,9 +117,14 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
                                     placeholder="Weight"
                                     value={weight}
                                     onChange={handleWeightInputChange}
+                                    focusBorderColor="teal.200"
                                 />
                                 <InputRightElement>
-                                    <Button onClick={handleWeightDec}>-</Button>
+                                    <Button
+                                        onClick={handleWeightDec}
+                                        variant={"outline"}
+                                        colorScheme="teal"
+                                    >-</Button>
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
@@ -131,7 +140,11 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
                             <InputGroup w={"80%"} display={"flex"} justifyContent={"space-around"}>
                             
                                 <InputLeftElement>
-                                    <Button onClick={handleRepsInc}>+</Button>
+                                    <Button
+                                        onClick={handleRepsInc}
+                                        variant={"outline"}
+                                        colorScheme="teal"
+                                    >+</Button>
                                 </InputLeftElement>
                                 <Input
                                     type="text" pattern="[0-9]*"
@@ -140,19 +153,31 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
                                     onChange={(handleRepsInputChange)}
                                     value={reps}
                                     textAlign={"center"}
+                                    focusBorderColor="teal.200"
                                 />
                                 <InputRightElement>
-                                    <Button onClick={hanldeRepsDec}>-</Button>
+                                    <Button
+                                        onClick={hanldeRepsDec}
+                                        variant={"outline"}
+                                        colorScheme="teal"
+                                    >-</Button>
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button
+                            onClick={onClose}
+                            variant={"ghost"}
+                            colorScheme="teal"
+                        >
+                            Cancel
+                        </Button>
                         <Button
                             ml={3}
                             onClick={handleClick}
                             isLoading={submitting}
+                            colorScheme="teal"
                         >
                             Confirm
                         </Button>

@@ -71,6 +71,7 @@ export default function AddFolderModal({
                                 placeholder="Folder name..."
                                 variant="flushed"
                                 onChange={handleInputChange}
+                                focusBorderColor={"teal.500"}
                             />
                         </ModalHeader>
                         <ModalCloseButton/>
@@ -81,7 +82,7 @@ export default function AddFolderModal({
                             />
                         </ModalBody>
                         <ModalFooter>
-                            <Button onClick={onClose}>
+                            <Button onClick={onClose} variant={"ghost"} colorScheme="teal">
                                 Cancel
                             </Button>
                             <Button
@@ -91,6 +92,7 @@ export default function AddFolderModal({
                                 onClick={() => {
                                     handleSubmit()
                                 }}
+                                colorScheme="teal"
                             >
                                 Create Folder
                             </Button>

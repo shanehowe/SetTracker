@@ -52,7 +52,7 @@ export default function FolderHeading({
 
     return (
         <Flex dir="row" alignItems={"center"}>
-            <Menu>
+            <Menu colorScheme="teal">
                 <MenuButton
                     w={250}
                     px={6}
@@ -60,9 +60,8 @@ export default function FolderHeading({
                     transition='all 0.2s'
                     borderRadius='md'
                     borderWidth='1px'
-                    _hover={{ bg: "gray.400" }}
-                    _expanded={{ bg: "blue.400" }}
-                    _focus={{ boxShadow: "outline" }}
+                    bgColor={"teal.500"}
+                    color={"white"}
                 >
                     <Flex alignItems={"center"} justifyContent={"space-between"} w={"100%"}>
                         <Icon as={BiFolderOpen} height={18} width={18}/>
