@@ -10,12 +10,12 @@ import {
     FormHelperText,
     FormLabel,
     Input,
-    InputGroup,
 } from "@chakra-ui/react"
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 import Notification from "../Notification"
 import styles from "./styles.module.css"
+import { NotificationStatus } from "@/types/types";
 
 export default function SignUpForm({}) {
     const [notificationStatus, setNotifcationStatus] = useState<NotificationStatus>(undefined)

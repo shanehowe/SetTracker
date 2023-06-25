@@ -8,7 +8,7 @@ import {
     useDisclosure,
     useToast,
 } from "@chakra-ui/react";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus } from "@react-icons/all-files/fi/FiPlus";
 import { useEffect, useState } from "react";
 import { setsService } from "@/services/sets";
 import { SetGroup } from "@/components/SetGroup/SetGroup";
