@@ -1,5 +1,4 @@
 import {
-    Container,
     Divider,
     Flex,
     Icon,
@@ -33,13 +32,13 @@ interface ExerciseSetProps {
 
 export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: ExerciseSetProps) {
     const [isEditing, setIsEditing] = useState(false)
-    const [KgValue, setKgValue] = useState(set.weight)
-    const [repsValue, setRepsValue] = useState(set.reps)
+    const [KgValue, setKgValue] = useState<number | string>(set.weight)
+    const [repsValue, setRepsValue] = useState<number>(set.reps)
 
-    const formatKg = (val: number) => val.toString() + " Kg"
-    const parseKg = (val: string) => Number(val.replace(" Kg", ""))
+    const formatKg = (val: number | string) => val.toString() + " Kg"
+    const parseKg = (val: string) => val.replace(" Kg", "")
 
-    const formatReps = (val: number) => val.toString() + " R"
+    const formatReps = (val: number | string) => val.toString() + " R"
     const parseReps = (val: string) => parseInt(val.replace(" R", ""))
 
     const handleCallback = () => setIsEditing(false)
@@ -75,6 +74,7 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: Exerci
                 {isEditing ? 
                     <>
                         <NumberInput
+                            precision={2}
                             size='sm'
                             maxW={110}
                             mr={3}
@@ -115,7 +115,7 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: Exerci
                                 handleUpdate({
                                     exercise: set.exercise,
                                     createdAt: set.createdAt,
-                                    weight: KgValue,
+                                    weight: Number(KgValue),
                                     reps: repsValue,
                                 }, handleCallback)
                             }}

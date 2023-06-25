@@ -1,3 +1,4 @@
+import { WeightSet } from "@/types/types";
 import {
     Modal,
     ModalOverlay,
@@ -61,8 +62,8 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
     }
 
     const handleWeightInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const num = parseInt(e.target.value)
-        if (isNaN(num)) {
+        const num = Number(e.target.value)
+        if (isNaN(num) && !e.target.value.endsWith(".")) {
             setWeight(0)
             return
         }
