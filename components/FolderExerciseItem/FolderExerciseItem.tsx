@@ -25,11 +25,11 @@ export default function FolderExerciseItem({ exercise, handleDeleteIconClick }: 
                     }}
                 />
                 <Link href={`http://localhost:3000/sets/${exercise}`}>
-                <Text>{exercise}</Text>
+                    <Text>{exercise}</Text>
                 </Link>
 
                 <Link href={`http://localhost:3000/sets/${exercise}`}>
-                <ListIcon as={BiChevronRight} />
+                    <ListIcon as={BiChevronRight} />
                 </Link>
             </ListItem>
             <Divider />

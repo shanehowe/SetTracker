@@ -202,12 +202,12 @@ export default function Page({ params }: PageProps) {
         } else if (allSets.length) {
             return allSets.map(setObj => {
                 return <SetGroup
-                            key={setObj.date.toString()}
-                            date={setObj.date}
-                            sets={setObj.sets}
-                            handleDeleteIconClick={handleDeleteIconClick}
-                            handleUpdate={handleUpdate}
-                        />
+                    key={setObj.date.toString()}
+                    date={setObj.date}
+                    sets={setObj.sets}
+                    handleDeleteIconClick={handleDeleteIconClick}
+                    handleUpdate={handleUpdate}
+                />
             })
         } else {
             return <Text>No set hisory...</Text>

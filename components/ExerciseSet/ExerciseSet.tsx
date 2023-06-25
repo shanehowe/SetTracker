@@ -73,61 +73,61 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: Exerci
                 </Menu>}
 
                 {isEditing ? 
-                <>
-                <NumberInput
-                    size='sm'
-                    maxW={110}
-                    mr={3}
-                    defaultValue={set.weight}
-                    min={0}
-                    step={0.25}
-                    onChange={(kg) => setKgValue(parseKg(kg))}
-                    value={formatKg(KgValue)}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
+                    <>
+                        <NumberInput
+                            size='sm'
+                            maxW={110}
+                            mr={3}
+                            defaultValue={set.weight}
+                            min={0}
+                            step={0.25}
+                            onChange={(kg) => setKgValue(parseKg(kg))}
+                            value={formatKg(KgValue)}
+                        >
+                            <NumberInputField />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                        </NumberInput>
 
-                <NumberInput
-                    size='sm'
-                    maxW={85}
-                    defaultValue={set.reps}
-                    min={1}
-                    onChange={(reps) => setRepsValue(parseReps(reps))}
-                    value={formatReps(repsValue)}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
+                        <NumberInput
+                            size='sm'
+                            maxW={85}
+                            defaultValue={set.reps}
+                            min={1}
+                            onChange={(reps) => setRepsValue(parseReps(reps))}
+                            value={formatReps(repsValue)}
+                        >
+                            <NumberInputField />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                        </NumberInput>
 
-                <IconButton
-                    as={FiCheck}
-                    aria-label={""}
-                    size={"sm"}
-                    mr={3}
-                    onClick={() => {
-                        handleUpdate({
-                            exercise: set.exercise,
-                            createdAt: set.createdAt,
-                            weight: KgValue,
-                            reps: repsValue,
-                        }, handleCallback)
-                    }}
-                />
-                <IconButton as={FiX} aria-label={""} size={"sm"} onClick={() => setIsEditing(false)}/>
+                        <IconButton
+                            as={FiCheck}
+                            aria-label={""}
+                            size={"sm"}
+                            mr={3}
+                            onClick={() => {
+                                handleUpdate({
+                                    exercise: set.exercise,
+                                    createdAt: set.createdAt,
+                                    weight: KgValue,
+                                    reps: repsValue,
+                                }, handleCallback)
+                            }}
+                        />
+                        <IconButton as={FiX} aria-label={""} size={"sm"} onClick={() => setIsEditing(false)}/>
                 
-                </>
-                : 
-                <>
-                <Text fontSize={19}>{set.weight}{" "}Kg</Text>
-                <Text fontSize={19}>{set.reps}{" "}Reps</Text>
-                </>}
+                    </>
+                    : 
+                    <>
+                        <Text fontSize={19}>{set.weight}{" "}Kg</Text>
+                        <Text fontSize={19}>{set.reps}{" "}Reps</Text>
+                    </>}
                 
             </Flex>
             <Divider />

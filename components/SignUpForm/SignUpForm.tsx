@@ -141,7 +141,7 @@ export default function SignUpForm({}) {
                             placeholder="Your email"
                             onChange={handleEmailChange}
                         />
-                        <FormHelperText>We'll never share your email with anyone else</FormHelperText>
+                        <FormHelperText>We will never share your email with anyone else</FormHelperText>
                     </FormControl>
 
                     <FormControl isRequired mt={5}>

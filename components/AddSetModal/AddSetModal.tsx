@@ -94,57 +94,57 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
                         Add new set
                     </ModalHeader>
                     <ModalBody>
-                    <FormControl
-                        display={"flex"}
-                        flexDir={"column"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                    >
-                        <FormLabel>Weight</FormLabel>
-                        <InputGroup w={"80%"} display={"flex"} justifyContent={"space-around"}>
-                            <InputLeftElement>
-                            <Button onClick={handleWeightInc}>+</Button>
-                            </InputLeftElement>
-                            <Input
-                            type="text" pattern="[0-9]*"
-                            textAlign={"center"}
-                            w={"60%"}
-                            placeholder="Weight"
-                            value={weight}
-                            onChange={handleWeightInputChange}
-                            />
-                            <InputRightElement>
-                            <Button onClick={handleWeightDec}>-</Button>
-                            </InputRightElement>
-                        </InputGroup>
-                    </FormControl>
+                        <FormControl
+                            display={"flex"}
+                            flexDir={"column"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                        >
+                            <FormLabel>Weight</FormLabel>
+                            <InputGroup w={"80%"} display={"flex"} justifyContent={"space-around"}>
+                                <InputLeftElement>
+                                    <Button onClick={handleWeightInc}>+</Button>
+                                </InputLeftElement>
+                                <Input
+                                    type="text" pattern="[0-9]*"
+                                    textAlign={"center"}
+                                    w={"60%"}
+                                    placeholder="Weight"
+                                    value={weight}
+                                    onChange={handleWeightInputChange}
+                                />
+                                <InputRightElement>
+                                    <Button onClick={handleWeightDec}>-</Button>
+                                </InputRightElement>
+                            </InputGroup>
+                        </FormControl>
 
-                    <FormControl
-                        mt={4}
-                        display={"flex"}
-                        flexDir={"column"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                    >
-                        <FormLabel>Reps</FormLabel>
-                        <InputGroup w={"80%"} display={"flex"} justifyContent={"space-around"}>
+                        <FormControl
+                            mt={4}
+                            display={"flex"}
+                            flexDir={"column"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                        >
+                            <FormLabel>Reps</FormLabel>
+                            <InputGroup w={"80%"} display={"flex"} justifyContent={"space-around"}>
                             
-                            <InputLeftElement>
-                            <Button onClick={handleRepsInc}>+</Button>
-                            </InputLeftElement>
-                            <Input
-                            type="text" pattern="[0-9]*"
-                            w={"60%"}
-                            placeholder="Reps"
-                            onChange={(handleRepsInputChange)}
-                            value={reps}
-                            textAlign={"center"}
-                            />
-                            <InputRightElement>
-                            <Button onClick={hanldeRepsDec}>-</Button>
-                            </InputRightElement>
-                        </InputGroup>
-                    </FormControl>
+                                <InputLeftElement>
+                                    <Button onClick={handleRepsInc}>+</Button>
+                                </InputLeftElement>
+                                <Input
+                                    type="text" pattern="[0-9]*"
+                                    w={"60%"}
+                                    placeholder="Reps"
+                                    onChange={(handleRepsInputChange)}
+                                    value={reps}
+                                    textAlign={"center"}
+                                />
+                                <InputRightElement>
+                                    <Button onClick={hanldeRepsDec}>-</Button>
+                                </InputRightElement>
+                            </InputGroup>
+                        </FormControl>
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onClose}>Cancel</Button>

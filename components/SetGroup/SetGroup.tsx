@@ -31,11 +31,11 @@ export function SetGroup({ date, sets, handleDeleteIconClick, handleUpdate }: Se
             >
                 {sets.map((set) => {
                     return <ExerciseSet
-                                key={set.createdAt.toString()}
-                                set={set}
-                                handleDeleteIconClick={handleDeleteIconClick}
-                                handleUpdate={handleUpdate}
-                            />
+                        key={set.createdAt.toString()}
+                        set={set}
+                        handleDeleteIconClick={handleDeleteIconClick}
+                        handleUpdate={handleUpdate}
+                    />
                 })}
             </List>
         </>

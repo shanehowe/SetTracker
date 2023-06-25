@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ExerciseCheckboxList } from "../ExerciseCheckBoxList/ExerciseCheckBoxList";
-import { FolderExercise } from "@prisma/client";
+import { Exercise, FolderExercise } from "@prisma/client";
 import { FiCheck } from "@react-icons/all-files/Fi/FiCheck";
 import { FiX } from "@react-icons/all-files/Fi/FiX";
 
@@ -41,6 +41,7 @@ export function AddExercisesModal({
     const [originalExercises, setOriginalExercices] = useState<Exercise[]>([])
     const [filteredExercises, setFilteredExercises] = useState<Exercise[]>([])
     const [exercisesToAdd, setExercisesToAdd] = useState<string[]>([])
+    let searchFilterEmpty = searchFilter=== "" ? true : false
 
     useEffect(() => {
         const exercisesToShow = []
@@ -58,7 +59,7 @@ export function AddExercisesModal({
         }
         setFilteredExercises(exercisesToShow)
         setOriginalExercices(exercisesToShow)
-    },[isOpen, searchFilter === ""])
+    },[isOpen, searchFilterEmpty, exercises, currentFolderExercises])
 
     const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchFilter(prev => e.target.value)
@@ -110,7 +111,7 @@ export function AddExercisesModal({
                         <Button
                             onClick={onClose} 
                             leftIcon={<Icon as={FiX} />}
-                            >
+                        >
                                 Cancel</Button>
                         <Button
                             ml={3}

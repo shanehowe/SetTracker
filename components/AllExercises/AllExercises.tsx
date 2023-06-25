@@ -18,10 +18,10 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
     }
 
     const filteredData = search
-    ? exercises.filter((exercise) =>
-        exercise.name.toLowerCase().includes(search.toLowerCase())
-      )
-    : exercises;
+        ? exercises.filter((exercise) =>
+            exercise.name.toLowerCase().includes(search.toLowerCase())
+        )
+        : exercises;
 
     return (
         <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
@@ -53,11 +53,11 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                         >
                             <ListIcon as={CgGym} />
                             <Link href={`http://localhost:3000/sets/${exercise.name}`}>
-                            {exercise.name}
+                                {exercise.name}
                             </Link>
 
                             <Link href={`http://localhost:3000/sets/${exercise.name}`}>
-                            <ListIcon as={CgChevronRight} />
+                                <ListIcon as={CgChevronRight} />
                             </Link>
                         </ListItem>
                     )

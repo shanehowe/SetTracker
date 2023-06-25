@@ -22,6 +22,8 @@ const AddFolderModal = dynamic(() => import("../AddFolderModal"))
 import { workoutFolderHelper } from "@/lib/workoutFolders"
 import { workoutFolderService } from "@/services/workoutFolders"
 import styles from "./styles.module.css"
+import { ExerciseFolder } from "@/types/types";
+import { Exercise } from "@prisma/client";
 
 export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
     const [folders, setFolders] = useState<ExerciseFolder[]>([])
@@ -47,7 +49,7 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
                 })
                 console.error(error)
             })
-    },[folders])
+    },[folders, toast])
 
     const addNewFolder = async (folderName: string, exercises: string[]) => {
         setIsSubmitting(true)
