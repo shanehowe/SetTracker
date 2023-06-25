@@ -10,13 +10,13 @@ import {
     Icon,
     IconButton,
     Text,
-    useDisclosure
 } from "@chakra-ui/react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { FiMenu } from "@react-icons/all-files/fi/FiMenu"
 import { LogIn } from "../LogIn/LogIn";
 import { useContext } from "react";
 import { DrawerContext } from "@/Contexts/DrawerContext";
+import { QuickLinks } from "../QuickLinks/QuickLinks";
 
 export function NavBar() {
     const { data: session, status } = useSession()
@@ -26,10 +26,10 @@ export function NavBar() {
     const renderDrawerBody = () => {
         if (status === "loading") {
             return <p>Loading...</p>
-        } else if (status === "unauthenticated") {
+        } else if (session === null) {
             return <LogIn onClose={toggleDrawer}/>
         } else {
-            return <Button onClick={async () => await signOut()}>Sign Out</Button>
+            return <QuickLinks onClose={toggleDrawer} />
         }
     }
 

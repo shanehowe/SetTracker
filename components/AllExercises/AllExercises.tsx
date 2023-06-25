@@ -1,6 +1,6 @@
 "use client"
 
-import { Divider, Flex, Heading, Input, Link, List, ListIcon, ListItem } from "@chakra-ui/react";
+import { Container, Divider, Flex, Heading, Input, Link, List, ListIcon, ListItem } from "@chakra-ui/react";
 import { Exercise } from "@prisma/client";
 import { useState } from "react";
 import { CgGym } from "@react-icons/all-files/cg/CgGym";
@@ -51,14 +51,14 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
             >
                 {filteredData.map((exercise) => {
                     return (
-                        <>
+                        <Container key={exercise.id} w={500} display={"flex"} flexDir={"column"} alignItems={"center"} p={1}>
                         <ListItem
-                            key={exercise.id}
+                            
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            w={350}
-                            fontSize={17}
+                            w={325}
+                            fontSize={18}
                         >
                             <ListIcon as={CgGym} color={"teal.600"} />
                             <Link href={`http://localhost:3000/sets/${exercise.name}`}>
@@ -69,8 +69,8 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                                 <ListIcon as={CgChevronRight} />
                             </Link>
                         </ListItem>
-                        <Divider w={"110%"} />
-                        </>
+                        <Divider w={"120%"} />
+                        </Container>
                     )
                 })}
             </List>
