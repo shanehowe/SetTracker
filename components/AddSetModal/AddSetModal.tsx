@@ -26,7 +26,7 @@ interface AddSetModalProps {
 }
 
 export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submitting }: AddSetModalProps) {
-    const [weight, setWeight] = useState<number>(0)
+    const [weight, setWeight] = useState<string | number>(0)
     const [reps, setReps] = useState<number>(0)
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
         setReps(0)
     }, [isOpen])
 
-    const handleRepsInc = () => setReps(reps + 1)
+    const handleRepsInc = () => setReps(Number(reps) + 1)
 
     const hanldeRepsDec = () => {
         if (reps === 0) {
@@ -52,29 +52,25 @@ export function AddSetModal({ isOpen, onClose, exercise, handleNewSet, submittin
         setReps(num)
     }
 
-    const handleWeightInc = () => setWeight(weight + 0.25)
+    const handleWeightInc = () => setWeight(Number(weight) + 0.25)
 
     const handleWeightDec = () => {
         if (weight === 0) {
             return;
         }
-        setWeight(weight - 0.25)
+        setWeight(Number(weight) - 0.25)
     }
 
     const handleWeightInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const num = Number(e.target.value)
-        if (isNaN(num) && !e.target.value.endsWith(".")) {
-            setWeight(0)
-            return
-        }
+        const num = e.target.value
         setWeight(num)
     }
 
     const handleClick = () => {
         const set: WeightSet = {
             exercise,
-            reps,
-            weight,
+            reps: reps,
+            weight: Number(weight),
         }
         handleNewSet(set)
     }

@@ -23,7 +23,7 @@ model WorkoutFolder {
   folderName String           @db.VarChar(30)
   userId     Int
   exercises  FolderExercise[]
-  user       User             @relation(fields: [userId], references: [id])
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Exercise {
@@ -37,7 +37,7 @@ model Set {
   userId    Int
   exercise  String
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, createdAt])
 }

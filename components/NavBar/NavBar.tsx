@@ -29,7 +29,7 @@ export function NavBar() {
         } else if (session === null) {
             return <LogIn onClose={toggleDrawer}/>
         } else {
-            return <QuickLinks onClose={toggleDrawer} />
+            return <QuickLinks onClose={toggleDrawer} id={session.user.id} />
         }
     }
 

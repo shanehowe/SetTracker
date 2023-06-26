@@ -15,21 +15,36 @@ import { useRouter } from "next/navigation";
 
 interface QuickLinksProps {
     onClose: () => void
+    id: number
 }
 
-export function QuickLinks({ onClose }: QuickLinksProps) {
+export function QuickLinks({ onClose, id }: QuickLinksProps) {
     const router = useRouter()
 
     const handlerFoldersClick = () => {
         router.push("http://localhost:3000/workout-folders")
         onClose()
     }
+
+    const handleAccountClick = () => {
+        router.push(`http://localhost:3000/account/${id}`)
+        onClose()
+    }
+
     return (
         <>
             <DrawerBody mt={5}>
                 <List spacing={5} fontWeight={"bold"}>
-                    <ListItem p={1} cursor={"pointer"}>
-                        <ListIcon as={FaUser} color={"teal.500"} mr={3}/>
+                    <ListItem
+                        p={1} 
+                        cursor={"pointer"}
+                        onClick={handleAccountClick}
+                    >
+                        <ListIcon
+                            as={FaUser}
+                            color={"teal.500"}
+                            mr={3}
+                        />
                         Account
                     </ListItem>
                     <Divider />

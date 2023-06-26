@@ -1,0 +1,78 @@
+"use client"
+import { userService } from "@/services/users";
+import {
+    Avatar,
+    Button,
+    Flex,
+    Text,
+    useToast
+} from "@chakra-ui/react";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+interface PageProps {
+    params: {
+        id: string
+    }
+}
+
+export default function Page({ params }: PageProps) {
+    const router = useRouter()
+    const toast = useToast()
+
+    const handleDelete = async () => {
+        try {
+            const res = await userService.deleteUser(params.id)
+            const { data } = await res.json()
+            if (res.status === 200) {
+                router.push("/")
+                signOut()
+                toast({
+                    status: "success",
+                    title: "Account Deleted",
+                    description: "We are sad to see you go. Goodbye :(",
+                    position: "top"
+                })
+            } else {
+                toast({
+                    status: "error",
+                    title: "Trouble deleting account",
+                    description: data,
+                    position: "top"
+                })
+            }
+        } catch(e) {
+            toast({
+                status: "error",
+                title: "Trouble deleting account",
+                description: "Something unexpected happened. Refresh and try again",
+                position: "top",
+                isClosable: true
+            })
+        }
+    }
+    return (
+        <Flex
+            flexDir={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            height={"40vh"}
+            mt={10}
+        >
+            <Avatar bg={"teal.500"} size={"lg"} />
+
+            <Text mt={2}>Username</Text>
+
+            <Flex flexDir={"column"} alignItems={"center"}>
+                <Button mt={10} colorScheme="teal" onClick={() => signOut()}>Sign Out</Button>
+                <Button
+                    mt={10}
+                    colorScheme="red"
+                    onClick={handleDelete}
+                >
+                    Delete Account
+                </Button>
+            </Flex>
+        </Flex>
+    )
+}

@@ -13,12 +13,12 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 
-interface PageProps {
+interface FolderPageProps {
     exercises: Exercise[]
     folderId: number
 }
 
-export default function FolderExercisesPage({ exercises, folderId }: PageProps) {
+export default function FolderExercisesPage({ exercises, folderId }: FolderPageProps) {
     const [folderExercises, setFolderExercises] = useState<FolderExercise[] | null>(null)
     const [folder, setFolder] = useState<Folder>({folderId: -1, folderName: ""})
     // State for modal to edit folder name

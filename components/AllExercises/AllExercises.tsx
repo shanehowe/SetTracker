@@ -69,7 +69,7 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                                 <ListIcon as={CgChevronRight} />
                             </Link>
                         </ListItem>
-                        <Divider w={"120%"} />
+                        <Divider w={"130%"} />
                         </Container>
                     )
                 })}
