@@ -1,10 +1,12 @@
 "use client"
+import DeleteModal from "@/components/DeleteModal/DeleteModal";
 import { userService } from "@/services/users";
 import {
     Avatar,
     Button,
     Flex,
     Text,
+    useDisclosure,
     useToast
 } from "@chakra-ui/react";
 import { signOut } from "next-auth/react";
@@ -19,6 +21,7 @@ interface PageProps {
 export default function Page({ params }: PageProps) {
     const router = useRouter()
     const toast = useToast()
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handleDelete = async () => {
         try {
@@ -59,6 +62,12 @@ export default function Page({ params }: PageProps) {
             height={"40vh"}
             mt={10}
         >
+            <DeleteModal
+                onClose={onClose}
+                isOpen={isOpen}
+                handleDelete={handleDelete}
+                additionalInfo=""
+            />
             <Avatar bg={"teal.500"} size={"lg"} />
 
             <Text mt={2}>Username</Text>
@@ -68,7 +77,7 @@ export default function Page({ params }: PageProps) {
                 <Button
                     mt={10}
                     colorScheme="red"
-                    onClick={handleDelete}
+                    onClick={onOpen}
                 >
                     Delete Account
                 </Button>
