@@ -21,9 +21,9 @@ export default function Notification({
     }
 
     return (
-        <Alert status={status} width="max-content" mt={10}>
+        <Alert status={status}  mt={5}>
             <AlertIcon />
-            <Box>
+            <Box w={"100%"}>
                 <AlertTitle>{title}</AlertTitle>
                 <AlertDescription>
                     {description}

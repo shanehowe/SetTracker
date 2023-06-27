@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const { email, username } = token
-        if (!email || !username) {
+        const { id, username } = token
+        if (!id || !username) {
             return NextResponse.json(
                 {"data": "Missing credentails"},
                 {status: 400}
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
         const user = await prisma.user.findFirstOrThrow({
             where: {
-                email,
+                id,
                 username
             }
         })
@@ -60,8 +60,8 @@ export async function POST(request: NextRequest) {
         )
     }
 
-    const { email, username } = token
-    if (!email || !username) {
+    const { id, username } = token
+    if (!id || !username) {
         return NextResponse.json(
             {"data": "Missing credentails"},
             {status: 400}
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     try {
         const user = await prisma.user.findFirst({
             where: {
-                email,
+                id,
                 username
             }
         })

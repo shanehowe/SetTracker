@@ -61,11 +61,11 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                             fontSize={18}
                         >
                             <ListIcon as={CgGym} color={"teal.600"} />
-                            <Link href={`http://localhost:3000/sets/${exercise.name}`}>
+                            <Link href={`/sets/${exercise.name}`}>
                                 {exercise.name}
                             </Link>
 
-                            <Link href={`http://localhost:3000/sets/${exercise.name}`}>
+                            <Link href={`/sets/${exercise.name}`}>
                                 <ListIcon as={CgChevronRight} />
                             </Link>
                         </ListItem>

@@ -2,6 +2,8 @@ import { Button, DrawerBody, DrawerFooter, FormControl, FormLabel, Input } from 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Notification from "../Notification";
+import { NotificationStatus } from "@/types/types";
 
 interface LogInProps {
     onClose: () => void
@@ -11,7 +13,12 @@ export function LogIn({ onClose }: LogInProps) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [submitting, setSubmitting] = useState(false)
+    const [isVisible, setIsVisible] = useState(false)
+    const [status, setStatus] = useState<NotificationStatus>(undefined)
+    const [title, setTitle] = useState("")
     const router = useRouter()
+
+    const onNotificationClose = () => setIsVisible(false)
 
     const handleSignIn = async (formUsername: string, formPassword: string) => {
         const username = formUsername.trim()
@@ -24,15 +31,20 @@ export function LogIn({ onClose }: LogInProps) {
         setSubmitting(true)
 
         const signInWasOk = await signIn("credentials", {
-            email: username,
+            username: username.toLowerCase(),
             password: password,
             redirect: false
         })
 
-        if (signInWasOk?.ok) {
+        if (!signInWasOk?.error) {
             router.push("/workout-folders")
         } else {
+            setIsVisible(true)
+            setStatus("error")
+            setTitle("Wrong username or password")
+            setSubmitting(false)
             console.error(signInWasOk?.error)
+            return
         }
 
         setSubmitting(false)
@@ -42,7 +54,13 @@ export function LogIn({ onClose }: LogInProps) {
     return (
         <>
         <DrawerBody>
-
+            <Notification
+                isVisible={isVisible}
+                status={status}
+                title={title}
+                description={""}
+                onClose={onNotificationClose}
+            />
             <FormControl>
                 <FormLabel>Username</FormLabel>
                 <Input

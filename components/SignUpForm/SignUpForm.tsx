@@ -7,7 +7,6 @@ import {
     CardHeader,
     Flex,
     FormControl,
-    FormHelperText,
     FormLabel,
     Input,
 } from "@chakra-ui/react"
@@ -16,23 +15,19 @@ import { useState } from "react"
 import Notification from "../Notification"
 import styles from "./styles.module.css"
 import { NotificationStatus } from "@/types/types";
+import { signIn } from "next-auth/react";
 
 export default function SignUpForm({}) {
     const [notificationStatus, setNotifcationStatus] = useState<NotificationStatus>(undefined)
     const [notificationVisible, setNotifcationVisible] = useState<boolean>(false)
     const [notificationDesc, setNotificationDesc] = useState<string>("")
     const [notificationTitle, setNotificationTitle] = useState<string>("")
-    const [email, setEmail] = useState<string>("")
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
     const router = useRouter()
-
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setEmail(e.currentTarget.value)
-    }
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setUsername(e.currentTarget.value)
@@ -48,7 +43,7 @@ export default function SignUpForm({}) {
 
     const onNotificationClose = (): void => setNotifcationVisible(false)
 
-    const handleSignUp = async (email: string, username: string, password: string) => {
+    const handleSignUp = async (username: string, password: string) => {
         setIsSubmitting(true)
 
         if (password !== confirmPassword) {
@@ -60,19 +55,11 @@ export default function SignUpForm({}) {
             return
         }
         const data = {
-            email: email.trim().toLocaleLowerCase(),
             username: username.trim().toLocaleLowerCase(),
             password: password
         }
 
-        if (!data.email) {
-            setNotifcationStatus("warning")
-            setNotificationTitle("Missing Value")
-            setNotificationDesc("Please fill out the email section to complete the sign up")
-            setNotifcationVisible(true)
-            setIsSubmitting(false)
-            return
-        } else if (!data.username) {
+        if (!data.username) {
             setNotifcationStatus("warning")
             setNotificationTitle("Missing Value")
             setNotificationDesc("Please fill out the username section to complete the sign up")
@@ -110,7 +97,12 @@ export default function SignUpForm({}) {
             setNotifcationVisible(true)
             setIsSubmitting(false)
 
-            router.push("/")
+            await signIn("credentials", {
+                redirect: false,
+                username: username,
+                password: password
+            })
+            router.push("/workout-folders")
         } catch (error) {
             console.error(error)
             setNotifcationStatus("error")
@@ -124,7 +116,13 @@ export default function SignUpForm({}) {
     return (
         <section className={styles.formContainer}>
             <Card>
-                <CardHeader textAlign="center" fontWeight="bold">Sign Up</CardHeader>
+                <CardHeader
+                    textAlign="center"
+                    fontWeight="bold"
+                    fontSize={"xl"}
+                >
+                        Create your account
+                </CardHeader>
                 <Flex w="100%" justifyContent={"center"}>
                     <Notification
                         status={notificationStatus}
@@ -135,20 +133,12 @@ export default function SignUpForm({}) {
                     />
                 </Flex>
                 <CardBody>
-                    <FormControl isRequired>
-                        <FormLabel>Email</FormLabel>
-                        <Input
-                            placeholder="Your email"
-                            onChange={handleEmailChange}
-                        />
-                        <FormHelperText>We will never share your email with anyone else</FormHelperText>
-                    </FormControl>
-
                     <FormControl isRequired mt={5}>
                         <FormLabel>Username</FormLabel>
                         <Input
                             placeholder="Your username"
                             onChange={handleUsernameChange}
+                            focusBorderColor="teal.200"
                         />
                     </FormControl>
                     
@@ -157,6 +147,7 @@ export default function SignUpForm({}) {
                         placeholder="Password"
                         type="password"
                         onChange={handlePasswordChange}
+                        focusBorderColor="teal.200"
                     />
 
                     <FormControl mt={5}>
@@ -165,6 +156,7 @@ export default function SignUpForm({}) {
                             placeholder="Confirm password"
                             type="password" 
                             onChange={handleConfirmPasswordChange}
+                            focusBorderColor="teal.200"
                         />
                     </FormControl>
 
@@ -172,8 +164,9 @@ export default function SignUpForm({}) {
                         <Button
                             isDisabled={isSubmitting ? true : false}
                             onClick={() => {
-                                handleSignUp(email, username, password)
+                                handleSignUp(username, password)
                             }}
+                            colorScheme="teal"
                         >
                             Sign Up
                         </Button>

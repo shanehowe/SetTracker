@@ -28,39 +28,38 @@ const handler = NextAuth({
         CredentialsProvider({
             type: "credentials",
             credentials: {
-                email: { label: "Email", type: "text" },
+                username: { label: "Username", type: "text" },
                 password: { label: "Password", type: "password" }
             },
             // @ts-ignore
             async authorize(credentials) {
                 
-                const { email, password } = credentials as {
-                    email: string,
+                const { username, password } = credentials as {
+                    username: string,
                     password: string
                 }
-                if (!email || !password) {
+                if (!username || !password) {
                     throw new Error("Wrong credentials. Try again.")
                 }
                 const maybeUser = await prisma.user.findFirst({
                     where: {
-                        email: email
+                        username: username
                     }
                 })
-                
+
                 if (maybeUser) {
                     const passwordIsCorrect = await bcrypt.compare(password, maybeUser.passwordHash)
                     if (!passwordIsCorrect) {
                         throw new Error("Wrong credentials. Try again.")
                     } else {
                         const user = {
-                            email: maybeUser.email, 
                             username: maybeUser.username, 
                             id: maybeUser.id
                         }
                         return user
                     }
                 } else {
-                    return null
+                    throw new Error("Wrong credentials. Try again.")
                 }
             }
         })

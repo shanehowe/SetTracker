@@ -3,16 +3,15 @@ import bcrypt from "bcrypt"
 import { NextResponse } from "next/server";
 
 type SignUpData = {
-    email?: string
     username?: string
     password?: string
 }
 
 export async function POST(request: Request) {
     const body: SignUpData = await request.json()
-    const { email, username, password } = body
+    const { username, password } = body
 
-    if (!email || !username || !password) {
+    if (!username || !password) {
         return NextResponse.json({
             error: "Missing values"
         }, { status: 400 })
@@ -20,17 +19,6 @@ export async function POST(request: Request) {
 
     try {
         let existingUser = await prisma.user.findFirst({
-            where: { email }
-        })
-    
-        if (existingUser) {
-            return NextResponse.json(
-                { message: "Email already in use" },
-                { status: 400 }
-            )
-        }
-    
-        existingUser = await prisma.user.findFirst({
             where: { username }
         })
     
@@ -46,7 +34,7 @@ export async function POST(request: Request) {
         const passwordHash = await bcrypt.hash(password, salt)
     
         const user = await prisma.user.create({
-            data: { username, email, passwordHash }
+            data: { username, passwordHash }
         })
     
         const userWithoutPassword = exclude(user, ["passwordHash"])
@@ -56,6 +44,7 @@ export async function POST(request: Request) {
             { status: 200 }
         )
     } catch(e) {
+        console.error(e)
         return NextResponse.json({}, { status: 500 })
     }
 }
