@@ -22,7 +22,7 @@ export function HomePage() {
                         Sign In
                     </Button>
 
-                    <Text>Don't have an account? <Link color="teal.600" href={"/signup"}>Sign up here.</Link></Text>
+                    <Text>Don&lsquo;t have an account? <Link color="teal.600" href={"/signup"}>Sign up here.</Link></Text>
                 </Flex>
             </Flex>
         </>

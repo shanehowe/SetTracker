@@ -5,13 +5,13 @@ import { SessionProvider } from "next-auth/react";
 import { DrawerProvider } from "../Contexts/DrawerContext"; // Import the DrawerProvider
 
 export function Providers({ children, session }: { children: React.ReactNode; session: any }) {
-  return (
-      <ChakraProvider>
-        <SessionProvider session={session}>
-          <DrawerProvider> {/* Wrap the children with the DrawerProvider */}
-            {children}
-          </DrawerProvider>
-        </SessionProvider>
-      </ChakraProvider>
-  );
+    return (
+        <ChakraProvider>
+            <SessionProvider session={session}>
+                <DrawerProvider> {/* Wrap the children with the DrawerProvider */}
+                    {children}
+                </DrawerProvider>
+            </SessionProvider>
+        </ChakraProvider>
+    );
 }

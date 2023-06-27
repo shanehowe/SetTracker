@@ -14,7 +14,7 @@ export default async function AuthLayout({
     return (
         <>
             {/* @ts-ignore */}
-                {children}
+            {children}
         </>
     );
 }

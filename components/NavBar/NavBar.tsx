@@ -61,8 +61,8 @@ export function NavBar() {
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>{status === "unauthenticated" ? "Sign in" : "Quick Links"}</DrawerHeader>
+                    <DrawerCloseButton />
+                    <DrawerHeader>{status === "unauthenticated" ? "Sign in" : "Quick Links"}</DrawerHeader>
                     {renderDrawerBody()}
                 </DrawerContent>
             </Drawer>

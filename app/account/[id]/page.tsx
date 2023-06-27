@@ -1,8 +1,8 @@
 import { AccountPage } from "@/components/AccountPage/AccountPage";
-import { Metadata } from 'next'
+import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "SetTracker | Account",
+    title: "SetTracker | Account",
 }
 
 interface PageProps {

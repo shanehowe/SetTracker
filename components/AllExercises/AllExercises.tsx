@@ -52,24 +52,24 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
                 {filteredData.map((exercise) => {
                     return (
                         <Container key={exercise.id} w={500} display={"flex"} flexDir={"column"} alignItems={"center"} p={1}>
-                        <ListItem
+                            <ListItem
                             
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            w={325}
-                            fontSize={18}
-                        >
-                            <ListIcon as={CgGym} color={"teal.600"} />
-                            <Link href={`/sets/${exercise.name}`}>
-                                {exercise.name}
-                            </Link>
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                w={325}
+                                fontSize={18}
+                            >
+                                <ListIcon as={CgGym} color={"teal.600"} />
+                                <Link href={`/sets/${exercise.name}`}>
+                                    {exercise.name}
+                                </Link>
 
-                            <Link href={`/sets/${exercise.name}`}>
-                                <ListIcon as={CgChevronRight} />
-                            </Link>
-                        </ListItem>
-                        <Divider w={"130%"} />
+                                <Link href={`/sets/${exercise.name}`}>
+                                    <ListIcon as={CgChevronRight} />
+                                </Link>
+                            </ListItem>
+                            <Divider w={"130%"} />
                         </Container>
                     )
                 })}

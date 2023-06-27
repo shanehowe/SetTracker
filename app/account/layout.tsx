@@ -13,7 +13,7 @@ export default async function AuthLayoutAccount({
     return (
         <>
             {/* @ts-ignore */}
-                {children}
+            {children}
         </>
     );
 }

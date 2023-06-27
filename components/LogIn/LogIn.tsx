@@ -53,47 +53,47 @@ export function LogIn({ onClose }: LogInProps) {
 
     return (
         <>
-        <DrawerBody>
-            <Notification
-                isVisible={isVisible}
-                status={status}
-                title={title}
-                description={""}
-                onClose={onNotificationClose}
-            />
-            <FormControl>
-                <FormLabel>Username</FormLabel>
-                <Input
-                    type="text"
-                    placeholder="Enter your username"
-                    onChange={(e) => setUsername(e.target.value)}
+            <DrawerBody>
+                <Notification
+                    isVisible={isVisible}
+                    status={status}
+                    title={title}
+                    description={""}
+                    onClose={onNotificationClose}
                 />
-            </FormControl>
+                <FormControl>
+                    <FormLabel>Username</FormLabel>
+                    <Input
+                        type="text"
+                        placeholder="Enter your username"
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </FormControl>
 
-            <FormControl mt={3}>
-                <FormLabel>Password</FormLabel>
-                <Input
-                    type="password"
-                    placeholder="Enter your password"
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </FormControl>
-        </DrawerBody>
+                <FormControl mt={3}>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </FormControl>
+            </DrawerBody>
 
-        <DrawerFooter>
-            <Button colorScheme="teal" variant='outline' mr={3} onClick={onClose}>
+            <DrawerFooter>
+                <Button colorScheme="teal" variant='outline' mr={3} onClick={onClose}>
                 Cancel
-            </Button>
-            <Button
-                colorScheme="teal"
-                isLoading={submitting}
-                onClick={async () => {
-                    await handleSignIn(username, password)
-                }}
-            >
+                </Button>
+                <Button
+                    colorScheme="teal"
+                    isLoading={submitting}
+                    onClick={async () => {
+                        await handleSignIn(username, password)
+                    }}
+                >
                 Sign in
-            </Button>
-        </DrawerFooter>
+                </Button>
+            </DrawerFooter>
         </>
     )
 }
