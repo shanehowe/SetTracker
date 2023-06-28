@@ -62,7 +62,7 @@ export function AddExercisesModal({
     },[isOpen, searchFilterEmpty, exercises, currentFolderExercises])
 
     const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchFilter(prev => e.target.value)
+        setSearchFilter(prev => e.target.value.toLowerCase())
         setFilteredExercises(originalExercises.filter((e) => {
             return e.name.toLowerCase().includes(searchFilter)
         }))

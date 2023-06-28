@@ -4,10 +4,10 @@ import { PrismaClient } from "@prisma/client"
 const weightLiftingExercises = [
     // Chest
     "Barbell Bench Press",
-    "Dumbbell Bench Press",
+    "Flat Dumbbell Press",
     "Incline Bench Press",
-    "Dumbbell Incline Press",
-    "Cable Chest Press",
+    "Incline Dumbbell Press",
+    "Chest Press",
     "Dumbbell Flyes",
     "Cable Flyes",
   
@@ -22,6 +22,7 @@ const weightLiftingExercises = [
     "Cable Pull-Throughs",
     "Calf Raises",
     "Deadlift",
+    "Hex Bare Deadlift",
     "Dumbbell Lunges",
   
     // Shoulders (Delts)
@@ -31,7 +32,7 @@ const weightLiftingExercises = [
     "Lateral Raises",
     "Front Raises",
     "Upright Rows",
-    "Cable Lateral Raises",
+    "Lateral Raises",
     "Cable Front Raises",
     "Dumbbell Shrugs",
     "Cable Face Pulls",
@@ -56,10 +57,9 @@ const weightLiftingExercises = [
     "Dumbbell Tricep Kickbacks",
     "Cable Tricep Pushdowns",
     "Overhead Tricep Extension",
-    "Dips",
+    "Weighted Dips",
     "Seated Tricep Extensions"
 ];
-  
 
 const prisma = new PrismaClient()
 async function main() {

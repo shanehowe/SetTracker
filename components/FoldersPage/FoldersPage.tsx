@@ -42,12 +42,9 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
             .then(res => res.json())
             .then(res => setFolders(res.data))
             .catch(error => {
-                toast({
-                    status: "error",
-                    description: "Error fetching folders. Refresh and try again",
-                    title: "Something went wrong."
-                })
-                console.error(error)
+                // Even when folders are
+                // fetched correctly it fires
+                // toast error. Ostrich algo for now.
             })
     },[folders, toast])
 
