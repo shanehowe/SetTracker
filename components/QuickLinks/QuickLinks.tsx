@@ -10,7 +10,7 @@ import {
 import { signOut } from "next-auth/react";
 import { FaUser } from "@react-icons/all-files/fa/FaUser"
 import { FaFolder } from "@react-icons/all-files/fa/FaFolder"
-import { FiCornerDownLeft } from "@react-icons/all-files/Fi/FiCornerDownLeft"
+import { FiCornerDownLeft } from "@react-icons/all-files/fi/FiCornerDownLeft"
 import { useRouter } from "next/navigation";
 
 interface QuickLinksProps {

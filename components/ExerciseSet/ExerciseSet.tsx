@@ -17,11 +17,11 @@ import {
 } from "@chakra-ui/react";
 import { Set } from "@prisma/client";
 import { useState } from "react";
-import { FiCheck } from "@react-icons/all-files/Fi/FiCheck";
-import { FiEdit } from "@react-icons/all-files/Fi/FiEdit";
+import { FiCheck } from "@react-icons/all-files/fi/FiCheck";
+import { FiEdit } from "@react-icons/all-files/fi/FiEdit";
 import { FiEdit3 } from "@react-icons/all-files/Fi/FiEdit3";
-import { FiTrash } from "@react-icons/all-files/Fi/FiTrash";
-import { FiX } from "@react-icons/all-files/Fi/FiX";
+import { FiTrash } from "@react-icons/all-files/fi/FiTrash";
+import { FiX } from "@react-icons/all-files/fi/FiX";
 import { WeightSet } from "@/types/types";
 
 interface ExerciseSetProps {
