@@ -28,3 +28,4 @@ The project structure is organized as follows:
 - `components/`: Reusable React components used throughout the application.
 - `prisma/`: Prisma configuration and database schema files.
 - `lib/`: Utility functions and helpers.
+- `services/`: Functions used in frontend for interacting with backend API
