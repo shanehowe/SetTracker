@@ -2,7 +2,7 @@
 "use client"
 import { ChakraProvider } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
-import { DrawerProvider } from "@/b/DrawerContext"; // Import the DrawerProvider
+import { DrawerProvider } from "@/contexts/DrawerContext"; // Import the DrawerProvider
 
 export function Providers({ children, session }: { children: React.ReactNode; session: any }) {
     return (

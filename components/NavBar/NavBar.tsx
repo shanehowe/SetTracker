@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 import { FiMenu } from "@react-icons/all-files/fi/FiMenu"
 import { LogIn } from "../LogIn/LogIn";
 import { useContext } from "react";
-import { DrawerContext } from "@/b/DrawerContext";
+import { DrawerContext } from "@/contexts/DrawerContext";
 import { QuickLinks } from "../QuickLinks/QuickLinks";
 
 export function NavBar() {
