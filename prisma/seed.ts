@@ -1,69 +1,69 @@
 // Seed database with generic exercises
 import { PrismaClient } from "@prisma/client"
 
-const weightliftingExercises = [
-    // Chest Exercises
-    "Bench Press",
-    "Incline Bench Press",
-    "Inclide Dumbell Press",
-    "Dumbbell Press",
-    "Dumbbell Flyes",
-    "Cable Flys",
+const weightLiftingExercises = [
+    // Chest
+    'Barbell Bench Press',
+    'Dumbbell Bench Press',
+    'Incline Bench Press',
+    'Dumbbell Incline Press',
+    'Cable Chest Press',
+    'Dumbbell Flyes',
+    'Cable Flyes',
   
-    // Back Exercises
+    // Legs
+    'Barbell Squats',
+    'Barbell Lunges',
+    'Leg Press',
+    'Hack Squats',
+    'Romanian Deadlifts',
+    'Leg Extensions',
+    'Hamstring Curls',
+    'Cable Pull-Throughs',
+    'Calf Raises',
     "Deadlift",
-    "Bent Over Rows",
-    "Pull-ups",
-    "Lat Pulldowns",
-    "T-Bar Rows",
-    "Dumbbell Rows",
-    "Seated rows",
+    'Dumbbell Lunges',
   
-    // Shoulder Exercises
-    "Shoulder Press",
-    "Arnold Press",
-    "Lateral Raises",
-    "Front Raises",
-    "Upright Rows",
-    "Dumbbell Shoulder Press",
-    "Dumbbell Lateral Raises",
+    // Shoulders (Delts)
+    'Barbell Shoulder Press',
+    'Dumbbell Shoulder Press',
+    'Arnold Press',
+    'Lateral Raises',
+    'Front Raises',
+    'Upright Rows',
+    'Cable Lateral Raises',
+    'Cable Front Raises',
+    'Dumbbell Shrugs',
+    'Cable Face Pulls',
+    "Rear Delt Flyes",
   
-    // Leg Exercises
-    "Squat",
-    "Front Squat",
-    "Lunges",
-    "Leg Press",
-    "Deadlift",
-    "Sumo Deadlift",
-    "Dumbbell Squat",
-    "Dumbbell Lunges",
+    // Biceps
+    'Barbell Curls',
+    'Dumbbell Curls',
+    'Hammer Curls',
+    'Preacher Curls',
+    'Cable Curls',
+    'EZ Bar Curls',
+    'Incline Dumbbell Curls',
+    'Spider Curls',
+    'Reverse Curls',
   
-    // Bicep Exercises
-    "Barbell Curls",
-    "Dumbbell Curls",
-    "Hammer Curls",
-    "Preacher Curls",
-    "Concentration Curls",
-    "Dumbbell Hammer Curls",
+    // Triceps
+    'Close-Grip Bench Press',
+    'Skull Crushers',
+    'Tricep Pushdowns',
+    'Overhead Tricep Extension',
+    'Dumbbell Tricep Kickbacks',
+    'Cable Tricep Pushdowns',
+    'Overhead Tricep Extension',
+    'Dips',
+    'Seated Tricep Extensions'
+  ];
   
-    // Tricep Exercises
-    "Tricep Dips",
-    "Skull Crushers",
-    "Tricep Pushdowns",
-    "Close Grip Bench Press",
-    "Overhead Tricep Extension",
-    "Dumbbell Tricep Kickbacks",
-  
-    // Additional Exercises
-    "Goblet Squat",
-    "Romanian Deadlift",
-    "Arnold Dumbbell Press",
-    "Seated Dumbbell Shoulder Press",
-];
 
 const prisma = new PrismaClient()
 async function main() {
-    weightliftingExercises.forEach(async (exercise) => {
+    weightLiftingExercises.forEach(async (exercise) => {
         await prisma.exercise.create({
             data: {
                 name: exercise

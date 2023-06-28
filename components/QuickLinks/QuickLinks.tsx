@@ -22,12 +22,12 @@ export function QuickLinks({ onClose, id }: QuickLinksProps) {
     const router = useRouter()
 
     const handlerFoldersClick = () => {
-        router.push("http://localhost:3000/workout-folders")
+        router.push("/workout-folders")
         onClose()
     }
 
     const handleAccountClick = () => {
-        router.push(`http://localhost:3000/account/${id}`)
+        router.push(`/account/${id}`)
         onClose()
     }
 
