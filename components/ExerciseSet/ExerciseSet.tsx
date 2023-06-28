@@ -144,7 +144,7 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate, submitti
                     </>}
                 
             </Flex>
-            <Divider />
+            <Divider w={"180%"} />
         </>
     )
 }
