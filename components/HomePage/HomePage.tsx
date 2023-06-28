@@ -2,7 +2,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useContext } from "react";
-import { DrawerContext } from "../../contexts/DrawerContext";
+import { DrawerContext } from "../../b/DrawerContext";
 
 export function HomePage() {
     const { toggleDrawer } = useContext(DrawerContext);
