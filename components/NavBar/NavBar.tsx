@@ -1,6 +1,5 @@
 "use client"
 import {
-    Button,
     Card,
     Drawer,
     DrawerCloseButton,
@@ -15,7 +14,7 @@ import { useSession } from "next-auth/react";
 import { FiMenu } from "@react-icons/all-files/fi/FiMenu"
 import { LogIn } from "../LogIn/LogIn";
 import { useContext } from "react";
-import { DrawerContext } from "@/Contexts/DrawerContext";
+import { DrawerContext } from "@/contexts/DrawerContext";
 import { QuickLinks } from "../QuickLinks/QuickLinks";
 
 export function NavBar() {
@@ -43,6 +42,7 @@ export function NavBar() {
             justifyContent={"space-between"}
             alignItems={"center"}
             p={3}
+            bgColor={"white"}
         >
             <Text fontSize={20} fontWeight={"bold"}>
                 Set<span style={{color: "teal"}}>Tracker</span>

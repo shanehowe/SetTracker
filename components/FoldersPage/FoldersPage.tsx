@@ -57,7 +57,7 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
             toast({
                 description: "Folder name cannot be blank",
                 status: "warning",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             setIsSubmitting(false)
@@ -70,7 +70,7 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
             toast({
                 description: `${trimmedFolder} already exits!`,
                 status: "info",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             setIsSubmitting(false)
@@ -95,7 +95,7 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
             toast({
                 description: `Folder ${trimmedFolder} has been added!`,
                 status: "success",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             setIsSubmitting(false)
@@ -106,7 +106,7 @@ export default function FoldersPage({ exercises }: { exercises: Exercise[] }) {
             toast({
                 description: "An error occured trying to create that folder",
                 status: "error",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             setIsSubmitting(false)

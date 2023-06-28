@@ -8,7 +8,7 @@ const trimAndTitleFolderName = (folderName: string): string => {
     const splitArr = folderName.split(" ")
     let joined = ""
     splitArr.forEach(word => {
-        if (word.length > 2) {
+        if (word.length > 1) {
             joined += word[0].toLocaleUpperCase() + word.substring(1).toLocaleLowerCase() + " "
         } else {
             joined += word.toLocaleLowerCase() + " "

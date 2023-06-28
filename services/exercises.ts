@@ -6,7 +6,7 @@
     response to be cached and reduce API calls.
 */
 
-const url = "http://localhost:3000/api/exercises"
+const url = "/api/exercises"
 
 export async function getAllExercises(): Promise<Response> {
     const res = await fetch(url, {

@@ -33,14 +33,14 @@ export function AccountPage({ id }: AccountProps) {
                     status: "success",
                     title: "Account Deleted",
                     description: "We are sad to see you go. Goodbye :(",
-                    position: "top"
+                    position: "bottom"
                 })
             } else {
                 toast({
                     status: "error",
                     title: "Trouble deleting account",
                     description: data,
-                    position: "top"
+                    position: "bottom"
                 })
             }
         } catch(e) {
@@ -48,7 +48,7 @@ export function AccountPage({ id }: AccountProps) {
                 status: "error",
                 title: "Trouble deleting account",
                 description: "Something unexpected happened. Refresh and try again",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
         }

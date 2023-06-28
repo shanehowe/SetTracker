@@ -51,13 +51,13 @@ export default function ALlExercises({ exercises }: ALlExercisesProps) {
             >
                 {filteredData.map((exercise) => {
                     return (
-                        <Container key={exercise.id} w={500} display={"flex"} flexDir={"column"} alignItems={"center"} p={1}>
+                        <Container key={exercise.id} w={"90%"} display={"flex"} flexDir={"column"} alignItems={"center"} p={1}>
                             <ListItem
                             
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
-                                w={325}
+                                w={320}
                                 fontSize={18}
                             >
                                 <ListIcon as={CgGym} color={"teal.600"} />

@@ -5,7 +5,7 @@ import { WeightSet } from "@/types/types"
 * for retrieving and updating sets
 * belonging to a specific exercise.
 */
-const url = "http://localhost:3000/api/sets"
+const url = "/api/sets"
 
 const getAll = async (exerciseName: string) => {
     const res = await fetch(`${url}/${exerciseName}`)

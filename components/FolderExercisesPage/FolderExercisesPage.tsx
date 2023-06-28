@@ -64,7 +64,7 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
                 router.push("/workout-folders")
                 toast({
                     status: "success",
-                    position: "top",
+                    position: "bottom",
                     description: `${folder.folderName} was deleted successfully!`,
                     isClosable: true
                 })
@@ -96,7 +96,7 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
                     status: "success",
                     description: `${exerciseForDelete} has been removed from the current folder`,
                     isClosable: true,
-                    position: "top"
+                    position: "bottom"
                 })
             }
             setExerciseForDelete("")
@@ -119,7 +119,7 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
             toast({
                 status: "warning",
                 title: "New folder name cannot be blank",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             setIsSubmitting(false)
@@ -133,7 +133,7 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
             toast({
                 status: "error",
                 title: res.data,
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             setIsSubmitting(false)
@@ -149,7 +149,7 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
         toast({
             status: "success",
             title: "Folder name has been updated",
-            position: "top",
+            position: "bottom",
             isClosable: true
         })
         onEditFolderNameClose()
@@ -166,7 +166,7 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
             toast({
                 status: "warning",
                 description: "No exercises selected",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             setIsSubmitting(false)
@@ -182,14 +182,14 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
                 toast({
                     status: "success",
                     description: "Folder updated successfully",
-                    position: "top",
+                    position: "bottom",
                     isClosable: true
                 })
             } else {
                 toast({
                     status: "error",
                     description: data,
-                    position: "top",
+                    position: "bottom",
                     isClosable: true
                 })
             }
@@ -198,7 +198,7 @@ export default function FolderExercisesPage({ exercises, folderId }: FolderPageP
                 status: "error",
                 title: "Something unexpected happened",
                 description: "Refresh the page and try again",
-                position: "top",
+                position: "bottom",
             })
         }
         setIsSubmitting(false)

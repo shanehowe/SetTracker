@@ -6,11 +6,12 @@ import { WeightSet } from "@/types/types"
 interface SetGroupProps {
     date: string
     sets: Set[]
+    submitting: boolean
     handleDeleteIconClick: (userId: number, createdAt: string | Date) => void
     handleUpdate: (set: WeightSet, callback: CallableFunction) => void
 }
 
-export function SetGroup({ date, sets, handleDeleteIconClick, handleUpdate }: SetGroupProps) {
+export function SetGroup({ date, sets, handleDeleteIconClick, handleUpdate, submitting }: SetGroupProps) {
     if (!sets.length) {
         return null
     }
@@ -28,7 +29,7 @@ export function SetGroup({ date, sets, handleDeleteIconClick, handleUpdate }: Se
 
             <List
                 spacing={4} 
-                w="45%"
+                w="50%"
                 display="flex"
                 justifyContent="center"
                 flexDirection="column"
@@ -36,6 +37,7 @@ export function SetGroup({ date, sets, handleDeleteIconClick, handleUpdate }: Se
             >
                 {sets.map((set) => {
                     return <ExerciseSet
+                        submitting={submitting}
                         key={set.createdAt.toString()}
                         set={set}
                         handleDeleteIconClick={handleDeleteIconClick}

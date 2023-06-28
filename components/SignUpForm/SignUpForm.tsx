@@ -16,6 +16,7 @@ import Notification from "../Notification"
 import styles from "./styles.module.css"
 import { NotificationStatus } from "@/types/types";
 import { signIn } from "next-auth/react";
+import { userService } from "@/services/users";
 
 export default function SignUpForm({}) {
     const [notificationStatus, setNotifcationStatus] = useState<NotificationStatus>(undefined)
@@ -76,10 +77,7 @@ export default function SignUpForm({}) {
         }
 
         try {
-            const response = await fetch("/api/users/signup", {
-                method: "POST",
-                body: JSON.stringify(data)
-            })
+            const response = await userService.create(data)
             const res = await response.json()
 
             if (response.status !== 200) {

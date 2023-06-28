@@ -26,11 +26,12 @@ import { WeightSet } from "@/types/types";
 
 interface ExerciseSetProps {
     set: Set
+    submitting: boolean
     handleDeleteIconClick: (userId: number, createdAt: string | Date) => void
     handleUpdate: (set: WeightSet, callback: CallableFunction) => void
 }
 
-export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: ExerciseSetProps) {
+export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate, submitting }: ExerciseSetProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [KgValue, setKgValue] = useState<number | string>(set.weight)
     const [repsValue, setRepsValue] = useState<number>(set.reps)
@@ -108,6 +109,7 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate }: Exerci
                         </NumberInput>
 
                         <IconButton
+                            isLoading={submitting}
                             as={FiCheck}
                             aria-label={""}
                             size={"sm"}

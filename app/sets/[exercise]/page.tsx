@@ -59,7 +59,7 @@ export default function Page({ params }: PageProps) {
                     status: "error",
                     description: res.data,
                     isClosable: true,
-                    position: "top"
+                    position: "bottom"
                 })
                 setSubmitting(false)
                 addSetControls.onClose()
@@ -85,7 +85,7 @@ export default function Page({ params }: PageProps) {
             toast({
                 status: "success",
                 description: "New set added to history",
-                position: "top",
+                position: "bottom",
                 isClosable: true
             })
             addSetControls.onClose()
@@ -93,7 +93,7 @@ export default function Page({ params }: PageProps) {
         } catch (error) {
             toast({
                 status: "error",
-                position: "top",
+                position: "bottom",
                 description: "Something unexpected happened. Refresh and try again"
             })
             addSetControls.onClose()
@@ -124,10 +124,6 @@ export default function Page({ params }: PageProps) {
 
             const arrWhereSetExists = createdAt.toString().split("T")[0]
 
-            // This is messy and potentially slow...
-            // Maybe when setting exerciseForDelete
-            // add property for what index in the array is it
-            // for constant access time.
             for (let i = 0; i < allSets.length; i++) {
                 const cur = allSets[i]
                 if (cur.date === arrWhereSetExists) {
@@ -147,7 +143,7 @@ export default function Page({ params }: PageProps) {
                         status: "success",
                         description: "Removed set from exercise history",
                         isClosable: true,
-                        position: "top"
+                        position: "bottom"
                     })
                     deleteControls.onClose()
                     return
@@ -167,6 +163,7 @@ export default function Page({ params }: PageProps) {
     const handleUpdate = async (set: WeightSet, callback: CallableFunction) => {
         if (allSets === null) return;
 
+        setSubmitting(true)
         try {
             const apiRes = await setsService.put(set)
             const res = await apiRes.json()
@@ -186,14 +183,20 @@ export default function Page({ params }: PageProps) {
                 toast({
                     status: "success",
                     description: "Set updated successfully",
-                    position: "top",
+                    position: "bottom",
                     isClosable: true
                 })
                 callback(false)
             }
         } catch(e) {
-            console.error(e)
+            toast({
+                status: "error",
+                description: "Set wasnt updated. Refresh and try again.",
+                isClosable: true,
+                position: "bottom"
+            })
         }
+        setSubmitting(false)
     }
 
     const renderSetsOrNoSets = () => {
@@ -202,6 +205,7 @@ export default function Page({ params }: PageProps) {
         } else if (allSets.length) {
             return allSets.map(setObj => {
                 return <SetGroup
+                    submitting={submitting}
                     key={setObj.date.toString()}
                     date={setObj.date}
                     sets={setObj.sets}
@@ -216,7 +220,7 @@ export default function Page({ params }: PageProps) {
 
     return (
         <Flex w={"100%"} direction={"column"} alignItems={"center"} mt={12}>
-            <Heading mb={3} as={"h1"} size={"xl"}>
+            <Heading textAlign={"center"} mb={3} as={"h1"} size={"xl"}>
                 {exercise}
             </Heading>
 
