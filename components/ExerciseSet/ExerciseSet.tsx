@@ -34,13 +34,7 @@ interface ExerciseSetProps {
 export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate, submitting }: ExerciseSetProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [KgValue, setKgValue] = useState<number | string>(set.weight)
-    const [repsValue, setRepsValue] = useState<number>(set.reps)
-
-    const formatKg = (val: number | string) => val.toString() + " Kg"
-    const parseKg = (val: string) => val.replace(" Kg", "")
-
-    const formatReps = (val: number | string) => val.toString() + " R"
-    const parseReps = (val: string) => parseInt(val.replace(" R", ""))
+    const [repsValue, setRepsValue] = useState<number | string>(set.reps)
 
     const handleCallback = () => setIsEditing(false)
 
@@ -83,10 +77,10 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate, submitti
                             defaultValue={set.weight}
                             min={0}
                             step={0.25}
-                            onChange={(kg) => setKgValue(parseKg(kg))}
-                            value={formatKg(KgValue)}
+                            onChange={(kg) => setKgValue(kg)}
+                            value={KgValue}
                         >
-                            <NumberInputField />
+                            <NumberInputField fontSize={17}/>
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                                 <NumberDecrementStepper />
@@ -98,10 +92,10 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate, submitti
                             maxW={85}
                             defaultValue={set.reps}
                             min={1}
-                            onChange={(reps) => setRepsValue(parseReps(reps))}
-                            value={formatReps(repsValue)}
+                            onChange={(reps) => setRepsValue(reps)}
+                            value={repsValue}
                         >
-                            <NumberInputField />
+                            <NumberInputField fontSize={17}/>
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                                 <NumberDecrementStepper />
@@ -119,7 +113,7 @@ export function ExerciseSet({ set, handleDeleteIconClick, handleUpdate, submitti
                                     exercise: set.exercise,
                                     createdAt: set.createdAt,
                                     weight: Number(KgValue),
-                                    reps: repsValue,
+                                    reps: Number(repsValue),
                                 }, handleCallback)
                             }}
                             colorScheme="teal"
