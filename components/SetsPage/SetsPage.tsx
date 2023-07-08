@@ -50,7 +50,7 @@ export default function SetsPage({ exerciseFromUrl }: SetsPageProps) {
             || allSets === null
             || isNaN(weightSet.weight)
             || isNaN(weightSet.reps)
-            ) {
+        ) {
             // -----
             toast({
                 status: "warning",
