@@ -44,7 +44,19 @@ export default function SetsPage({ exerciseFromUrl }: SetsPageProps) {
     }, [exercise])
 
     const handleNewSet = async (weightSet: WeightSet) => {
-        if (weightSet.reps <= 0 || weightSet.weight <= 0 || allSets === null) {
+        if (
+            weightSet.reps <= 0 
+            || weightSet.weight <= 0 
+            || allSets === null
+            || isNaN(weightSet.weight)
+            || isNaN(weightSet.reps)
+            ) {
+            // -----
+            toast({
+                status: "warning",
+                description: "Please provide postive numerical values for reps and weight",
+                isClosable: true
+            })
             return
         }
 
