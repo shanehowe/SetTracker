@@ -32,15 +32,13 @@ Each sub-repository includes detailed instructions on setting up and running the
 ## App Demo
 
 **Creating a workout folder**
-https://github.com/shanehowe/SetTracker/assets/104032580/13974a31-f970-4f7b-95d0-4faafb272af9
-
+<video width="630" height="300" src="https://github.com/shanehowe/SetTracker/assets/104032580/13974a31-f970-4f7b-95d0-4faafb272af9"></video>
 **Renaming/Adding exercises/Deleting a workout folder**
-https://github.com/shanehowe/SetTracker/assets/104032580/dd7e66c8-bba4-455d-a4ce-89ebef46ed7e
+<video width="630" height="300" src="https://github.com/shanehowe/SetTracker/assets/104032580/dd7e66c8-bba4-455d-a4ce-89ebef46ed7e"></video>
 
 **Tracking strength training sets**
-https://github.com/shanehowe/SetTracker/assets/104032580/02ac3737-3674-4bbb-a177-d32038179304
+<video width="630" height="300" src="https://github.com/shanehowe/SetTracker/assets/104032580/02ac3737-3674-4bbb-a177-d32038179304"></video>
 
 **Changing app appearance**
-https://github.com/shanehowe/SetTracker/assets/104032580/8eac18ae-c0a9-4178-b947-51f60b797f92
-
+<video width="630" height="300" src="https://github.com/shanehowe/SetTracker/assets/104032580/8eac18ae-c0a9-4178-b947-51f60b797f92"></video>
 
