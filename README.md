@@ -28,3 +28,19 @@ This repository serves as a hub linking to the separate frontend and backend rep
   - [Backend Repository Link](https://github.com/shanehowe/SetTracker-Backend)
 
 Each sub-repository includes detailed instructions on setting up and running the respective parts of the application. Please refer to each repository for specific setup and installation guides.
+
+## App Demo
+
+**Creating a workout folder**
+https://github.com/shanehowe/SetTracker/assets/104032580/13974a31-f970-4f7b-95d0-4faafb272af9
+
+**Renaming/Adding exercises/Deleting a workout folder**
+https://github.com/shanehowe/SetTracker/assets/104032580/dd7e66c8-bba4-455d-a4ce-89ebef46ed7e
+
+**Tracking strength training sets**
+https://github.com/shanehowe/SetTracker/assets/104032580/02ac3737-3674-4bbb-a177-d32038179304
+
+**Changing app appearance**
+https://github.com/shanehowe/SetTracker/assets/104032580/8eac18ae-c0a9-4178-b947-51f60b797f92
+
+
