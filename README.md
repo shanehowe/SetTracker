@@ -25,6 +25,6 @@ This repository serves as a hub linking to the separate frontend and backend rep
 - **Frontend Repository**: Contains all code related to the user interface and client-side logic.
   - [Frontend Repository Link](https://github.com/shanehowe/WorkoutTracker-ReactNative)
 - **Backend Repository**: Houses the server-side code, including API services, database management, and server logic.
-  - [Backend Repository Link](https://github.com/shanehowe/WorkoutTracker-Backend)
+  - [Backend Repository Link](https://github.com/shanehowe/SetTracker-Backend)
 
 Each sub-repository includes detailed instructions on setting up and running the respective parts of the application. Please refer to each repository for specific setup and installation guides.
