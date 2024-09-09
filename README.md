@@ -3,6 +3,11 @@
 
 SetTracker is a full-stack application designed specifically for strength training enthusiasts. It facilitates the tracking of individual training sets and the grouping of exercises into customized workout sessions.
 
+- **Frontend Repository**: Contains all code related to the user interface and client-side logic.
+  - [Frontend Repository Link](https://github.com/shanehowe/WorkoutTracker-ReactNative)
+- **Backend Repository**: Houses the server-side code, including API services, database management, and server logic.
+  - [Backend Repository Link](https://github.com/shanehowe/SetTracker-Backend)
+
 ## Problem Statement
 Traditional strength training progress is often tracked using a physical journal, which can become cumbersome and inefficient. For instance, if you're doing bench presses regularly, you have to manually flip through pages to find previous records, which is time-consuming. SetTracker eliminates this hassle by digitalizing the tracking process, enabling users to effortlessly access historical data, search for specific exercises, and manage workouts with date and timestamp functionalities.
 
